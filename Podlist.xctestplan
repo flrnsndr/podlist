@@ -1,0 +1,35 @@
+{
+  "configurations" : [
+    {
+      "id" : "5E0C1D6A-3F2B-4C7E-9A1D-2B8F4E6C0A11",
+      "name" : "Default",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Podlist.xcodeproj",
+      "identifier" : "A10000000000000000001001",
+      "name" : "Podlist"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:PodlistKit",
+        "identifier" : "PodlistKitTests",
+        "name" : "PodlistKitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Podlist.xcodeproj",
+        "identifier" : "A10000000000000000001002",
+        "name" : "PodlistUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

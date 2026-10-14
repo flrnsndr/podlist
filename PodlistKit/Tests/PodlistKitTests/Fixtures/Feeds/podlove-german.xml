@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:itunes="http://www.itunes.com/DTDs/Podcast-1.0.dtd"
+     xmlns:psc="http://podlove.org/simple-chapters">
+  <channel>
+    <title>Kaffeepause &amp; Kosmos</title>
+    <link>https://kaffeepause.example.de</link>
+    <atom:link href="https://kaffeepause.example.de/feed/mp3" rel="self" type="application/rss+xml"/>
+    <atom:title>Not the podcast title</atom:title>
+    <language>de-DE</language>
+    <description>Ein Podcast über Wissenschaft, Weltraum und Kaffee.</description>
+    <itunes:summary>Wissenschaft, Weltraum und Kaffee – jeden zweiten Dienstag.</itunes:summary>
+    <itunes:author>Anna Beispiel &amp; Ben Muster</itunes:author>
+    <itunes:image href="https://kaffeepause.example.de/cover-3000.jpg"/>
+    <image>
+      <url>https://kaffeepause.example.de/cover-small.jpg</url>
+      <title>Kaffeepause Bild</title>
+      <link>https://kaffeepause.example.de/bild</link>
+    </image>
+    <itunes:category text="Science">
+      <itunes:category text="Astronomy"/>
+    </itunes:category>
+    <itunes:category text="Society &amp; Culture"/>
+    <itunes:category text="Science"/>
+    <item>
+      <title>KK042 Der Mond ist nicht aus Käse</title>
+      <link>https://kaffeepause.example.de/kk042</link>
+      <guid isPermaLink="false">kaffeepause-042</guid>
+      <pubDate>Tue, 05 Mar 2024 09:30:00 +0200</pubDate>
+      <description>Kurzfassung der Folge.</description>
+      <content:encoded><![CDATA[<p>Wir sprechen über den <strong>Mond</strong> &amp; seine Entstehung.</p><ul><li>Shownotes</li></ul>]]></content:encoded>
+      <itunes:duration>01:02:03</itunes:duration>
+      <itunes:author>Anna Beispiel</itunes:author>
+      <enclosure url="https://media.kaffeepause.example.de/kk042.mp3" length="59432100" type="audio/mpeg"/>
+      <psc:chapters version="1.2">
+        <psc:chapter start="00:12:30.500" title="Marsmissionen" href="https://example.org/mars" image="https://kaffeepause.example.de/ch/mars.jpg"/>
+        <psc:chapter start="00:00:00" title="Begrüßung"/>
+        <psc:chapter start="00:45:00" title="Verabschiedung &amp; Ausblick"/>
+      </psc:chapters>
+    </item>
+    <item>
+      <title>KK041 Sterne zählen</title>
+      <guid isPermaLink="false">kaffeepause-041</guid>
+      <pubDate>Tue, 20 Feb 2024 08:00:00 +0100</pubDate>
+      <description><![CDATA[<p>Nur eine Beschreibung.</p>]]></description>
+      <itunes:duration>00:48:10</itunes:duration>
+      <enclosure url="https://media.kaffeepause.example.de/kk041.mp3" length="41000000" type="audio/mpeg"/>
+    </item>
+  </channel>
+</rss>

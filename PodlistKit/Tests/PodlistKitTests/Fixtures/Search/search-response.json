@@ -1,0 +1,49 @@
+{
+ "resultCount": 4,
+ "results": [
+  {
+   "wrapperType": "track",
+   "kind": "podcast",
+   "collectionId": 1419222111,
+   "trackId": 1419222111,
+   "artistName": "Philip Banse & Ulf Buermeyer",
+   "collectionName": "Lage der Nation",
+   "trackName": "Lage der Nation",
+   "collectionViewUrl": "https://podcasts.apple.com/de/podcast/lage-der-nation/id1419222111?uo=4",
+   "feedUrl": "https://feeds.lagedernation.org/feed.xml",
+   "artworkUrl30": "https://is1-ssl.mzstatic.com/image/thumb/30x30bb.jpg",
+   "artworkUrl60": "https://is1-ssl.mzstatic.com/image/thumb/60x60bb.jpg",
+   "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/100x100bb.jpg",
+   "artworkUrl600": "https://is1-ssl.mzstatic.com/image/thumb/600x600bb.jpg",
+   "genreIds": ["1489", "26"],
+   "genres": ["Nachrichten", "Podcasts"]
+  },
+  {
+   "wrapperType": "track",
+   "kind": "podcast",
+   "collectionId": 1200361736,
+   "artistName": "Radiolab",
+   "collectionName": "Radiolab",
+   "feedUrl": "https://feeds.simplecast.com/EZHmfYtM",
+   "artworkUrl100": "https://is1-ssl.mzstatic.com/image/thumb/radiolab100x100bb.jpg",
+   "genres": ["Wissenschaft", "Podcasts", "Natur"]
+  },
+  {
+   "wrapperType": "track",
+   "kind": "podcast",
+   "collectionId": 999,
+   "artistName": "Removed Show",
+   "collectionName": "Removed Show",
+   "artworkUrl600": "https://is1-ssl.mzstatic.com/image/thumb/600x600bb.jpg",
+   "genres": ["Podcasts"]
+  },
+  {
+   "wrapperType": "track",
+   "kind": "podcast",
+   "collectionId": 1000,
+   "collectionName": "No Author Show",
+   "feedUrl": "https://example.com/feed.xml",
+   "genres": ["Podcasts"]
+  }
+ ]
+}

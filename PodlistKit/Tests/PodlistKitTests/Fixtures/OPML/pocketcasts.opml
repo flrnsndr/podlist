@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>Pocket Casts Feeds</title>
+  </head>
+  <body>
+    <outline text="feeds">
+      <outline type="rss" text="Lage der Nation" xmlUrl="https://feeds.lagedernation.org/feed.xml" htmlUrl="https://lagedernation.org" />
+      <outline type="rss" text="Radiolab" xmlUrl="https://feeds.simplecast.com/EZHmfYtM" htmlUrl="https://radiolab.org" />
+      <outline type="rss" text="Lage der Nation (duplicate)" xmlUrl="https://feeds.lagedernation.org/feed.xml" />
+      <outline type="rss" text="   " title="Fallback Title" xmlUrl="http://example.com/feed.rss" />
+      <outline type="rss" text="Relative Feed" xmlUrl="/feed.xml" />
+      <outline type="rss" text="FTP Feed" xmlUrl="ftp://example.com/feed.xml" />
+      <outline type="rss" text="No URL" />
+    </outline>
+  </body>
+</opml>

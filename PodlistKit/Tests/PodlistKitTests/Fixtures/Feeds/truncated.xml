@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/DTDs/Podcast-1.0.dtd">
+  <channel>
+    <title>Cut Off</title>
+    <item>
+      <title>First</title>
+      <enclosure url="https://example.com/1.mp3" length="1" type="audio/mpeg"/>
+    </item>
+    <item>
+      <title>Second, connection dropped her

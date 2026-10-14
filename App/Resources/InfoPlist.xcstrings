@@ -1,0 +1,24 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "NSPhotoLibraryAddUsageDescription": {
+      "comment": "Saving the listening stats card from the share sheet",
+      "extractionState": "manual",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Podlist sichert deine Hörstatistik-Karte in deinen Fotos."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Podlist saves your listening stats card to your photos."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

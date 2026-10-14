@@ -1,0 +1,13 @@
+{
+  "version": "1.2.0",
+  "title": "Folge 42: Die Reise nach Rom",
+  "podcastName": "Beispiel-Podcast",
+  "fileName": "folge-42.mp3",
+  "chapters": [
+    { "startTime": 0, "title": "Intro" },
+    { "startTime": 45.5, "title": "  Begrüßung und Neuigkeiten  ", "img": "https://example.com/img/news.jpg", "url": "https://example.com/news" },
+    { "startTime": 600, "endTime": 660, "title": "Werbung", "toc": false, "img": "https://example.com/img/ad.png", "url": "https://example.com/sponsor" },
+    { "startTime": 660, "title": "Interview mit Anna", "location": { "name": "Rom", "geo": "geo:41.9,12.5" } },
+    { "startTime": "1800.25", "endTime": "2400", "title": "Abschied" }
+  ]
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<opml version="1.0">
+  <head><title>Overcast Podcast Subscriptions</title></head>
+  <body>
+    <outline text="playlists">
+      <outline text="Smart List" type="rss-playlist" />
+    </outline>
+    <outline text="feeds">
+      <outline type="rss" text="99% Invisible" title="99% Invisible" xmlUrl="https://feeds.99percentinvisible.org/99percentinvisible" htmlUrl="https://99percentinvisible.org" overcastId="126">
+        <outline type="podcast-episode" overcastId="1001" pubDate="2026-01-01T00:00:00-05:00" title="Episode One" url="https://overcast.fm/+AAA" overcastUrl="https://overcast.fm/+AAA" enclosureUrl="https://example.com/1.mp3" xmlUrl="https://example.com/should-not-count.xml" />
+        <outline type="podcastEpisode" overcastId="1002" title="Episode Two" xmlUrl="https://example.com/also-not.xml" />
+      </outline>
+      <outline type="rss" text="Hardcore History" title="Hardcore History" xmlUrl="https://feeds.feedburner.com/dancarlin/history" overcastId="127"/>
+    </outline>
+  </body>
+</opml>

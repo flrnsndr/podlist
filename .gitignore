@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+
+# Xcode
+xcuserdata/
+*.xcuserstate
+DerivedData/
+*.xcresult
+
+# Agent derived-data folders (scripts/verify.sh)
+build/
+
+# Claude Code agent worktrees
+.claude/worktrees/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+# Personal subscription export (not part of the project)
+podcasts.opml

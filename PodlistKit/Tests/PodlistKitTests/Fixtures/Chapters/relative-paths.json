@@ -1,0 +1,8 @@
+{
+  "version": "1.2.0",
+  "chapters": [
+    { "startTime": 0, "title": "Start", "img": "images/start.jpg" },
+    { "startTime": 120, "title": "Mitte", "img": "/covers/mid.png", "url": "../links/mid.html" },
+    { "startTime": 300, "title": "Ende", "img": "ftp://example.com/x.jpg", "url": "javascript:alert(1)" }
+  ]
+}

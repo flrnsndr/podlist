@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Podlist app icon">
+  <style>
+    .icon { fill: #FFFFFF; stroke: #E5E5EA; } .play { fill: #1C1C1E; }
+    .red { fill: #FF3B30; } .indigo { fill: #5856D6; } .teal { fill: #30B0C7; } .orange { fill: #FF9500; }
+    @media (prefers-color-scheme: dark) {
+      .icon { fill: #1C1C1E; stroke: #38383A; } .play { fill: #FFFFFF; }
+      .red { fill: #FF453A; } .indigo { fill: #5E5CE6; } .teal { fill: #40C8E0; } .orange { fill: #FF9F0A; }
+    }
+  </style>
+  <rect class="icon" x="8" y="8" width="1008" height="1008" rx="226" stroke-width="8"/>
+  <path class="red" d="M 512.00 204.80 A 307.20 307.20 0 0 1 803.53 415.13 A 61.44 61.44 0 0 1 686.92 453.88 A 184.32 184.32 0 0 0 512.00 327.68 A 61.44 61.44 0 0 1 512.00 204.80 Z"/>
+  <path class="indigo" d="M 791.34 639.84 A 307.20 307.20 0 0 1 605.20 804.72 A 61.44 61.44 0 0 1 567.92 687.63 A 184.32 184.32 0 0 0 679.60 588.70 A 61.44 61.44 0 0 1 791.34 639.84 Z"/>
+  <path class="teal" d="M 380.67 789.71 A 307.20 307.20 0 0 1 237.06 649.04 A 61.44 61.44 0 0 1 347.04 594.22 A 184.32 184.32 0 0 0 433.20 678.63 A 61.44 61.44 0 0 1 380.67 789.71 Z"/>
+  <path class="orange" d="M 217.42 424.86 A 307.20 307.20 0 0 1 302.63 287.19 A 61.44 61.44 0 0 1 386.38 377.12 A 184.32 184.32 0 0 0 335.25 459.72 A 61.44 61.44 0 0 1 217.42 424.86 Z"/>
+  <path class="play" d="M 483.69 428.31 Q 460.80 414.72 460.80 441.34 L 460.80 582.66 Q 460.80 609.28 483.69 595.69 L 601.75 525.59 Q 624.64 512.00 601.75 498.41 Z"/>
+</svg>

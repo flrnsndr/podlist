@@ -1,0 +1,11 @@
+{
+  "version": "1.2.0",
+  "chapters": [
+    { "title": "Ohne Startzeit" },
+    { "startTime": "abc", "title": "Unlesbar" },
+    { "startTime": 10 },
+    { "startTime": 20, "endTime": "oops", "title": "Kaputtes Ende" },
+    "kein Objekt",
+    { "startTime": 5, "title": "Spätere Sortierung bleibt dem Aufrufer überlassen" }
+  ]
+}

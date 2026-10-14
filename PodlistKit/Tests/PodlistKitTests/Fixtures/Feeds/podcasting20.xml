@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+     xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+     xmlns:podcast="https://podcastindex.org/namespace/1.0"
+     xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0"
+     xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>The Long Now Radio</title>
+    <link>https://longnow.example.com/</link>
+    <description>Conversations about long-term thinking.</description>
+    <managingEditor>editor@longnow.example.com (Dana Example)</managingEditor>
+    <itunes:new-feed-url>https://feeds.example.com/longnow-new</itunes:new-feed-url>
+    <itunes:image href="https://longnow.example.com/art.jpg"/>
+    <itunes:category text="Technology"/>
+    <itunes:category text="Science"><itunes:category text="Natural Sciences"/></itunes:category>
+    <media:title>Not the podcast title either</media:title>
+    <item>
+      <title>Ep. 7: Clocks in Caves</title>
+      <guid>c0ffee00-1111-2222-3333-444455556666</guid>
+      <pubDate>Fri, 09 Aug 2024 06:15:00 GMT</pubDate>
+      <description>Season 2, episode 7.</description>
+      <itunes:summary>Summary for episode 7.</itunes:summary>
+      <itunes:episode>7</itunes:episode>
+      <itunes:season>2</itunes:season>
+      <itunes:duration>3725</itunes:duration>
+      <itunes:image href="https://longnow.example.com/ep7.jpg"/>
+      <enclosure url="https://cdn.example.com/longnow/ep7.mp3?token=abc&amp;x=1" length="0" type="audio/mpeg"/>
+      <podcast:chapters url="https://longnow.example.com/chapters/ep7.json" type="application/json+chapters"/>
+      <media:content url="https://cdn.example.com/other.mp4" type="video/mp4"/>
+    </item>
+    <item>
+      <title>Bonus: Trailer</title>
+      <guid>c0ffee00-1111-2222-3333-444455556667</guid>
+      <pubDate>2024-07-01T10:00:00.250Z</pubDate>
+      <itunes:episode>bonus</itunes:episode>
+      <itunes:season>1</itunes:season>
+      <itunes:duration>03:00</itunes:duration>
+      <enclosure url="https://cdn.example.com/longnow/trailer.mp3" length="n/a" type="audio/mpeg"/>
+    </item>
+  </channel>
+</rss>

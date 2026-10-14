@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.1">
+  <head>
+    <title>Podcasts</title>
+    <dateCreated>Fri, 09 Oct 2026 08:00:00 GMT</dateCreated>
+  </head>
+  <body>
+    <outline text="Podcasts" title="Podcasts">
+      <outline text="Cortex" title="Cortex" type="rss" xmlUrl="https://www.relay.fm/cortex/feed" htmlUrl="https://www.relay.fm/cortex"/>
+      <outline title="Accidental Tech Podcast" xmlUrl="https://atp.fm/rss"/>
+      <outline text="Link Typed" type="link" xmlUrl="https://example.com/link.xml"/>
+    </outline>
+  </body>
+</opml>

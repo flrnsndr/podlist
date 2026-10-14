@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 440" width="1280" height="440" role="img" aria-label="Podlist: podcasts in playlists that fill themselves">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Helvetica, Arial, sans-serif; }
+    .bg { fill: #F2F2F7; }
+    .icon { fill: #FFFFFF; }
+    .play { fill: #1C1C1E; }
+    .primary { fill: #000000; }
+    .secondary { fill: #6C6C70; }
+    .white { fill: #FFFFFF; }
+    .red { fill: #FF3B30; } .indigo { fill: #5856D6; } .green { fill: #34C759; }
+    .orange { fill: #FF9500; } .teal { fill: #30B0C7; } .blue { fill: #007AFF; }
+    .ghost { opacity: 0.14; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #000000; }
+      .icon { fill: #1C1C1E; }
+      .play { fill: #FFFFFF; }
+      .primary { fill: #FFFFFF; }
+      .secondary { fill: #AEAEB2; }
+      .red { fill: #FF453A; } .indigo { fill: #5E5CE6; } .green { fill: #30D158; }
+      .orange { fill: #FF9F0A; } .teal { fill: #40C8E0; } .blue { fill: #0A84FF; }
+      .ghost { opacity: 0.2; }
+    }
+  </style>
+
+  <defs>
+    <!-- The logo's ring: four rounded segments, clockwise from the top (docs/design/app-icon) -->
+    <g id="ring">
+      <path class="red" d="M 512.00 204.80 A 307.20 307.20 0 0 1 803.53 415.13 A 61.44 61.44 0 0 1 686.92 453.88 A 184.32 184.32 0 0 0 512.00 327.68 A 61.44 61.44 0 0 1 512.00 204.80 Z"/>
+      <path class="indigo" d="M 791.34 639.84 A 307.20 307.20 0 0 1 605.20 804.72 A 61.44 61.44 0 0 1 567.92 687.63 A 184.32 184.32 0 0 0 679.60 588.70 A 61.44 61.44 0 0 1 791.34 639.84 Z"/>
+      <path class="teal" d="M 380.67 789.71 A 307.20 307.20 0 0 1 237.06 649.04 A 61.44 61.44 0 0 1 347.04 594.22 A 184.32 184.32 0 0 0 433.20 678.63 A 61.44 61.44 0 0 1 380.67 789.71 Z"/>
+      <path class="orange" d="M 217.42 424.86 A 307.20 307.20 0 0 1 302.63 287.19 A 61.44 61.44 0 0 1 386.38 377.12 A 184.32 184.32 0 0 0 335.25 459.72 A 61.44 61.44 0 0 1 217.42 424.86 Z"/>
+    </g>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.14"/>
+    </filter>
+    <clipPath id="card"><rect width="1280" height="440" rx="36"/></clipPath>
+  </defs>
+
+  <rect class="bg" width="1280" height="440" rx="36"/>
+
+  <!-- The ring, large and faint, half outside the card on both sides -->
+  <g clip-path="url(#card)" class="ghost">
+    <use href="#ring" transform="translate(-241 -31) scale(0.49)"/>
+    <use href="#ring" transform="translate(1521 471) rotate(180) scale(0.49)"/>
+  </g>
+
+  <!-- App icon -->
+  <g transform="translate(565 34)">
+    <rect class="icon" width="150" height="150" rx="34" filter="url(#shadow)"/>
+    <g transform="scale(0.146484)">
+      <use href="#ring"/>
+      <path class="play" d="M 483.69 428.31 Q 460.80 414.72 460.80 441.34 L 460.80 582.66 Q 460.80 609.28 483.69 595.69 L 601.75 525.59 Q 624.64 512.00 601.75 498.41 Z"/>
+    </g>
+  </g>
+
+  <text class="primary" x="640" y="262" font-size="72" font-weight="700" text-anchor="middle" letter-spacing="-1">Podlist</text>
+  <text class="secondary" x="640" y="308" font-size="26" text-anchor="middle">Podcasts in playlists that fill themselves and remember where you left off.</text>
+
+  <!-- Playlist chips, styled like the app's PlaylistChip; the logo's four colors first -->
+  <g font-size="21" font-weight="500" text-anchor="middle">
+    <rect class="red" x="168" y="350" width="120" height="46" rx="23"/>
+    <text class="white" x="217" y="380">News</text>
+    <path d="M 254 373 L 260 379 L 271 367" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect class="indigo" x="302" y="350" width="130" height="46" rx="23" fill-opacity="0.15"/>
+    <text class="indigo" x="367" y="380">Politics</text>
+
+    <rect class="teal" x="446" y="350" width="155" height="46" rx="23" fill-opacity="0.15"/>
+    <text class="teal" x="523" y="380">Knowledge</text>
+
+    <rect class="orange" x="615" y="350" width="190" height="46" rx="23" fill-opacity="0.15"/>
+    <text class="orange" x="710" y="380">Entertainment</text>
+
+    <rect class="green" x="819" y="350" width="115" height="46" rx="23" fill-opacity="0.15"/>
+    <text class="green" x="876" y="380">Sports</text>
+
+    <rect class="blue" x="948" y="350" width="160" height="46" rx="23" fill-opacity="0.15"/>
+    <text class="blue" x="1028" y="380">Technology</text>
+  </g>
+</svg>

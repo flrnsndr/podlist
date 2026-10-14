@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head><title>Entities</title></head>
+  <body>
+    <outline type="rss" text="Müller &amp; Söhne: Über Äpfel &quot;und&quot; Birnen" xmlUrl="https://example.com/a.xml?x=1&amp;y=2"/>
+    <outline type="rss" text="Fußball &#8211; Das Spiel &#x1F3C6;" xmlUrl="https://example.com/b.xml"/>
+  </body>
+</opml>
