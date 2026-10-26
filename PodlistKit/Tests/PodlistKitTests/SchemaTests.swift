@@ -274,9 +274,7 @@ struct SchemaTests {
     @Test func upNextSnapshotPayloadRoundTrips() throws {
         let value = UpNextSnapshotValue(
             createdAt: Date(timeIntervalSinceReferenceDate: 100), reason: .cleared,
-            state: UpNextState(
-                nowPlaying: NowPlaying(episode: EpisodeID(), playlist: PlaylistID()),
-                items: [.episode(EpisodeID()), .playlist(PlaylistID())]))
+            state: UpNextState(nowPlaying: EpisodeID(), items: [EpisodeID(), EpisodeID()]))
         context.insert(try UpNextSnapshot(value))
         try context.save()
         let fetched = try #require(try context.fetch(FetchDescriptor<UpNextSnapshot>()).first)

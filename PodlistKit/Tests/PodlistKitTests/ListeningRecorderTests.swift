@@ -56,7 +56,8 @@ struct ListeningRecorderTests {
         #expect(session.playlistUUID == nil, "a single episode")
     }
 
-    @Test func aSessionInAPlaylistBlockKnowsThePlaylist() throws {
+    /// Since v0.7 the queue is flat (ADR 0008): a session knows no playlist any more.
+    @Test func aSessionFromATakenOverPlaylistStoresNoPlaylist() throws {
         let playlists = PlaylistService(context: context)
         let list = try playlists.createPlaylist(name: "Wissen", colorKey: "blue", symbolName: "star")
         try playlists.add(episode, to: list)
@@ -64,7 +65,7 @@ struct ListeningRecorderTests {
         player.currentItemBecameReady()
         listen(seconds: 10)
         player.pause()
-        #expect(try sessions().only?.playlistUUID == list.uuid)
+        #expect(try sessions().only?.playlistUUID == nil)
     }
 
     @Test func anAccidentalStartIsNotKept() throws {

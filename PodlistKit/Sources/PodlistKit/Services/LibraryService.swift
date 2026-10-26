@@ -158,8 +158,6 @@ public final class LibraryService {
             let summary = try await refresher.refreshAll(now: now(), budget: budget) { @MainActor ids in
                 await notifications?.notifyNewEpisodes(ids)
             }
-            // Once for the whole run, so Alles starts at the top new episode (A78).
-            newEpisodesArrived(summary.newEpisodes)
             if summary.isComplete { lastCompleteRefresh = now() }
             let seconds = (clock.now - start).formatted(.units(allowed: [.seconds, .milliseconds], width: .narrow))
             Logger.feeds.notice("\(kind, privacy: .public) took \(seconds, privacy: .public): \(summary.refreshed) refreshed, \(summary.failures) failed, \(summary.skipped) skipped, \(summary.newEpisodes.count) new episodes")
@@ -177,22 +175,10 @@ public final class LibraryService {
 
     public func refresh(_ podcast: Podcast) async throws {
         let newEpisodes = try await refresher.refresh(podcast.uuid, now: now())
-        newEpisodesArrived(newEpisodes)
         downloads?.evaluate()
         await notifications?.notifyNewEpisodes(newEpisodes)
     }
 
-    /// New episodes of a refresh that auto-add put into playlists come first in "Alles"
-    /// (N98, A78). The refresher wrote them in its own context; this fetch sees them.
-    private func newEpisodesArrived(_ uuids: [UUID]) {
-        guard !uuids.isEmpty else { return }
-        do {
-            try UpNextStore(context: context).episodesWereAdded(Set(uuids.map(EpisodeID.init)))
-            try context.save()
-        } catch {
-            Logger.feeds.error("Updating Alles after a refresh failed: \(String(describing: error), privacy: .public)")
-        }
-    }
 
     // MARK: Notifications
 
@@ -253,7 +239,11 @@ public final class LibraryService {
     /// The user starts an episode in the player. A played episode counts as unplayed again
     /// (N9), also in a keep playlist. Returns the position to start at.
     public func playbackWillStart(_ episode: Episode) throws -> TimeInterval {
+        let stored = episode.playbackPosition
         episode.playbackPosition = startPosition(of: episode)
+        if stored > 0, episode.playbackPosition < stored {
+            Logger.playback.info("\(episode.uuid, privacy: .public) starts at \(episode.playbackPosition, format: .fixed(precision: 0)) s, not at its position \(stored, format: .fixed(precision: 0)) s (played: \(episode.isPlayed), duration: \(episode.duration ?? 0, format: .fixed(precision: 0)) s)")
+        }
         if episode.isPlayed { episode.playedAt = nil }
         try context.save()
         return episode.playbackPosition
@@ -264,6 +254,7 @@ public final class LibraryService {
     public func saveProgress(_ episode: Episode, position: TimeInterval) throws {
         episode.playbackPosition = max(0, position)
         if !episode.isPlayed, PlayedRules.isNearEnd(position: position, duration: episode.duration) {
+            Logger.playback.info("\(episode.uuid, privacy: .public) played: \(position, format: .fixed(precision: 0)) s of \(episode.duration ?? 0, format: .fixed(precision: 0)) s")
             episode.playedAt = now()
         }
         try context.save()
@@ -281,6 +272,58 @@ public final class LibraryService {
         guard duration.isFinite, duration > 0, abs((episode.duration ?? 0) - duration) >= 1 else { return }
         episode.duration = duration
         try context.save()
+    }
+
+    // MARK: Undo of ⏭ (N101, A81)
+
+    /// What ⏭ changes about an episode: its played status, its position and the playlist
+    /// entries the played policy removes.
+    struct ListeningState {
+        struct Entry {
+            let playlist: PlaylistID
+            let position: Double
+            let addedAt: Date
+            let origin: EntryOrigin
+        }
+
+        let playedAt: Date?
+        let position: TimeInterval
+        let entries: [Entry]
+    }
+
+    func listeningState(of episode: Episode) -> ListeningState {
+        ListeningState(
+            playedAt: episode.playedAt, position: episode.playbackPosition,
+            entries: (episode.playlistEntries ?? []).compactMap { entry in
+                entry.playlist.map {
+                    ListeningState.Entry(playlist: $0.playlistID, position: entry.position, addedAt: entry.addedAt, origin: entry.origin)
+                }
+            })
+    }
+
+    /// Sets the episode back as it was: played status, position and the entries it lost, at
+    /// their former place (a playlist deleted meanwhile stays gone). Saves.
+    func restore(_ state: ListeningState, of episode: Episode) throws {
+        episode.playedAt = state.playedAt
+        episode.playbackPosition = state.position
+        let store = UpNextStore(context: context)
+        let current = Set((episode.playlistEntries ?? []).compactMap { $0.playlist?.playlistID })
+        for entry in state.entries where !current.contains(entry.playlist) {
+            guard let playlist = try store.playlist(entry.playlist) else { continue }
+            context.insert(PlaylistEntry(
+                playlist: playlist, episode: episode, position: entry.position, addedAt: entry.addedAt, origin: entry.origin))
+        }
+        try context.save()
+    }
+
+    /// While ⏭ can be undone, the skipped episode keeps its download (A37 waits).
+    func keepDownloadForUndo(_ episode: Episode) {
+        downloads?.keepForUndo(episode)
+    }
+
+    /// The undo is gone: the played-download rule applies again.
+    func releaseDownloadKeptForUndo(_ episode: Episode) {
+        downloads?.releaseKeptForUndo(episode)
     }
 
     // MARK: Player settings per podcast
@@ -319,8 +362,8 @@ public final class LibraryService {
         var ids: Set<EpisodeID> = []
         for snapshot in try context.fetch(FetchDescriptor<UpNextSnapshot>()) {
             guard let state = try? snapshot.value().state else { continue }
-            if let playing = state.nowPlaying?.episode { ids.insert(playing) }
-            for case .episode(let id) in state.items { ids.insert(id) }
+            if let playing = state.nowPlaying { ids.insert(playing) }
+            ids.formUnion(state.items)
         }
         return ids
     }

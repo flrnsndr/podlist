@@ -26,9 +26,11 @@ struct RootView: View {
             .badge(inbox.newCount(of: inboxEpisodes))
             Tab("Playlists", systemImage: "music.note.list", value: .playlists) {
                 PlaylistsView()
+                    .environment(\.isTabSelected, section == .playlists)
             }
             Tab("Queue", systemImage: "text.line.first.and.arrowtriangle.forward", value: .queue) {
                 NavigationStack { UpNextView() }
+                    .environment(\.isTabSelected, section == .queue)
             }
             Tab(value: .search, role: .search) {
                 SearchView()

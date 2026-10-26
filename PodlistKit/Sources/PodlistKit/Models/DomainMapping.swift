@@ -30,6 +30,37 @@ extension Episode {
             podcastIsHidden: podcast?.isHiddenFromAll ?? false)
     }
 
+    /// `inboxValue` for many episodes at once: what belongs to the podcast (its playlists,
+    /// hidden, subscribed) is read once per podcast, not once per episode. Relationship reads
+    /// are what costs in SwiftData, and the inbox computes this on every screen update.
+    public static func inboxValues(of episodes: [Episode]) -> [InboxEpisode] {
+        struct PodcastValues {
+            var playlists: Set<PlaylistID>
+            var isSubscribed: Bool
+            var isHidden: Bool
+        }
+        var podcasts: [ObjectIdentifier: PodcastValues] = [:]
+        return episodes.compactMap { episode in
+            guard let inboxAddedAt = episode.inboxAddedAt else { return nil }
+            var values = PodcastValues(playlists: [], isSubscribed: false, isHidden: false)
+            if let podcast = episode.podcast {
+                if let known = podcasts[ObjectIdentifier(podcast)] {
+                    values = known
+                } else {
+                    let playlists = (podcast.assignments ?? []).compactMap(\.playlist)
+                    let ids = Set(playlists.map(\.playlistID))
+                    values = PodcastValues(
+                        playlists: ids, isSubscribed: podcast.isSubscribed,
+                        isHidden: HiddenPlaylists.hidesPodcast(in: ids, hidden: Set(playlists.filter(\.isHidden).map(\.playlistID))))
+                    podcasts[ObjectIdentifier(podcast)] = values
+                }
+            }
+            return InboxEpisode(
+                id: episode.episodeID, publishedAt: episode.publishedAt, addedAt: inboxAddedAt, state: episode.inboxState,
+                podcastPlaylists: values.playlists, podcastIsSubscribed: values.isSubscribed, podcastIsHidden: values.isHidden)
+        }
+    }
+
     var inboxCandidate: InboxCandidate {
         InboxCandidate(
             id: episodeID, publishedAt: publishedAt, wasInInbox: inboxAddedAt != nil,
@@ -82,6 +113,16 @@ extension PlaylistEntry {
 extension Playlist {
     public var playlistID: PlaylistID { PlaylistID(uuid) }
 
+    /// All playlists, with their entries prefetched. A fetch drops what the fetched objects had
+    /// cached, and the first walk over `entries → episode` afterwards costs a store round trip
+    /// per entry (~60 µs each, measured); with the entries prefetched it costs a few µs. Use
+    /// it wherever the entries are read right after the fetch (queue, playlist screens).
+    public static func allWithEntries(sortBy: [SortDescriptor<Playlist>] = []) -> FetchDescriptor<Playlist> {
+        var descriptor = FetchDescriptor<Playlist>(sortBy: sortBy)
+        descriptor.relationshipKeyPathsForPrefetching = [\.entries]
+        return descriptor
+    }
+
     /// Entries in the playlist's display sort (concept §4.2); for `podcast` the sections
     /// concatenated, which is also the order the queue plays.
     public var sortedEntries: [PlaylistEntry] {
@@ -91,14 +132,16 @@ extension Playlist {
             .compactMap { byEpisode[$0.episode.id] }
     }
 
-    /// The playlist as the queue sees it (cursor rules, concept §4.4). `playlists`: all
-    /// playlists, which "Alles" mirrors.
+    /// The playlist as the queue sees it (concept §4.4, ADR 0008). `playlists`: all
+    /// playlists, which "Alles" mirrors. A stored resume point whose episode left the
+    /// playlist reads as empty (N107).
     func queuePlaylist(among playlists: [Playlist]) -> QueuePlaylist {
         let content = content(among: playlists)
+        let episodes = content.sorted(by: sort, ascending: sortAscending).map(\.episodeID)
+        let resume = resumeEpisode?.episodeID
         return QueuePlaylist(
-            id: playlistID, playedPolicy: playedPolicy,
-            episodes: content.sorted(by: sort, ascending: sortAscending).map(\.episodeID),
-            resumeEpisode: resumeEpisode?.episodeID)
+            id: playlistID, playedPolicy: playedPolicy, episodes: episodes,
+            resumeEpisode: resume.flatMap { episodes.contains($0) ? $0 : nil })
     }
 }
 

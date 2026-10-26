@@ -22,8 +22,9 @@ final class PlaylistsUITests: XCTestCase {
     func testEverythingMirrorsThePlaylistsAndLeavesOneOut() {
         let app = launchAndOpenPlaylists()
         app.buttons["everythingRow"].tapWhenReady()
-        XCTAssertTrue(app.staticTexts["Hotel Matze 1"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Lage der Nation 1"].exists)
+        // Same date added for all: the order among them is not fixed, so scroll to each.
+        XCTAssertTrue(episodeRow("Hotel Matze 1", in: app).exists)
+        XCTAssertTrue(episodeRow("Lage der Nation 1", in: app).exists)
 
         app.buttons["playlistMenu"].tapWhenReady()
         XCTAssertTrue(app.buttons["everythingSelectionLink"].waitForExistence(timeout: 5))
@@ -35,7 +36,16 @@ final class PlaylistsUITests: XCTestCase {
         app.navigationBars.buttons.element(boundBy: 0).tap()
 
         XCTAssertTrue(app.staticTexts["Hotel Matze 1"].waitForNonExistence(timeout: 5), "Entertainment is left out")
-        XCTAssertTrue(app.staticTexts["Lage der Nation 1"].exists)
+        XCTAssertTrue(episodeRow("Lage der Nation 1", in: app).exists)
+    }
+
+    /// The row of an episode in a playlist, scrolled into view (the list loads rows lazily).
+    @MainActor
+    private func episodeRow(_ title: String, in app: XCUIApplication) -> XCUIElement {
+        let row = app.staticTexts[title]
+        let list = app.collectionViews.firstMatch
+        for _ in 0..<4 where !row.waitForExistence(timeout: 2) { list.swipeUp() }
+        return row
     }
 
     /// N96: dragging works in a sorted playlist, too, and switches it to manual.

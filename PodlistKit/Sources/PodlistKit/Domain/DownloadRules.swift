@@ -5,11 +5,14 @@ public struct AutoDownloadEntry: Hashable, Sendable {
     public var episode: EpisodeID
     public var isPlayed: Bool
     public var state: DownloadState
+    /// The entry is in a keep playlist, which loads played episodes too (Florian, after N101).
+    public var loadsPlayed: Bool
 
-    public init(episode: EpisodeID, isPlayed: Bool, state: DownloadState) {
+    public init(episode: EpisodeID, isPlayed: Bool, state: DownloadState, loadsPlayed: Bool = false) {
         self.episode = episode
         self.isPlayed = isPlayed
         self.state = state
+        self.loadsPlayed = loadsPlayed
     }
 }
 
@@ -80,7 +83,8 @@ public enum DownloadRules {
     }
 
     /// The episodes the automatic download starts, in order (N31): every unplayed episode
-    /// of the auto-download playlists that is not loaded, waiting or loading. Failed ones
+    /// of the auto-download playlists that is not loaded, waiting or loading; in a keep
+    /// playlist the played ones too. Failed ones
     /// wait for "Erneut versuchen" (A38). Nothing while paused (A39) or low on storage (N33).
     public static func automaticDownloads(
         _ entries: [AutoDownloadEntry], availableCapacity: Int64?, isPaused: Bool
@@ -88,17 +92,19 @@ public enum DownloadRules {
         guard !isPaused, !isLowOnStorage(availableCapacity: availableCapacity) else { return [] }
         var seen: Set<EpisodeID> = []
         return entries
-            .filter { !$0.isPlayed && $0.state == .none }
+            .filter { (!$0.isPlayed || $0.loadsPlayed) && $0.state == .none }
             .map(\.episode)
             .filter { seen.insert($0).inserted }
     }
 
     /// N32, A37: a played episode's download (or the attempt) goes once it has left the
-    /// player, in every playlist, if the setting is on.
+    /// player, if the setting is on; also in keep playlists, unless one that still has the
+    /// episode downloads automatically (Florian, after N101).
     public static func shouldDeletePlayedDownload(
-        isPlayed: Bool, state: DownloadState, isNowPlaying: Bool, deletesPlayed: Bool
+        isPlayed: Bool, state: DownloadState, isNowPlaying: Bool, deletesPlayed: Bool,
+        isInKeepPlaylistWithAutoDownload: Bool
     ) -> Bool {
-        deletesPlayed && isPlayed && !isNowPlaying && state != .none
+        deletesPlayed && isPlayed && !isNowPlaying && state != .none && !isInKeepPlaylistWithAutoDownload
     }
 
     public static func summary(_ downloads: [DownloadedEpisode]) -> StorageSummary {

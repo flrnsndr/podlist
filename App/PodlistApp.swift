@@ -139,12 +139,15 @@ struct PodlistApp: App {
         let suite = "com.podlistapp.podlist.uiTesting"
         guard isUITesting, let defaults = UserDefaults(suiteName: suite) else { return .standard }
         defaults.removePersistentDomain(forName: suite)
+        // The library layout lives in the standard defaults (`@AppStorage`); tests start with large tiles.
+        UserDefaults.standard.removeObject(forKey: "libraryLayout")
         return defaults
     }
 
     /// First launch: default playlists. Every launch: the playlist "Alles". Once: notifications for the existing subscriptions
     /// (N36), auto-download for the existing playlists (N89). UI tests: a fresh in-memory store with sample data;
-    /// screenshots: with the made-up library in the app's language.
+    /// screenshots: with the made-up library in the app's language; Debug builds in the simulator: that library once
+    /// into a store without podcasts (`SimulatorLibrary`).
     private static func prepareStore(
         container: ModelContainer, playlistService: PlaylistService, library: LibraryService,
         isUITesting: Bool, isScreenshots: Bool
@@ -175,6 +178,9 @@ struct PodlistApp: App {
             } else if isUITesting {
                 try SampleData.insert(into: container.mainContext)
             }
+            #if DEBUG && targetEnvironment(simulator)
+            if !isUITesting { try SimulatorLibrary.prepare(context: container.mainContext) }
+            #endif
         } catch {
             Logger.store.error("Preparing the store failed: \(error.localizedDescription, privacy: .public)")
         }
@@ -184,4 +190,7 @@ struct PodlistApp: App {
 extension EnvironmentValues {
     @Entry var podcastDirectory = PodcastDirectory()
     @Entry var chapterService: ChapterService?
+    /// The tab the view lives in is the one in front. SwiftUI updates every tab on every
+    /// change of the store; a tab behind another skips work that only shows when it is in front.
+    @Entry var isTabSelected = true
 }

@@ -80,37 +80,3 @@ struct EverythingTests {
         #expect(!Everything.sortAscending)
     }
 }
-
-// When several episodes leave "Alles" at once (a playlist or podcast left out, a playlist
-// deleted), its cursor moves past all of them, as for one episode (concept §4.4, N13).
-struct EverythingCursorTests {
-    @Test func cursorMovesPastAllEpisodesThatLeave() {
-        var w = QueueWorld()
-        w.playNow("A")
-        w.end()
-        #expect(w.render() == "▶ A2 · [A]")
-        w.removeSeveralFromPlaylist("A", ["A2", "A3"])
-        #expect(w.resume("A") == "A4")
-        #expect(w.render() == "▶ A2 · [A]", "A2 plays to its end as a single episode")
-        w.end()
-        #expect(w.render() == "▶ A4 · [A]")
-    }
-
-    @Test func cursorStaysWhenItsEpisodeDoesNotLeave() {
-        var w = QueueWorld()
-        w.playNow("A")
-        w.removeSeveralFromPlaylist("A", ["A2", "A3"])
-        #expect(w.resume("A") == "A1")
-        #expect(w.render() == "▶ A1 · [A]")
-        w.end()
-        #expect(w.render() == "▶ A4 · [A]")
-    }
-
-    @Test func blockIsDoneWhenEverythingLeaves() {
-        var w = QueueWorld()
-        w.playNow("K")
-        w.removeSeveralFromPlaylist("K", ["K1", "K2", "K3"])
-        #expect(w.resume("K") == nil)
-        #expect(w.render() == "▶ K1", "the block is done, its episode plays on as a single episode")
-    }
-}

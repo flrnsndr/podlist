@@ -32,10 +32,9 @@ public enum PlayedRules {
     }
 
     /// Playlists a played episode must be removed from (`remove` only; `keep` stays).
-    /// The episode that is playing is never removed: the queue still needs its place in the
-    /// playlist to find the successor (concept §4.4). Apply the policy once it stops playing
-    /// (ended, skipped, replaced, interrupted), after `QueueResolver.playedEpisodeWillBeRemoved`
-    /// has moved cursors on. Marking unplayed never re-adds it anywhere.
+    /// The episode that is playing is never removed (A37: it keeps its file and its place).
+    /// Apply the policy once it stops playing (ended, skipped, replaced, interrupted).
+    /// Marking unplayed never re-adds it anywhere.
     public static func playlistsToRemoveFrom(_ playlists: [PlaylistPolicy], isNowPlaying: Bool) -> [PlaylistID] {
         guard !isNowPlaying else { return [] }
         return playlists.filter { $0.policy == .remove }.map(\.playlistID)

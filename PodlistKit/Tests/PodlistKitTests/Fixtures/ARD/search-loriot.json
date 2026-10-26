@@ -1,0 +1,27 @@
+{
+    "data": {
+        "search": {
+            "programSets": {
+                "totalCount": 1,
+                "nodes": [
+                    {
+                        "coreId": "urn:ard:show:2de1ca294641f598",
+                        "title": "Loriot 100 – mehr Lametta mit Ariana Baborie",
+                        "synopsis": "Zu seinem 100. Geburtstag hört sich Ariana Baborie durch Loriots beste Sketche – mit prominenten Gästinnen und Gästen. Funktioniert sein Humor auch heute noch?",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/loriot-100-mehr-lametta-mit-ariana-baborie/urn:ard:show:2de1ca294641f598/",
+                        "feedUrl": null,
+                        "numberOfElements": 8,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:0cb589306fcecb7f?w={width}&ch=3d8d07bfd0130d24",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:731815bda091cf8e?w={width}&ch=d6560ddc99b463a5"
+                        },
+                        "publicationService": {
+                            "title": "ARD",
+                            "organizationName": "ARD"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

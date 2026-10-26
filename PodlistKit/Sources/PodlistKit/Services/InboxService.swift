@@ -4,7 +4,7 @@ import SwiftData
 import os
 
 /// The inbox (Eingang, concept §4.10): reads what it shows and carries out its actions, each
-/// with "Rückgängig" (N50). It also remembers which episodes were seen open in this session,
+/// with "Rückgängig" (N50); the episode details add the same way, for every episode (N103). It also remembers which episodes were seen open in this session,
 /// for "Gerade erledigt" (N74). The rules live in `InboxRules`; what makes an episode done
 /// elsewhere in the app (playlists, Up Next, playing) goes through `Episode.inboxHandled()`.
 @MainActor @Observable
@@ -17,6 +17,10 @@ public final class InboxService {
             /// "Alle hinzufügen": how many episodes.
             case addedAll(count: Int)
             case playNext
+            /// "+ Als Nächstes" / "+ Am Ende" in the episode details (N103): the playlists it
+            /// went into, and whether it went into Up Next as a single episode (not when it was
+            /// there already or "Am Ende" left it to a block).
+            case addedAndQueued(playlists: [PlaylistID], next: Bool, queued: Bool)
             case discarded
             /// "Rest aussortieren": how many episodes.
             case discardedAll(count: Int)
@@ -52,8 +56,11 @@ public final class InboxService {
         var states: [Before] = []
         /// Entries the action added.
         var entries: [(Episode, Playlist)] = []
-        /// Went to Up Next with "Als Nächstes".
+        /// Went to Up Next with "Als Nächstes" / "Am Ende".
         var queued: Episode?
+        /// Was already waiting in Up Next and moved (N105): its former predecessor there
+        /// (`nil` = it was the front), so undo moves it back.
+        var moved: (Episode, behind: Episode?)?
     }
 
     @ObservationIgnored private var undoData: Undo?
@@ -98,22 +105,53 @@ public final class InboxService {
         return FetchDescriptor(predicate: #Predicate { ($0.inboxAddedAt ?? never) > cutoff && $0.inboxStateRaw == open })
     }
 
+    /// The fetched episodes as the rules see them, built once per screen update (the inbox
+    /// derives its open and just-done lists and the "Alle hinzufügen" button from it).
+    public struct Candidates {
+        public let values: [InboxEpisode]
+        private let byID: [EpisodeID: Episode]
+
+        public init(_ episodes: [Episode]) {
+            values = Episode.inboxValues(of: episodes)
+            byID = Dictionary(episodes.map { ($0.episodeID, $0) }, uniquingKeysWith: { first, _ in first })
+        }
+
+        /// The inbox as it shows: the open episodes (filter, newest first).
+        public func shown(filter: PlaylistFilter, now: Date) -> [Episode] {
+            episodes(InboxRules.shown(values, filter: filter, now: now))
+        }
+
+        /// "Alle hinzufügen" has something to add among the shown episodes (A59).
+        public func canAddAll(filter: PlaylistFilter, now: Date) -> Bool {
+            !InboxRules.episodesToAddAll(InboxRules.shown(values, filter: filter, now: now)).isEmpty
+        }
+
+        func episodes(_ values: [InboxEpisode]) -> [Episode] {
+            values.compactMap { byID[$0.id] }
+        }
+
+        func episodes(_ ids: [EpisodeID]) -> [Episode] {
+            ids.compactMap { byID[$0] }
+        }
+    }
+
     /// The inbox as it shows: the open episodes (filter, newest first).
     public static func shown(_ episodes: [Episode], filter: PlaylistFilter, now: Date) -> [Episode] {
-        let byID = Dictionary(episodes.map { ($0.episodeID, $0) }, uniquingKeysWith: { first, _ in first })
-        return InboxRules.shown(episodes.compactMap(\.inboxValue), filter: filter, now: now).compactMap { byID[$0.id] }
+        Candidates(episodes).shown(filter: filter, now: now)
     }
 
     /// "Gerade erledigt" below the open episodes (N74, A67).
-    public func recentlyDone(_ episodes: [Episode], filter: PlaylistFilter, now: Date) -> [Episode] {
-        let byID = Dictionary(episodes.map { ($0.episodeID, $0) }, uniquingKeysWith: { first, _ in first })
-        return InboxRules.recentlyDone(episodes.compactMap(\.inboxValue), seenOpen: seenOpen, filter: filter, now: now)
-            .compactMap { byID[$0.id] }
+    public func recentlyDone(_ candidates: Candidates, filter: PlaylistFilter, now: Date) -> [Episode] {
+        candidates.episodes(InboxRules.recentlyDone(candidates.values, seenOpen: seenOpen, filter: filter, now: now))
     }
 
-    /// The number on the tab, from the episodes `candidates` fetched.
+    public func recentlyDone(_ episodes: [Episode], filter: PlaylistFilter, now: Date) -> [Episode] {
+        recentlyDone(Candidates(episodes), filter: filter, now: now)
+    }
+
+    /// The number on the tab, from the episodes `openCandidates` fetched.
     public func newCount(of episodes: [Episode]) -> Int {
-        InboxRules.newCount(episodes.compactMap(\.inboxValue), lastVisit: lastVisit, now: now())
+        InboxRules.newCount(Episode.inboxValues(of: episodes), lastVisit: lastVisit, now: now())
     }
 
     public func shownEpisodes(filter: PlaylistFilter) throws -> [Episode] {
@@ -161,17 +199,36 @@ public final class InboxService {
 
     /// "Alle hinzufügen" for the shown episodes: the open ones with playlists, oldest first (A59).
     public func addAll(_ episodes: [Episode]) throws {
-        let byID = Dictionary(episodes.map { ($0.episodeID, $0) }, uniquingKeysWith: { first, _ in first })
-        let ordered = InboxRules.episodesToAddAll(episodes.compactMap(\.inboxValue)).compactMap { byID[$0] }
+        let candidates = Candidates(episodes)
+        let ordered = candidates.episodes(InboxRules.episodesToAddAll(candidates.values))
         guard !ordered.isEmpty else { return }
         var undo = Undo()
         for episode in ordered { try add(episode, undo: &undo) }
         record(undo, kind: .addedAll(count: ordered.count))
     }
 
+    /// "+ Als Nächstes" / "+ Am Ende" in the episode details (N103): into the podcast's
+    /// playlists like `addToPodcastPlaylists`, then into Up Next; one undo takes back both.
+    public func addToPodcastPlaylistsAndQueue(_ episode: Episode, next: Bool) throws {
+        var undo = Undo()
+        try add(episode, undo: &undo)
+        let place = upNext.place(of: episode)
+        if next { upNext.playNext(episode) } else { upNext.playLast(episode) }
+        let queued = place == nil && !(episode.queueItems ?? []).isEmpty
+        if queued { undo.queued = episode }
+        if let place { undo.moved = (episode, place.predecessor) }
+        let added = undo.entries.map { $0.1.playlistID }
+        record(undo, kind: .addedAndQueued(playlists: added, next: next, queued: queued))
+    }
+
     /// "Als Nächstes" (A50).
     public func playNext(_ episode: Episode) {
-        let undo = Undo(states: [Undo.Before(episode)], queued: episode)
+        var undo = Undo(states: [Undo.Before(episode)])
+        if let place = upNext.place(of: episode) {
+            undo.moved = (episode, place.predecessor)
+        } else {
+            undo.queued = episode
+        }
         upNext.playNext(episode)
         record(undo, kind: .playNext)
     }
@@ -186,8 +243,8 @@ public final class InboxService {
 
     /// "Rest aussortieren" for the shown episodes: every open one (N78, A69).
     public func discardAll(_ episodes: [Episode]) throws {
-        let byID = Dictionary(episodes.map { ($0.episodeID, $0) }, uniquingKeysWith: { first, _ in first })
-        let discarding = InboxRules.episodesToDiscardAll(episodes.compactMap(\.inboxValue)).compactMap { byID[$0] }
+        let candidates = Candidates(episodes)
+        let discarding = candidates.episodes(InboxRules.episodesToDiscardAll(candidates.values))
         guard !discarding.isEmpty else { return }
         let undo = Undo(states: discarding.map(Undo.Before.init))
         for episode in discarding { episode.inboxState = InboxRules.state(episode.inboxState, after: .discarded) }
@@ -204,6 +261,7 @@ public final class InboxService {
         undoData = nil
         undoableAction = nil
         if let queued = undo.queued { upNext.withdraw(queued) }
+        if let (episode, predecessor) = undo.moved { upNext.move(episode, behind: predecessor) }
         for (episode, playlist) in undo.entries { try playlists.remove(episode, from: playlist) }
         for before in undo.states where !(before.state == .open && Self.isHandled(before)) {
             before.episode.inboxState = before.state

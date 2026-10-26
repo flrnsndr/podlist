@@ -189,7 +189,7 @@ struct LibraryServiceTests {
         context.insert(QueueItem(position: 0, episode: try #require(byGUID["g2"])))
         let inHistory = try #require(byGUID["g3"])
         context.insert(try UpNextSnapshot(UpNextSnapshotValue(
-            createdAt: Self.now, reason: .cleared, state: UpNextState(items: [.episode(EpisodeID(inHistory.uuid))]))))
+            createdAt: Self.now, reason: .cleared, state: UpNextState(items: [EpisodeID(inHistory.uuid)]))))
         try service.markPlayed(try #require(byGUID["g4"]))
         try service.saveProgress(try #require(byGUID["g5"]), position: 60)
 
@@ -199,48 +199,6 @@ struct LibraryServiceTests {
         #expect(try context.fetchCount(FetchDescriptor<PlaylistAssignment>()) == 0)
         let kept = Set(try context.fetch(FetchDescriptor<Episode>()).map(\.guid))
         #expect(kept == ["g1", "g2", "g3", "g4", "g5"])
-    }
-
-    /// N98, A78: an episode auto-added by a refresh comes first in "Alles".
-    @Test func anAutoAddedEpisodeBecomesTheResumePointOfEverything() async throws {
-        serve(feedURL, feed(items: [("g1", "One", 1)]))
-        let podcast = try #require(try await service.subscribe(to: feedURL))
-        let playlists = PlaylistService(context: context, now: { LibraryServiceTests.now })
-        try playlists.ensureEverything()
-        let list = try playlists.createPlaylist(name: "L", colorKey: "blue", symbolName: "star")
-        try playlists.assign(podcast, to: list, autoAdd: .top)
-        try playlists.add(try #require(podcast.episodes?.first), to: list)
-        let everything = try #require(try context.fetch(FetchDescriptor<Playlist>()).first(where: \.isEverything))
-        everything.resumeEpisode = podcast.episodes?.first
-        try context.save()
-
-        serve(feedURL, feed(items: [("g2", "Two", 2), ("g1", "One", 1)]), etag: "\"v2\"")
-        try await service.refresh(podcast)
-        #expect(everything.resumeEpisode?.guid == "g2")
-    }
-
-    /// "Refresh all" with new episodes of several podcasts: Alles starts at the top one of
-    /// them, not at the podcast whose feed happened to finish last (A78).
-    @Test func refreshingAllPutsEverythingsCursorOnTheTopNewEpisode() async throws {
-        let otherURL = URL(string: "https://example.com/other.xml")!
-        serve(feedURL, feed(items: [("p1", "P1", 1)]))
-        serve(otherURL, feed(items: [("q1", "Q1", 1)]))
-        let p = try #require(try await service.subscribe(to: feedURL))
-        let q = try #require(try await service.subscribe(to: otherURL))
-        let playlists = PlaylistService(context: context, now: { LibraryServiceTests.now })
-        try playlists.ensureEverything()
-        let list = try playlists.createPlaylist(name: "L", colorKey: "blue", symbolName: "star")
-        try playlists.assign(p, to: list, autoAdd: .top)
-        try playlists.assign(q, to: list, autoAdd: .top)
-
-        serve(feedURL, feed(items: [("p2", "P2", 2), ("p1", "P1", 1)]), etag: "\"v2\"")
-        serve(otherURL, feed(items: [("q2", "Q2", 2), ("q1", "Q1", 1)]), etag: "\"v2\"")
-        await service.refreshAll()
-        let all = try context.fetch(FetchDescriptor<Playlist>())
-        let everything = try #require(all.everything)
-        let shown = everything.shownEpisodes(among: all)
-        #expect(Set(shown.map(\.guid)) == ["p2", "q2"])
-        #expect(everything.resumeEpisode == shown.first)
     }
 
     /// The short description is stored, updated and cleared with the feed (concept §4.12, N83).
@@ -425,6 +383,33 @@ struct LibraryServiceTests {
         serve(feedURL, feed(items: [("g1", "One", 1)]), etag: "\"v2\"")
         try await service.refresh(try #require(episode.podcast))
         #expect(episode.duration == 1_830.4, "a refresh does not overwrite the measured duration")
+    }
+
+    /// "Refresh all" writes the changes of feeds without new episodes at the end of the run.
+    /// The player saves the position meanwhile; the refresh must not write the episode's older
+    /// listening state back over it (a stale copy in the refresher's context).
+    @Test func refreshAllKeepsTheListeningStateSavedDuringTheRun() async throws {
+        let slowURL = URL(string: "https://example.com/slow.xml")!
+        serve(feedURL, feed(items: [("g1", "One", 1), ("g2", "Two", 2)]))
+        serve(slowURL, feed(items: [("s1", "Slow", 1)]))
+        _ = try await service.subscribe(to: feedURL)
+        _ = try await service.subscribe(to: slowURL)
+
+        // The first feed changes its episodes and comes back at once; the other one is slow.
+        serve(feedURL, feed(items: [("g1", "One (updated)", 1), ("g2", "Two (updated)", 2)]), etag: "\"v2\"")
+        routes.set(slowURL, .init(headers: ["ETag": "\"v2\""], body: Data(feed(items: [("s1", "Slow", 1)]).utf8), delay: .seconds(1)))
+        let run = Task { await service.refreshAll() }
+        try await Task.sleep(for: .milliseconds(300))
+        let episodes = try context.fetch(FetchDescriptor<Episode>())
+        try service.saveProgress(try #require(episodes.first { $0.guid == "g1" }), position: 600)
+        try service.markPlayed(try #require(episodes.first { $0.guid == "g2" }))
+        await run.value
+
+        let stored = try ModelContext(container).fetch(FetchDescriptor<Episode>())
+        let listening = try #require(stored.first { $0.guid == "g1" })
+        #expect(listening.title == "One (updated)")
+        #expect(listening.playbackPosition == 600)
+        #expect(try #require(stored.first { $0.guid == "g2" }).isPlayed)
     }
 
     // MARK: Helpers

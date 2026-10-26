@@ -291,9 +291,9 @@ struct InboxServiceTests {
         #expect(politics.sortedEntries.isEmpty)
     }
 
-    /// Undo goes the normal way of removing (PlaylistEntryRemoval): a playlist whose cursor
-    /// points at the episode moves on.
-    @Test func undoAfterTheEpisodeStartedInItsPlaylistMovesTheCursorOn() throws {
+    /// Undo goes the normal way of removing (PlaylistEntryRemoval); the queue keeps the
+    /// episode (A88).
+    @Test func undoAfterTheEpisodeStartedInItsPlaylistLeavesTheQueueAlone() throws {
         let sport = try playlist("Sport")
         let first = try insertEpisode("First")
         try playlists.add(first, to: sport)
@@ -302,7 +302,7 @@ struct InboxServiceTests {
         try inbox.addToPodcastPlaylists(e)
         upNext.playNow(sport, from: e)
         try inbox.undo()
-        #expect(sport.resumeEpisode == first)
+        #expect(player.episode == e)
         #expect(sport.sortedEntries.compactMap { $0.episode?.title } == ["First"])
         #expect(e.inboxState == .done, "it was started meanwhile (N46): undo does not open it again")
     }
@@ -347,7 +347,8 @@ struct InboxServiceTests {
         try inbox.undo()
         #expect(two.inboxState == .open)
         #expect(politics.sortedEntries.isEmpty)
-        #expect(sport.sortedEntries.compactMap { $0.episode?.title } == ["Two"], "auto-add stays")
+        let entries = try context.fetch(FetchDescriptor<PlaylistEntry>())
+        #expect(entries.compactMap { $0.playlist?.customName } == ["Sport"], "auto-add stays")
     }
 
     /// A59: the shown open episodes with playlists, oldest first, each at the bottom.
@@ -453,10 +454,10 @@ struct InboxServiceTests {
 
         inbox.playNext(e)
         #expect(e.inboxState == .done)
-        #expect(try render() == "▶ S · E · [Sport]")
+        #expect(try render() == "▶ S · E")
         try inbox.undo()
         #expect(e.inboxState == .open)
-        #expect(try render() == "▶ S · [Sport]")
+        #expect(try render() == "▶ S")
     }
 
     /// On an empty Up Next "Als Nächstes" cues the episode (A22); undo empties the player again.
@@ -468,6 +469,71 @@ struct InboxServiceTests {
         #expect(try render() == "–")
         #expect(player.episode == nil)
         #expect(e.inboxState == .open)
+    }
+
+    // MARK: "+ Als Nächstes" / "+ Am Ende" in the episode details with "Rückgängig" (N103)
+
+    /// Into its podcast's playlists, then into Up Next; one undo takes back both.
+    @Test(arguments: [true, false])
+    func addToThePodcastsPlaylistsAndQueueAndUndo(next: Bool) throws {
+        let (sport, politics) = (try playlist("Sport"), try playlist("Politik"))
+        try playlists.add(try insertEpisode("S"), to: sport)
+        upNext.playNow(sport)
+        let e = try inboxEpisode("E")
+        try assign(e, to: [politics], rule: .off)
+
+        try inbox.addToPodcastPlaylistsAndQueue(e, next: next)
+        #expect(e.inboxState == .done)
+        #expect(politics.sortedEntries.compactMap { $0.episode?.title } == ["E"])
+        #expect(try render() == "▶ S · E")
+        #expect(inbox.undoableAction?.kind == .addedAndQueued(playlists: [politics.playlistID], next: next, queued: true))
+
+        try inbox.undo()
+        #expect(e.inboxState == .open)
+        #expect(politics.sortedEntries.isEmpty)
+        #expect(try render() == "▶ S")
+    }
+
+    /// "Am Ende" into the running playlist: the episode lands in the playlist's draft and at
+    /// the end of Up Next (A91); undo takes back both.
+    @Test func addToTheRunningPlaylistAndQueueLast() throws {
+        let sport = try playlist("Sport")
+        try playlists.add(try insertEpisode("S"), to: sport)
+        upNext.playNow(sport)
+        let e = try inboxEpisode("E")
+        try assign(e, to: [sport], rule: .off)
+
+        try inbox.addToPodcastPlaylistsAndQueue(e, next: false)
+        #expect(try render() == "▶ S · E")
+        #expect(inbox.undoableAction?.kind == .addedAndQueued(playlists: [sport.playlistID], next: false, queued: true))
+
+        try inbox.undo()
+        #expect(sport.sortedEntries.compactMap { $0.episode?.title } == ["S"])
+        #expect(try render() == "▶ S")
+    }
+
+    /// An episode already waiting in Up Next is moved (N105); undo moves it back to its place.
+    @Test func undoMovesAnEpisodeThatWasQueuedBeforeBack() throws {
+        let sport = try playlist("Sport")
+        try playlists.add(try insertEpisode("S"), to: sport)
+        upNext.playNow(sport)
+        let x = try insertEpisode("X")
+        let e = try insertEpisode("E")
+        upNext.playLast(x)
+        upNext.playLast(e)
+
+        try inbox.addToPodcastPlaylistsAndQueue(e, next: true)
+        #expect(try render() == "▶ S · E · X")
+        #expect(inbox.undoableAction?.kind == .addedAndQueued(playlists: [], next: true, queued: false))
+        try inbox.undo()
+        #expect(try render() == "▶ S · X · E")
+
+        let f = try inboxEpisode("F")
+        upNext.playLast(f)
+        inbox.playNext(e)
+        #expect(try render() == "▶ S · E · X · F")
+        try inbox.undo()
+        #expect(try render() == "▶ S · X · E · F", "'Als Nächstes' on a waiting episode is undone by moving it back, not by withdrawing it")
     }
 
     /// One action at a time (N50): a new action replaces the undo of the former one.
@@ -588,14 +654,13 @@ struct InboxServiceTests {
         try context.save()
     }
 
-    /// "▶ S · E · [Sport]" as in `UpNextServiceTests`.
+    /// "▶ S · E" as in `UpNextServiceTests`.
     private func render() throws -> String {
         let items = try context.fetch(FetchDescriptor<QueueItem>(sortBy: [SortDescriptor(\.position)]))
         var parts: [String] = []
         if let now = items.first(where: \.isNowPlaying), let episode = now.episode { parts.append("▶ " + episode.title) }
         for item in items where !item.isNowPlaying {
             if let episode = item.episode { parts.append(episode.title) }
-            if let playlist = item.playlist { parts.append("[\(playlist.customName ?? "")]") }
         }
         return parts.isEmpty ? "–" : parts.joined(separator: " · ")
     }

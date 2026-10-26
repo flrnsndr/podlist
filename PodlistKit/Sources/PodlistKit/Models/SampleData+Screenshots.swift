@@ -2,9 +2,33 @@ import Foundation
 import SwiftData
 
 extension SampleData {
+    /// Debug builds in the simulator start with the screenshot library, so a problem can be
+    /// shown without subscribing first. Only a store without podcasts is filled; returns
+    /// whether it was.
+    @discardableResult
+    public static func insertSimulatorLibraryIfEmpty(
+        into context: ModelContext, german: Bool, artwork: (String) -> URL?, now: Date = Date()
+    ) throws -> Bool {
+        guard try context.fetchCount(FetchDescriptor<Podcast>()) == 0 else { return false }
+        try insertScreenshots(into: context, german: german, artwork: artwork, now: now)
+        return true
+    }
+
+    /// The covers are files in the app's container, whose path changes when the simulator
+    /// installs a new build: points the made-up podcasts (`https://example.com/<slug>/feed.xml`)
+    /// at the cover `artwork` renders now.
+    public static func updateScreenshotArtwork(in context: ModelContext, artwork: (String) -> URL?) throws {
+        for podcast in try context.fetch(FetchDescriptor<Podcast>()) where podcast.feedURL.host() == "example.com" {
+            guard let slug = podcast.feedURL.pathComponents.dropFirst().first, let url = artwork(slug),
+                  podcast.artworkURL != url else { continue }
+            podcast.artworkURL = url
+        }
+        if context.hasChanges { try context.save() }
+    }
+
     /// A made-up library for the website screenshots (`-screenshots`), in German or English:
-    /// podcasts with artwork, playlists with a place to continue from, a queue with playlist
-    /// blocks, open episodes in the inbox and months of listening. `artwork` returns the cover
+    /// podcasts with artwork, playlists with a place to continue from, a flat queue, open
+    /// episodes in the inbox and months of listening. `artwork` returns the cover
     /// for a podcast's slug (the app renders them, tests pass any URL).
     public static func insertScreenshots(
         into context: ModelContext, german: Bool, artwork: (String) -> URL?, now: Date = Date()
@@ -61,18 +85,30 @@ extension SampleData {
             episodesBySlug[show.slug] = episodes
         }
 
-        // Queue: the morning news from the News playlist, then one recommended episode, then
-        // Sports and Technology; each playlist knows where it continues.
+        // Queue (flat, ADR 0008): the News playlist taken over at the morning news, then one
+        // recommended episode, then Sports and Technology from where they stand; the resting
+        // playlists remember where they continue (N107).
         let morning = episodesBySlug["morning"]![0]
-        playlists["news"]?.resumeEpisode = morning
-        playlists["sports"]?.resumeEpisode = episodesBySlug["whistle"]![1]
-        playlists["technology"]?.resumeEpisode = episodesBySlug["circuit"]![0]
+        insertScreenshotChapters(into: morning, german: german)
         playlists["politics"]?.resumeEpisode = episodesBySlug["interjection"]![1]
         playlists["knowledge"]?.resumeEpisode = episodesBySlug["long-road"]![1]
-        context.insert(QueueItem(nowPlaying: morning, playlist: playlists["news"]))
-        context.insert(QueueItem(position: 0, episode: episodesBySlug["headwind"]![1]))
-        if let sports = playlists["sports"] { context.insert(QueueItem(position: 1, playlist: sports)) }
-        if let technology = playlists["technology"] { context.insert(QueueItem(position: 2, playlist: technology)) }
+        /// A playlist's episodes from `start` on, the ones before it at the end (one round).
+        func takenOver(_ key: String, from start: Episode) -> [Episode] {
+            let episodes = playlists[key]?.sortedEntries.compactMap(\.episode) ?? []
+            guard let index = episodes.firstIndex(of: start) else { return episodes }
+            return Array(episodes[index...] + episodes[..<index])
+        }
+        var queued: [Episode] = [morning]
+        for episode in takenOver("news", from: morning) + [episodesBySlug["headwind"]![1]]
+            + takenOver("sports", from: episodesBySlug["whistle"]![1])
+            + takenOver("technology", from: episodesBySlug["circuit"]![0])
+            where !queued.contains(episode) {
+            queued.append(episode)
+        }
+        context.insert(QueueItem(nowPlaying: morning))
+        for (position, episode) in queued.dropFirst().enumerated() {
+            context.insert(QueueItem(position: Double(position), episode: episode))
+        }
 
         try context.save()
         try insertListeningSessions(into: context, now: now, cast: ListeningCast(
@@ -80,6 +116,26 @@ extension SampleData {
             science: german ? "Stromkreis" : "Circuit", bedtime: german ? "Sternwarte" : "Observatory",
             weekend: german ? "Der lange Weg" : "The Long Road", cooled: german ? "Abpfiff" : "Final Whistle",
             comedy: german ? "Gegenwind" : "Headwind"))
+    }
+
+    /// The episode in the player: Podlove chapters (one with a link) and show notes with
+    /// timestamps, for the player and the episode details.
+    private static func insertScreenshotChapters(into episode: Episode, german: Bool) {
+        episode.chapters = ChapterSelection.normalized([
+            Chapter(start: 0, title: german ? "Überblick" : "Overview"),
+            Chapter(start: 150, title: german ? "Welche Züge noch fahren" : "Which Trains Still Run"),
+            Chapter(
+                start: 420, title: german ? "Die Gespräche in Frankfurt" : "The Talks in Frankfurt",
+                linkURL: URL(string: "https://example.com/morning/talks")),
+            Chapter(start: 720, title: german ? "Was Pendler tun können" : "What Commuters Can Do"),
+            Chapter(start: 1_080, title: german ? "Und sonst" : "Also Today"),
+        ], duration: episode.duration)
+        episode.chaptersSource = .podlove
+        episode.showNotes = german
+            ? "<p>Tag zwei des Streiks: wo noch Züge fahren und wie es weitergeht.</p>"
+                + "<p>02:30 Welche Züge noch fahren<br>07:00 Die Gespräche in Frankfurt<br>12:00 Was Pendler tun können</p>"
+            : "<p>Day two of the strike: where trains still run and what happens next.</p>"
+                + "<p>02:30 Which trains still run<br>07:00 The talks in Frankfurt<br>12:00 What commuters can do</p>"
     }
 
     private struct Text {

@@ -1,0 +1,746 @@
+{
+    "data": {
+        "programSet": {
+            "coreId": "urn:ard:show:2760782f4323167a",
+            "title": "Kafka – Das Schloss",
+            "synopsis": "Lesung zum 100. Todestag des Schriftstellers Franz Kafka\n\nMensch gegen Bürokratie. Den Landvermesser K. verschlägt es in eine Grafschaft und er muss sich dort mit der Schlossverwaltung auseinandersetzen. Aber der Beamtenapparat ist undurchdringlich ...",
+            "sharingUrl": "https://www.ardsounds.de/sendung/kafka-das-schloss/urn:ard:show:2760782f4323167a/",
+            "numberOfElements": 30,
+            "lastItemAdded": "2024-05-27T00:06:00+02:00",
+            "lastItemModified": "2026-01-29T11:09:48.523177+01:00",
+            "feedUrl": null,
+            "image": {
+                "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+            },
+            "publicationService": {
+                "title": "ARD",
+                "organizationName": "ARD"
+            },
+            "items": {
+                "nodes": [
+                    {
+                        "coreId": "urn:ard:publication:8ca2b3eb8b6b0b51",
+                        "title": "Franz Kafka: Das Schloss (29/29)",
+                        "summary": "Frieda habe K. nie wirklich heiraten wollen, meint die Ausschankhilfe Pepi. Alles sei ein abgekartetes Spiel gewesen, damit alle im Dorf und vor allem der Beamte Klamm zu spüren bekämen, was Frieda für ein hervorragendes Ausschankmädchen sei. Aber ...",
+                        "synopsis": "Frieda habe K. nie wirklich heiraten wollen, meint die Ausschankhilfe Pepi. Alles sei ein abgekartetes Spiel gewesen, damit alle im Dorf und vor allem der Beamte Klamm zu spüren bekämen, was Frieda für ein hervorragendes Ausschankmädchen sei. Aber ...",
+                        "description": "Frieda habe K. nie wirklich heiraten wollen, meint die Ausschankhilfe Pepi. Alles sei ein abgekartetes Spiel gewesen, damit alle im Dorf und vor allem der Beamte Klamm zu spüren bekämen, was Frieda für ein hervorragendes Ausschankmädchen sei. Aber das Spiel sei gewagt gewesen wegen Friedas Konkurrentin und Nachfolgerin Pepi.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:b70353d284064f7f/",
+                        "publishDate": "2024-03-25T00:29:00+01:00",
+                        "duration": 1721,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/03/71/0371f1bb-e02f-41d1-a044-de259c9dfb8d/5e59ce69-5dcc-4b44-a48d-39660f9d2990_980e8a56-0913-4991-9065-5332222be47f.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/5a/fc/5afc360a-0378-4786-9080-9e160a32f4a0/5e59ce69-5dcc-4b44-a48d-39660f9d2990_f54ef9f0-7427-4a97-8649-f296d7beb9ec.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:25418e10ed38a748",
+                        "title": "Franz Kafka: Das Schloss (28/29)",
+                        "summary": "Im Gasthaus Herrenhof macht Sekretär Erlanger dem Landvermesser K. klar, dass Frieda weiter im Ausschank arbeiten müsse und daher nicht mit ihm zusammen sein könne. Sonst könnte Unruhe beim Beamten Klamm entstehen. Danach wird er von der Wirtin und ...",
+                        "synopsis": "Im Gasthaus Herrenhof macht Sekretär Erlanger dem Landvermesser K. klar, dass Frieda weiter im Ausschank arbeiten müsse und daher nicht mit ihm zusammen sein könne. Sonst könnte Unruhe beim Beamten Klamm entstehen. Danach wird er von der Wirtin und ...",
+                        "description": "Im Gasthaus Herrenhof macht Sekretär Erlanger dem Landvermesser K. klar, dass Frieda weiter im Ausschank arbeiten müsse und daher nicht mit ihm zusammen sein könne. Sonst könnte Unruhe beim Beamten Klamm entstehen. Danach wird er von der Wirtin und dem Wirt zur Rede gestellt bezüglich seines ungebührlichen Verhaltens, worin immer das auch bestehen soll.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:2f8f926442ccadcd/",
+                        "publishDate": "2024-03-25T00:28:00+01:00",
+                        "duration": 1682,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/0b/0a/0b0a0c76-91aa-4569-98ec-24cf5c5519c7/9e1ecee2-043b-431d-ac21-a94d27517cb1_5fa8a2e1-aed1-4eb5-a048-f18221a13f4e.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/55/6b/556b23a2-80e3-404f-8395-72ec7ee66a74/9e1ecee2-043b-431d-ac21-a94d27517cb1_cf0a9dd1-0b08-4a4a-a0a5-cf5547693632.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:156a64471b612d32",
+                        "title": "Franz Kafka: Das Schloss (27/29)",
+                        "summary": "Im Gasthaus Herrenhof macht Sekretär Erlanger dem Landvermesser K. klar, dass Frieda weiter im Ausschank arbeiten müsse und daher nicht mit ihm zusammen sein könne. Sonst könnte Unruhe beim Beamten Klamm entstehen. Danach wird er von der Wirtin und ...",
+                        "synopsis": "Im Gasthaus Herrenhof macht Sekretär Erlanger dem Landvermesser K. klar, dass Frieda weiter im Ausschank arbeiten müsse und daher nicht mit ihm zusammen sein könne. Sonst könnte Unruhe beim Beamten Klamm entstehen. Danach wird er von der Wirtin und ...",
+                        "description": "Im Gasthaus Herrenhof macht Sekretär Erlanger dem Landvermesser K. klar, dass Frieda weiter im Ausschank arbeiten müsse und daher nicht mit ihm zusammen sein könne. Sonst könnte Unruhe beim Beamten Klamm entstehen. Danach wird er von der Wirtin und dem Wirt zur Rede gestellt bezüglich seines ungebührlichen Verhaltens, worin immer das auch bestehen soll.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:4449d96f475d6ea3/",
+                        "publishDate": "2024-03-25T00:27:00+01:00",
+                        "duration": 1570,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/ab/0e/ab0e788a-b40a-4401-8c37-cbaa0daf1db6/cc7bc48e-7da6-4367-8b8c-6dfbfc2752b0_fc74ee0f-07d8-49a8-99cd-1072435dd292.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/4d/13/4d133de9-62ee-469a-8871-37d639778f0c/cc7bc48e-7da6-4367-8b8c-6dfbfc2752b0_396cd7f0-dfc6-43e2-9abe-f4694896659e.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:f0e09f2873ed75a1",
+                        "title": "Franz Kafka: Das Schloss (26/29)",
+                        "summary": "Landvermesser K. ist auf der Suche nach dem Sekretär Erlanger im Zimmer des Sekretärs Bürgel gelandet. Während dieser ihm Einblicke ins bürokratische Selbstverständnis der Schlossbeamten gewährt, schläft der übermüdete K. ein. Bis es an der Wand ...",
+                        "synopsis": "Landvermesser K. ist auf der Suche nach dem Sekretär Erlanger im Zimmer des Sekretärs Bürgel gelandet. Während dieser ihm Einblicke ins bürokratische Selbstverständnis der Schlossbeamten gewährt, schläft der übermüdete K. ein. Bis es an der Wand ...",
+                        "description": "Landvermesser K. ist auf der Suche nach dem Sekretär Erlanger im Zimmer des Sekretärs Bürgel gelandet. Während dieser ihm Einblicke ins bürokratische Selbstverständnis der Schlossbeamten gewährt, schläft der übermüdete K. ein. Bis es an der Wand klopft und der Sekretär Erlanger schreit, dass K. endlich zu ihm rüberkommen solle.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:66f79c7bde1d3652/",
+                        "publishDate": "2024-03-25T00:26:00+01:00",
+                        "duration": 1673,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/ca/5f/ca5fb0ad-8cb5-4576-a8e3-975cdf26626e/a66dfe89-d629-4e1d-a038-32b76b3c6251_7a202ad6-0c5e-4c5f-8c2d-abd2160d65da.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/3b/09/3b0920f7-1195-44e1-920a-e7e572fe97ef/a66dfe89-d629-4e1d-a038-32b76b3c6251_2c5e4d66-368a-4bf7-b6cd-4753e5124636.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:bf059886ce54ac3c",
+                        "title": "Franz Kafka: Das Schloss (25/29)",
+                        "summary": "Landvermesser K. ist beim Sekretär Erlanger vorgeladen. Auf der Suche nach ihm im Gasthaus Herrenhof landet er nachts im Schlafzimmer des Sekretärs Bürgel. Müde unterhält K. sich mit ihm. Bürgel erkennt, dass K. enttäuscht darüber ist, nicht mehr als ...",
+                        "synopsis": "Landvermesser K. ist beim Sekretär Erlanger vorgeladen. Auf der Suche nach ihm im Gasthaus Herrenhof landet er nachts im Schlafzimmer des Sekretärs Bürgel. Müde unterhält K. sich mit ihm. Bürgel erkennt, dass K. enttäuscht darüber ist, nicht mehr als ...",
+                        "description": "Landvermesser K. ist beim Sekretär Erlanger vorgeladen. Auf der Suche nach ihm im Gasthaus Herrenhof landet er nachts im Schlafzimmer des Sekretärs Bürgel. Müde unterhält K. sich mit ihm. Bürgel erkennt, dass K. enttäuscht darüber ist, nicht mehr als Landvermesser arbeiten zu können. Auch wenn K. sich damit längst abgefunden hat.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:4985ae981086ab33/",
+                        "publishDate": "2024-03-25T00:25:00+01:00",
+                        "duration": 1708,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/a6/f0/a6f09c1b-c9c8-4cd4-b782-5db9fd4a9a06/32e7b7dc-0b05-42a8-ab27-00414e28a47d_0bd1ec0c-0201-4a35-b439-8f55b7c597cd.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/43/19/43197672-af6e-49b0-8262-4eeecb71736e/32e7b7dc-0b05-42a8-ab27-00414e28a47d_e5018062-43e7-4c8a-9c1e-8192a7e85325.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:3e40e1111a55bfe7",
+                        "title": "Franz Kafka: Das Schloss (24/29)",
+                        "summary": "Frieda hat sich vom Landvermesser K. getrennt und ist jetzt mit dem Gehilfen Jeremias zusammen. Denn Frieda schämt sich dafür, dass K. sich mit der Familie von Barnabas abgibt. K. hingegen wirft Frieda vor, sich gar keine Mühe gegeben zu haben, die ...",
+                        "synopsis": "Frieda hat sich vom Landvermesser K. getrennt und ist jetzt mit dem Gehilfen Jeremias zusammen. Denn Frieda schämt sich dafür, dass K. sich mit der Familie von Barnabas abgibt. K. hingegen wirft Frieda vor, sich gar keine Mühe gegeben zu haben, die ...",
+                        "description": "Frieda hat sich vom Landvermesser K. getrennt und ist jetzt mit dem Gehilfen Jeremias zusammen. Denn Frieda schämt sich dafür, dass K. sich mit der Familie von Barnabas abgibt. K. hingegen wirft Frieda vor, sich gar keine Mühe gegeben zu haben, die Avancen des Gehilfen abgewehrt zu haben.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:51778f7243facbb2/",
+                        "publishDate": "2024-03-25T00:24:00+01:00",
+                        "duration": 1628,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/44/46/444666af-5889-4ed8-ae47-dcea16890fdf/3b1c6536-afcb-40ca-9271-80a92ff74164_4f951418-d1e4-409b-a501-5b2957de6dbb.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/36/bc/36bc5d22-2056-4c44-9bb2-602919a30c3c/3b1c6536-afcb-40ca-9271-80a92ff74164_0a716111-719c-4c57-9998-f82f1064cf23.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:e53a863929663735",
+                        "title": "Franz Kafka: Das Schloss (23/29)",
+                        "summary": "Die Familie des Boten Barnabas hatte gehofft, durch K. dem Schloss näher zu kommen, weil sie im Dorf in Ungnade gefallen ist. Dummerweise hat die Nähe von K. zu Barnabas' Familie dazu geführt, dass sich seine Verlobte Frieda von ihm getrennt hat. Und ...",
+                        "synopsis": "Die Familie des Boten Barnabas hatte gehofft, durch K. dem Schloss näher zu kommen, weil sie im Dorf in Ungnade gefallen ist. Dummerweise hat die Nähe von K. zu Barnabas' Familie dazu geführt, dass sich seine Verlobte Frieda von ihm getrennt hat. Und ...",
+                        "description": "Die Familie des Boten Barnabas hatte gehofft, durch K. dem Schloss näher zu kommen, weil sie im Dorf in Ungnade gefallen ist. Dummerweise hat die Nähe von K. zu Barnabas' Familie dazu geführt, dass sich seine Verlobte Frieda von ihm getrennt hat. Und K. versucht weiterhin, an den Beamten Klamm heranzukommen.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:7a15e11d2d3dfb14/",
+                        "publishDate": "2024-03-25T00:23:00+01:00",
+                        "duration": 1691,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/f5/2a/f52a8657-e122-4e8f-a401-fc4b323006f9/fe90664c-1df1-4ee4-b07c-b6e19ce94fdf_5c050886-10c3-465f-ab33-3959f0a314df.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/0d/8e/0d8e93cf-3975-4c6a-9a12-6c1d7deecb98/fe90664c-1df1-4ee4-b07c-b6e19ce94fdf_169c8eb0-38c8-45e0-8b88-b20578b1e392.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:a11a0ee476940245",
+                        "title": "Franz Kafka: Das Schloss (22/29)",
+                        "summary": "Olga erzählt dem Landvermesser K., wie sie und ihre Familie sich über Jahre am Schloss abgearbeitet haben. Wie sie versucht haben, sich ihm zu nähern, und trotzdem höchstens Kontakt zu Dienern aufnehmen konnten. Und wie sie alle durch diese Ohnmacht ...",
+                        "synopsis": "Olga erzählt dem Landvermesser K., wie sie und ihre Familie sich über Jahre am Schloss abgearbeitet haben. Wie sie versucht haben, sich ihm zu nähern, und trotzdem höchstens Kontakt zu Dienern aufnehmen konnten. Und wie sie alle durch diese Ohnmacht ...",
+                        "description": "Olga erzählt dem Landvermesser K., wie sie und ihre Familie sich über Jahre am Schloss abgearbeitet haben. Wie sie versucht haben, sich ihm zu nähern, und trotzdem höchstens Kontakt zu Dienern aufnehmen konnten. Und wie sie alle durch diese Ohnmacht und vergebliche Mühe krank geworden sind.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:65333c0562c03336/",
+                        "publishDate": "2024-03-25T00:22:00+01:00",
+                        "duration": 1716,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/99/d6/99d6882f-e66b-4d98-ab45-d5c0dc0d1600/b29cdd07-cd67-4469-9bad-752de8516c96_91949efc-ca7e-46f4-8353-baa2ed558ffb.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/da/fb/dafbd768-b919-41d4-8129-b5de1ffbff60/b29cdd07-cd67-4469-9bad-752de8516c96_24b108ac-f0d8-46f2-9afc-474fe39dd0ea.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:75b4d4ee8294611a",
+                        "title": "Franz Kafka: Das Schloss (21/29)",
+                        "summary": "Olga hat dem Landvermesser K. erzählt, wie ihr Vater daran gescheitert ist, die Ehre der Familie wieder herzustellen. Und in den luxuriösen Schlitten der Schlossbeamten erkennt die Dorfgemeinschaft die Allmacht des Schlosses wieder. Diese würden für ...",
+                        "synopsis": "Olga hat dem Landvermesser K. erzählt, wie ihr Vater daran gescheitert ist, die Ehre der Familie wieder herzustellen. Und in den luxuriösen Schlitten der Schlossbeamten erkennt die Dorfgemeinschaft die Allmacht des Schlosses wieder. Diese würden für ...",
+                        "description": "Olga hat dem Landvermesser K. erzählt, wie ihr Vater daran gescheitert ist, die Ehre der Familie wieder herzustellen. Und in den luxuriösen Schlitten der Schlossbeamten erkennt die Dorfgemeinschaft die Allmacht des Schlosses wieder. Diese würden für den Aktentransport gebraucht werden. K. wendet ein, dass darin gar nicht immer Akten transportiert werden.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:9b37977dd2ea30d7/",
+                        "publishDate": "2024-03-25T00:21:00+01:00",
+                        "duration": 1685,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/42/37/423783cd-cfe1-4cc9-ad43-5e599e6ac94a/bca6a9d2-84f0-469d-8a1f-4e243e3137dd_fba3fd15-ff8c-4579-810f-0c0600287064.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/e0/78/e078ca65-9ef6-4af8-8ce5-9f08f26a3ec1/bca6a9d2-84f0-469d-8a1f-4e243e3137dd_d0bab8bf-eb65-4129-b70b-5c99f6de8ed1.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:f5160b8cdc310f2f",
+                        "title": "Franz Kafka: Das Schloss (20/29)",
+                        "summary": "Olga erzählt dem Landvermesser K. immer noch davon, wie ihre Familie im Dorf in Ungnade gefallen ist. Dabei hinterfragt K. den Glauben der Dorfgemeinschaft an die Allmacht des Schlosses zunehmend. Er erliegt dieser Herrschaft ebenfalls immer mehr, ...",
+                        "synopsis": "Olga erzählt dem Landvermesser K. immer noch davon, wie ihre Familie im Dorf in Ungnade gefallen ist. Dabei hinterfragt K. den Glauben der Dorfgemeinschaft an die Allmacht des Schlosses zunehmend. Er erliegt dieser Herrschaft ebenfalls immer mehr, ...",
+                        "description": "Olga erzählt dem Landvermesser K. immer noch davon, wie ihre Familie im Dorf in Ungnade gefallen ist. Dabei hinterfragt K. den Glauben der Dorfgemeinschaft an die Allmacht des Schlosses zunehmend. Er erliegt dieser Herrschaft ebenfalls immer mehr, wenn er zum Beispiel die Abwertung von Olgas Schwester Amalia durch den Schlossbeamten Sortini rechtfertigt.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:735995668859ce1d/",
+                        "publishDate": "2024-03-25T00:20:00+01:00",
+                        "duration": 1604,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/cf/3f/cf3f11c5-53f6-44b0-8b50-3dfd8d0769ab/87aeb6b6-21c7-44f0-8630-05dab5659b30_b1ffe7a9-1b72-43f5-8998-75abf5ffa072.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/8d/ab/8dab8cdd-1d76-404e-82d2-a489bc586bf2/87aeb6b6-21c7-44f0-8630-05dab5659b30_8e439181-e42e-4ac3-8689-e2bd3c359161.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:98ec82e85ccfcc1f",
+                        "title": "Franz Kafka: Das Schloss (19/29)",
+                        "summary": "Olgas Familie ist im Dorf in Ungnade gefallen. Ihre Schwester Amalia hatte sich mal einem Schlossbeamten widersetzt. Ähnlich sei es bei K.s Verlobter Frieda und ihrer Beziehung zum Beamten Klamm. Mit Frieda habe das alles nichts zu tun, protestiert ...",
+                        "synopsis": "Olgas Familie ist im Dorf in Ungnade gefallen. Ihre Schwester Amalia hatte sich mal einem Schlossbeamten widersetzt. Ähnlich sei es bei K.s Verlobter Frieda und ihrer Beziehung zum Beamten Klamm. Mit Frieda habe das alles nichts zu tun, protestiert ...",
+                        "description": "Olgas Familie ist im Dorf in Ungnade gefallen. Ihre Schwester Amalia hatte sich mal einem Schlossbeamten widersetzt. Ähnlich sei es bei K.s Verlobter Frieda und ihrer Beziehung zum Beamten Klamm. Mit Frieda habe das alles nichts zu tun, protestiert K. darauf. Aber Olga lässt nicht locker.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:902b49a063457ac6/",
+                        "publishDate": "2024-03-25T00:19:00+01:00",
+                        "duration": 1717,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/df/75/df757b1d-070a-4687-bccc-5ebde4eddf3d/f527a754-1fea-4d50-935e-62b1c99b2202_94f0aa8e-3779-462b-9bad-383be25f3e6c.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/fd/b1/fdb18d9f-5f99-40e8-a2ae-23cab08fa7e8/f527a754-1fea-4d50-935e-62b1c99b2202_84f8cfc4-23b4-4ca6-b386-f9a77248fd05.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:63f5b64f2230c1ba",
+                        "title": "Franz Kafka: Das Schloss (18/29)",
+                        "summary": "Landvermesser K. unterhält sich mit Olga, deren Bruder Barnabas Botendienste für das Schloss durchführt. Die Arbeit und Hierarchien des Schlosses scheinen so undurchdringlich und verwirrend, dass die Botenarbeit für Barnabas eine große Belastung ...",
+                        "synopsis": "Landvermesser K. unterhält sich mit Olga, deren Bruder Barnabas Botendienste für das Schloss durchführt. Die Arbeit und Hierarchien des Schlosses scheinen so undurchdringlich und verwirrend, dass die Botenarbeit für Barnabas eine große Belastung ...",
+                        "description": "Landvermesser K. unterhält sich mit Olga, deren Bruder Barnabas Botendienste für das Schloss durchführt. Die Arbeit und Hierarchien des Schlosses scheinen so undurchdringlich und verwirrend, dass die Botenarbeit für Barnabas eine große Belastung darstellt. K. wirft Olga vor, dass sie ihn nicht daran hindere, immer wieder ins Schloss zu gehen.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:f5527ab878b4ee5f/",
+                        "publishDate": "2024-03-25T00:18:00+01:00",
+                        "duration": 1593,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/ea/c1/eac1e6e9-ecc8-4407-9d99-8d28fcdb5325/0744c811-8b2b-46e5-9164-9b2364a51e7e_e9c8d230-69c7-4e28-b9eb-c0a8595c9279.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/74/fb/74fbcb0a-3e90-4d9b-87e8-41dde0a99279/0744c811-8b2b-46e5-9164-9b2364a51e7e_33b83b08-cb48-4d7b-9af2-f9ff4f551734.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:256f43d694496b6b",
+                        "title": "Franz Kafka: Das Schloss (17/29)",
+                        "summary": "Landvermesser K. versucht immer noch zu verstehen, wie die Herrschaft des Schlosses funktioniert. Gerade unterhält er sich mit Olga, deren Bruder Barnabas im Auftrag des Beamten Klamm Botendienste durchführt. Aber selbst diejenigen, die wie Olga ...",
+                        "synopsis": "Landvermesser K. versucht immer noch zu verstehen, wie die Herrschaft des Schlosses funktioniert. Gerade unterhält er sich mit Olga, deren Bruder Barnabas im Auftrag des Beamten Klamm Botendienste durchführt. Aber selbst diejenigen, die wie Olga ...",
+                        "description": "Landvermesser K. versucht immer noch zu verstehen, wie die Herrschaft des Schlosses funktioniert. Gerade unterhält er sich mit Olga, deren Bruder Barnabas im Auftrag des Beamten Klamm Botendienste durchführt. Aber selbst diejenigen, die wie Olga schon lange unter der Herrschaft des Schlosses leben, begreifen nicht, wie diese Herrschaft geregelt wird.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:ebe531d583f66973/",
+                        "publishDate": "2024-03-25T00:17:00+01:00",
+                        "duration": 1726,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/03/70/03703ffc-3554-4f6f-92db-722287006419/f3f76ca9-438e-4ace-932e-0879c7d86cfb_5178da3d-6a85-4c1c-abe9-635f116c24a7.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/72/c1/72c12f05-c4b1-42f2-8992-7be4c38afc0c/f3f76ca9-438e-4ace-932e-0879c7d86cfb_8052be20-792f-491e-a7c9-62d0b4b06ae5.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:a39f8bf24693d5fe",
+                        "title": "Franz Kafka: Das Schloss (16/29)",
+                        "summary": "Als Schuldiener hat Landvermesser K. immer wieder Konflikte mit den Lehrkräften, zum Beispiel mit der Lehrerin Gisa, die mit dem Hilfslehrer Schwarzer liiert ist. Die beiden führen eine sehr ungleiche Beziehung, die vor allem durch Schwarzers ...",
+                        "synopsis": "Als Schuldiener hat Landvermesser K. immer wieder Konflikte mit den Lehrkräften, zum Beispiel mit der Lehrerin Gisa, die mit dem Hilfslehrer Schwarzer liiert ist. Die beiden führen eine sehr ungleiche Beziehung, die vor allem durch Schwarzers ...",
+                        "description": "Als Schuldiener hat Landvermesser K. immer wieder Konflikte mit den Lehrkräften, zum Beispiel mit der Lehrerin Gisa, die mit dem Hilfslehrer Schwarzer liiert ist. Die beiden führen eine sehr ungleiche Beziehung, die vor allem durch Schwarzers Anbetung geprägt ist. Und dadurch, dass Gisa sie duldet.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:80f5fa9f72917e96/",
+                        "publishDate": "2024-03-25T00:16:00+01:00",
+                        "duration": 1750,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/db/ef/dbef7dd8-1fa3-44c1-9762-0c3d1ae09dd0/f93d41e6-9b03-44e0-9923-78f9cfff9161_0d6c2383-acf2-41eb-b559-397dbdb842e2.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/b1/48/b148314a-9d45-4e94-96c7-7a9b61a8c05a/f93d41e6-9b03-44e0-9923-78f9cfff9161_0de940cf-f6aa-4e44-975b-1bbfe6797e90.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:2a9f80b3a9522767",
+                        "title": "Franz Kafka: Das Schloss (15/29)",
+                        "summary": "Landvermesser K. ist immer noch Schuldiener. Doch die Lehrkräfte sind ihm und seiner Verlobten nach wie vor feindlich gesinnt. Einer der Lehrer hatte K. bereits gekündigt, aber K. hat sich geweigert, diese Kündigung anzunehmen. Und hatte damit sogar ...",
+                        "synopsis": "Landvermesser K. ist immer noch Schuldiener. Doch die Lehrkräfte sind ihm und seiner Verlobten nach wie vor feindlich gesinnt. Einer der Lehrer hatte K. bereits gekündigt, aber K. hat sich geweigert, diese Kündigung anzunehmen. Und hatte damit sogar ...",
+                        "description": "Landvermesser K. ist immer noch Schuldiener. Doch die Lehrkräfte sind ihm und seiner Verlobten nach wie vor feindlich gesinnt. Einer der Lehrer hatte K. bereits gekündigt, aber K. hat sich geweigert, diese Kündigung anzunehmen. Und hatte damit sogar Erfolg.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:eb087f406746bee2/",
+                        "publishDate": "2024-03-25T00:15:00+01:00",
+                        "duration": 1709,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/9c/79/9c798988-2dff-4b1a-b2c9-aa5309388a68/a7dcac9e-3e95-4b7d-83eb-4cb56985d152_6eccd146-1c46-411a-89ec-7578b2c730a9.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/c0/5b/c05b4235-6366-44b8-a7b3-d97467ddae2d/a7dcac9e-3e95-4b7d-83eb-4cb56985d152_65a833ff-1c09-4913-84fd-9164183cae7e.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:5171412d7e2b92f2",
+                        "title": "Franz Kafka: Das Schloss (14/29)",
+                        "summary": "Landvermesser K. ist Schuldiener geworden und lebt gemeinsam mit seiner Verlobten Frieda und den Gehilfen in der Turnhalle. Aber die Lehrkräfte sind K. und Frieda ziemlich feindlich gesinnt. Die angespannte Stimmung verunsichert Frieda weiter. ...",
+                        "synopsis": "Landvermesser K. ist Schuldiener geworden und lebt gemeinsam mit seiner Verlobten Frieda und den Gehilfen in der Turnhalle. Aber die Lehrkräfte sind K. und Frieda ziemlich feindlich gesinnt. Die angespannte Stimmung verunsichert Frieda weiter. ...",
+                        "description": "Landvermesser K. ist Schuldiener geworden und lebt gemeinsam mit seiner Verlobten Frieda und den Gehilfen in der Turnhalle. Aber die Lehrkräfte sind K. und Frieda ziemlich feindlich gesinnt. Die angespannte Stimmung verunsichert Frieda weiter. Während eines Streits zwischen Frieda und K. kommt ein kleiner Junge auf sie zu.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:9fe34632c7f15aca/",
+                        "publishDate": "2024-03-25T00:14:00+01:00",
+                        "duration": 1750,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/a5/74/a574e063-3244-4df0-95a5-f6cbad16789d/196f5793-2fbc-4b9f-9826-5c3ce5b89207_df95f8b0-6df7-4f58-b017-a073f074134f.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/24/df/24df4e44-ea1f-42f4-9d3d-4fcbd8075d37/196f5793-2fbc-4b9f-9826-5c3ce5b89207_37722d99-546c-4da3-8f20-c091da707aba.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:b1347977529ed822",
+                        "title": "Franz Kafka: Das Schloss (13/29)",
+                        "summary": "Landvermesser K. ist Schuldiener geworden und lebt gemeinsam mit seiner Verlobten Frieda und den Gehilfen in der Turnhalle. Der erste Morgen in der neuen Behausung war unruhig, weil sie von Schulkindern geweckt wurden, die zum Sportunterricht ...",
+                        "synopsis": "Landvermesser K. ist Schuldiener geworden und lebt gemeinsam mit seiner Verlobten Frieda und den Gehilfen in der Turnhalle. Der erste Morgen in der neuen Behausung war unruhig, weil sie von Schulkindern geweckt wurden, die zum Sportunterricht ...",
+                        "description": "Landvermesser K. ist Schuldiener geworden und lebt gemeinsam mit seiner Verlobten Frieda und den Gehilfen in der Turnhalle. Der erste Morgen in der neuen Behausung war unruhig, weil sie von Schulkindern geweckt wurden, die zum Sportunterricht gekommen waren, während alle noch im Bett lagen. Trotzdem beginnt K. mit seiner Arbeit in der Schule.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:c604ae86e34c60c2/",
+                        "publishDate": "2024-03-25T00:13:00+01:00",
+                        "duration": 1672,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/c2/ca/c2ca5d36-b791-428f-82df-3302fd3b0fb2/55ba2267-ce27-4dcd-8ac0-41ab287f0e6a_8359fe97-1f56-49e0-8d63-68bc04988bfa.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/37/52/3752048d-5964-46f0-9794-8e9a28c67e78/55ba2267-ce27-4dcd-8ac0-41ab287f0e6a_3e8c0431-a49a-48fd-bb5d-2042b9a4217f.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:3b5230ead6a49bf4",
+                        "title": "Franz Kafka: Das Schloss (12/29)",
+                        "summary": "Landvermesser K. will nach wie vor Kontakt zum Beamten Klamm. Gerade hat K. von seinem Freund Barnabas einen Brief von Klamm erhalten. Darin geht Klamm allerdings davon aus, dass K. tatsächlich als Landvermesser arbeite.\n\nDer Schauspieler Ulrich ...",
+                        "synopsis": "Landvermesser K. will nach wie vor Kontakt zum Beamten Klamm. Gerade hat K. von seinem Freund Barnabas einen Brief von Klamm erhalten. Darin geht Klamm allerdings davon aus, dass K. tatsächlich als Landvermesser arbeite.\n\nDer Schauspieler Ulrich ...",
+                        "description": "Landvermesser K. will nach wie vor Kontakt zum Beamten Klamm. Gerade hat K. von seinem Freund Barnabas einen Brief von Klamm erhalten. Darin geht Klamm allerdings davon aus, dass K. tatsächlich als Landvermesser arbeite.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:1703063e867c3b2a/",
+                        "publishDate": "2024-03-25T00:12:00+01:00",
+                        "duration": 1674,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/68/03/68033405-261c-43ca-b3c1-c9d71bcfc377/dc48cb7a-04e0-48ba-83dc-a79def4273f8_42f9c476-02ca-47ee-a148-19d1412949c3.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/58/16/5816bdcc-5c27-4e63-a5ee-15b40af52486/dc48cb7a-04e0-48ba-83dc-a79def4273f8_b2cdbef1-68ac-40c1-8aab-e5089f0ade90.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:cc56d00fb80ff81b",
+                        "title": "Franz Kafka: Das Schloss (11/29)",
+                        "summary": "Landvermesser K. versucht immer noch, mit der Schlossverwaltung in Kontakt zu kommen und hat dem Beamten Klamm aufgelauert, aber ohne Erfolg. Jetzt ist er ins Gasthaus Herrenhof zurückgekehrt. Ebenfalls im Gasthaus sitzt ein Mann über einigen ...",
+                        "synopsis": "Landvermesser K. versucht immer noch, mit der Schlossverwaltung in Kontakt zu kommen und hat dem Beamten Klamm aufgelauert, aber ohne Erfolg. Jetzt ist er ins Gasthaus Herrenhof zurückgekehrt. Ebenfalls im Gasthaus sitzt ein Mann über einigen ...",
+                        "description": "Landvermesser K. versucht immer noch, mit der Schlossverwaltung in Kontakt zu kommen und hat dem Beamten Klamm aufgelauert, aber ohne Erfolg. Jetzt ist er ins Gasthaus Herrenhof zurückgekehrt. Ebenfalls im Gasthaus sitzt ein Mann über einigen Papieren, mit dem K. ins Gespräch kommt.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:8503fad83f19a138/",
+                        "publishDate": "2024-03-25T00:11:00+01:00",
+                        "duration": 1723,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/80/6f/806fd874-0216-47e6-ac61-ebcd78ba248b/5fccb6c2-a1fe-48f2-b0cd-1481b8db5231_c1acf0ec-a610-49db-90cf-cd00adcf8ef4.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/0a/8c/0a8c2920-f0d5-4c8d-9bae-0142ca32f891/5fccb6c2-a1fe-48f2-b0cd-1481b8db5231_ed17fc6a-d339-4bed-b18e-c9ac3d5e54f0.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:66196727d27c417a",
+                        "title": "Franz Kafka: Das Schloss (10/29)",
+                        "summary": "Landvermesser K. darf seinen Beruf nicht ausüben, weil man keinen Landvermesser brauche. Also bietet ein Lehrer K. an, als Schuldiener zu arbeiten. Den brauche man zwar auch nicht, aber das sei das Einzige, was man ermöglichen könne. K. will die ...",
+                        "synopsis": "Landvermesser K. darf seinen Beruf nicht ausüben, weil man keinen Landvermesser brauche. Also bietet ein Lehrer K. an, als Schuldiener zu arbeiten. Den brauche man zwar auch nicht, aber das sei das Einzige, was man ermöglichen könne. K. will die ...",
+                        "description": "Landvermesser K. darf seinen Beruf nicht ausüben, weil man keinen Landvermesser brauche. Also bietet ein Lehrer K. an, als Schuldiener zu arbeiten. Den brauche man zwar auch nicht, aber das sei das Einzige, was man ermöglichen könne. K. will die Stelle ausschlagen, aber seine Verlobte Frieda überzeugt ihn, das Angebot anzunehmen.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:75593ed854921403/",
+                        "publishDate": "2024-03-25T00:10:00+01:00",
+                        "duration": 1733,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/19/89/1989a8a0-7425-4543-b444-b684d4fd8571/1a064975-7ea6-4122-aabe-a48f088d6a20_0b9074a8-9099-4830-bed8-1433db65b641.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/b8/dd/b8dddbad-51cf-469d-8d06-e48618e88940/1a064975-7ea6-4122-aabe-a48f088d6a20_5c8f83d3-f451-42aa-a0f0-840d3ae09e43.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:336dd1b034f88142",
+                        "title": "Franz Kafka: Das Schloss (9/29)",
+                        "summary": "Die Wirtin des Herrenhofes liegt krank im Bett und erzählt K., wie sie ihren Mann kennenlernte und das Wirtshaus übernahm. Da legt K. ihr dar, wie ihre Krankheit, ihr Unglück und die Unzufriedenheit ihres Mannes mit dem Schlossbeamten Klamm ...",
+                        "synopsis": "Die Wirtin des Herrenhofes liegt krank im Bett und erzählt K., wie sie ihren Mann kennenlernte und das Wirtshaus übernahm. Da legt K. ihr dar, wie ihre Krankheit, ihr Unglück und die Unzufriedenheit ihres Mannes mit dem Schlossbeamten Klamm ...",
+                        "description": "Die Wirtin des Herrenhofes liegt krank im Bett und erzählt K., wie sie ihren Mann kennenlernte und das Wirtshaus übernahm. Da legt K. ihr dar, wie ihre Krankheit, ihr Unglück und die Unzufriedenheit ihres Mannes mit dem Schlossbeamten Klamm zusammenhängen, dem alle hier im Dorf mit unterwürfiger Ehrfurcht begegnen.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:49dd2efd41e4ece6/",
+                        "publishDate": "2024-03-25T00:09:00+01:00",
+                        "duration": 1726,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/0d/d5/0dd54ac4-2799-4df0-aa7e-28b2736ada06/0496d1cf-54d6-497e-ab95-a2bed10b439a_bc320686-c34d-4493-ac5d-d1d2a2ebd5e0.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/a5/e3/a5e3b7fa-c6ef-46c7-a43b-90641df48210/0496d1cf-54d6-497e-ab95-a2bed10b439a_2ee7c8ff-0b4a-4a1c-8d01-a1ff2d20a8e5.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:98dc06c2552310e4",
+                        "title": "Franz Kafka: Das Schloss (8/29)",
+                        "summary": "Der Gemeindevorsteher erklärt Landvermesser K., dass er niemals als Landvermesser beauftragt wurde und dass der Brief des Beamten Klamm auch kein amtlicher Brief sei. Man habe K. nur mitgeteilt, dass er offenbar in herrschaftlichen Verhältnissen ...",
+                        "synopsis": "Der Gemeindevorsteher erklärt Landvermesser K., dass er niemals als Landvermesser beauftragt wurde und dass der Brief des Beamten Klamm auch kein amtlicher Brief sei. Man habe K. nur mitgeteilt, dass er offenbar in herrschaftlichen Verhältnissen ...",
+                        "description": "Der Gemeindevorsteher erklärt Landvermesser K., dass er niemals als Landvermesser beauftragt wurde und dass der Brief des Beamten Klamm auch kein amtlicher Brief sei. Man habe K. nur mitgeteilt, dass er offenbar in herrschaftlichen Verhältnissen stehe.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:68f807ac53a10332/",
+                        "publishDate": "2024-03-25T00:08:00+01:00",
+                        "duration": 1746,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/18/af/18af2d15-dd06-47e8-962e-4ed87f4f8868/5d146ff1-7fa6-403e-a1dd-c23e0bac01d7_411a45fc-bf13-4d33-a8ac-c9029c168975.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/42/00/42007bcb-82d9-4010-a1a7-dee3ba4af2b7/5d146ff1-7fa6-403e-a1dd-c23e0bac01d7_b8c236ed-0afd-497f-9703-b542479a563e.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:adfbae0568c8c4f2",
+                        "title": "Franz Kafka: Das Schloss (7/29)",
+                        "summary": "Landvermesser K. ist mit der Schankmagd Frieda verlobt und gerade beim Gemeindevorsteher. Doch der erklärt ihm, warum die Grafschaft gar keinen Landvermesser brauche.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod ...",
+                        "synopsis": "Landvermesser K. ist mit der Schankmagd Frieda verlobt und gerade beim Gemeindevorsteher. Doch der erklärt ihm, warum die Grafschaft gar keinen Landvermesser brauche.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod ...",
+                        "description": "Landvermesser K. ist mit der Schankmagd Frieda verlobt und gerade beim Gemeindevorsteher. Doch der erklärt ihm, warum die Grafschaft gar keinen Landvermesser brauche.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:f263d58c0a04c98a/",
+                        "publishDate": "2024-03-25T00:07:00+01:00",
+                        "duration": 1709,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/8e/72/8e72da0a-215e-47be-8362-50a9ae990f1e/0afbed2a-0b9f-48ef-a147-dccdd71f0b0f_cdd62ca9-4985-47a2-9578-4f5a38d7c0e2.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/9c/2f/9c2fa325-211c-4a03-83bf-93a7da9b4300/0afbed2a-0b9f-48ef-a147-dccdd71f0b0f_b48a1988-30d0-40b8-80e5-df989d809ee3.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:097ac7cb955922bc",
+                        "title": "Franz Kafka: Das Schloss (6/29)",
+                        "summary": "Mittlerweile ist der Landvermesser K. mit der Schankmagd Frieda zusammen und will sie heiraten. Darüber will er mit der Wirtin und dem Gemeindevorsteher sprechen. Denn K. sei zwar Landvermesser, hier im Dorf sei seine Stellung aber unbedeutend. Er ...",
+                        "synopsis": "Mittlerweile ist der Landvermesser K. mit der Schankmagd Frieda zusammen und will sie heiraten. Darüber will er mit der Wirtin und dem Gemeindevorsteher sprechen. Denn K. sei zwar Landvermesser, hier im Dorf sei seine Stellung aber unbedeutend. Er ...",
+                        "description": "Mittlerweile ist der Landvermesser K. mit der Schankmagd Frieda zusammen und will sie heiraten. Darüber will er mit der Wirtin und dem Gemeindevorsteher sprechen. Denn K. sei zwar Landvermesser, hier im Dorf sei seine Stellung aber unbedeutend. Er sei ein Fremder. Daher würde für Frieda eine Ehe mit ihm einen Abstieg bedeuten.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:fdbf25a4a69f7bf6/",
+                        "publishDate": "2024-03-25T00:06:00+01:00",
+                        "duration": 1738,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/d2/fe/d2fe3f0b-dac4-49b6-8fae-70053ca191c1/6d25586e-db74-4d84-ab78-7737e08021dc_e462c704-2abe-40dd-b688-91173d7fdcdc.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/26/d7/26d78ad1-2988-4684-9509-39b97012b677/6d25586e-db74-4d84-ab78-7737e08021dc_036604f1-22f9-4f8c-94a4-09519e1f4088.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:8de1c96911ffbdfc",
+                        "title": "Franz Kafka: Das Schloss (5/29)",
+                        "summary": "Der Landvermesser will den Beamten Klamm kennenlernen und geht deswegen ins Gasthaus Herrenhof. Hier lernt er die Kellnerin Frieda kennen, die sagt, sie sei Klamms Geliebte. Sie lässt K. im Schankraum unter einem der Tische übernachten. Dort kommen ...",
+                        "synopsis": "Der Landvermesser will den Beamten Klamm kennenlernen und geht deswegen ins Gasthaus Herrenhof. Hier lernt er die Kellnerin Frieda kennen, die sagt, sie sei Klamms Geliebte. Sie lässt K. im Schankraum unter einem der Tische übernachten. Dort kommen ...",
+                        "description": "Der Landvermesser will den Beamten Klamm kennenlernen und geht deswegen ins Gasthaus Herrenhof. Hier lernt er die Kellnerin Frieda kennen, die sagt, sie sei Klamms Geliebte. Sie lässt K. im Schankraum unter einem der Tische übernachten. Dort kommen die beiden einander näher, zwischen Bierpfützen und Müll.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:ba551389eff6c240/",
+                        "publishDate": "2024-03-25T00:05:00+01:00",
+                        "duration": 1696,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/82/4b/824b6257-2c17-4b6c-80ab-c5dbe13bea1f/9c29de15-8c0e-4a74-b351-412e3a512f94_a1ce3ab7-5b01-44ea-a8e5-2f5a1058e4b5.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/29/ad/29ad6520-9dd9-43a0-a887-6781784e3ec2/9c29de15-8c0e-4a74-b351-412e3a512f94_341a1e09-0b43-4596-bb9d-3f2b714fa764.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:45acf1dd770b8253",
+                        "title": "Franz Kafka: Das Schloss (4/29)",
+                        "summary": "Der Umgang mit der Schlossverwaltung gestaltet sich als schwierig. Und die Dorfgemeinschaft begegnet K. weiterhin mit viel Misstrauen. Nur mit dem Kurier Barnabas hat er gleich eine enge Verbindung. Er hofft darauf, mit ihm zusammen auf das Schloss ...",
+                        "synopsis": "Der Umgang mit der Schlossverwaltung gestaltet sich als schwierig. Und die Dorfgemeinschaft begegnet K. weiterhin mit viel Misstrauen. Nur mit dem Kurier Barnabas hat er gleich eine enge Verbindung. Er hofft darauf, mit ihm zusammen auf das Schloss ...",
+                        "description": "Der Umgang mit der Schlossverwaltung gestaltet sich als schwierig. Und die Dorfgemeinschaft begegnet K. weiterhin mit viel Misstrauen. Nur mit dem Kurier Barnabas hat er gleich eine enge Verbindung. Er hofft darauf, mit ihm zusammen auf das Schloss zu gelangen. Gerade sind sie bei Barnabas und seiner Familie zuhause, wo sie die Nacht verbringen sollen.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:82083b36e1673999/",
+                        "publishDate": "2024-03-25T00:04:00+01:00",
+                        "duration": 1648,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/00/7e/007e9f1f-5979-4e39-b7f3-08b65afe3f03/ed610914-90c2-43c1-abd9-d8cb98ed647b_487dd8dc-20b7-4e99-aacb-cc35d996b3f8.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/93/67/93675d62-ffd1-4b1a-8bbd-c84eb14abe14/ed610914-90c2-43c1-abd9-d8cb98ed647b_6f53962e-7334-45f0-a800-e4759aeceffe.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:b77a575cefce4982",
+                        "title": "Franz Kafka: Das Schloss (3/29)",
+                        "summary": "Im Dorf hält man von Gastfreundschaft nicht viel. Und K.s Gehilfen sind auch nicht von großem Nutzen, weil sie nicht mal seine Instrumente mitgebracht haben. Gerade ist er in einem Bauernhaus und hat ein merkwürdiges Gespräch mit der ...",
+                        "synopsis": "Im Dorf hält man von Gastfreundschaft nicht viel. Und K.s Gehilfen sind auch nicht von großem Nutzen, weil sie nicht mal seine Instrumente mitgebracht haben. Gerade ist er in einem Bauernhaus und hat ein merkwürdiges Gespräch mit der ...",
+                        "description": "Im Dorf hält man von Gastfreundschaft nicht viel. Und K.s Gehilfen sind auch nicht von großem Nutzen, weil sie nicht mal seine Instrumente mitgebracht haben. Gerade ist er in einem Bauernhaus und hat ein merkwürdiges Gespräch mit der Schlossverwaltung hinter sich.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:3591f1b99616b89e/",
+                        "publishDate": "2024-03-25T00:03:00+01:00",
+                        "duration": 1705,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/58/f2/58f21868-c4e6-4b59-b384-89c020b5bdb2/1c34903e-748b-43cb-9eed-7f87f4abe5d1_fea56042-4cd1-4375-85ec-a11ddaff6f10.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/f8/76/f8765821-65d7-4292-a1bd-750761e60b0b/1c34903e-748b-43cb-9eed-7f87f4abe5d1_70d429a0-56eb-486e-9a9a-4a08ef0be1b7.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:eebe1ef337963d61",
+                        "title": "Franz Kafka: Das Schloss (2/29)",
+                        "summary": "Der Landvermesser K. ist in die Grafschaft des Grafen Westwest gereist. Aber der Empfang ist alles andere als freundlich. K. macht sich auf den Weg zum Schloss, kommt ihm aber nicht wirklich näher. Müde von seiner erfolglosen Wanderung hat er Einlass ...",
+                        "synopsis": "Der Landvermesser K. ist in die Grafschaft des Grafen Westwest gereist. Aber der Empfang ist alles andere als freundlich. K. macht sich auf den Weg zum Schloss, kommt ihm aber nicht wirklich näher. Müde von seiner erfolglosen Wanderung hat er Einlass ...",
+                        "description": "Der Landvermesser K. ist in die Grafschaft des Grafen Westwest gereist. Aber der Empfang ist alles andere als freundlich. K. macht sich auf den Weg zum Schloss, kommt ihm aber nicht wirklich näher. Müde von seiner erfolglosen Wanderung hat er Einlass in einem Bauernhaus gefunden. Und auch hier begegnet ihm viel Misstrauen.\n\nDer Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:60ec8cb3cb84c69e/",
+                        "publishDate": "2024-03-25T00:02:00+01:00",
+                        "duration": 1698,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/43/9e/439eac21-1ac3-4e70-b456-d04cad476824/1f1d22f3-a6ef-4691-9c4e-827f3b887eee_f349097c-4a4e-49f8-9406-2e47d0d9d123.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/8c/9a/8c9ac231-dab8-418b-91e8-739fcd700ac9/1f1d22f3-a6ef-4691-9c4e-827f3b887eee_9af44251-77ca-4945-bd0e-0f2ed9f6958d.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:1decc91467669238",
+                        "title": "Franz Kafka: Das Schloss (1/29)",
+                        "summary": "Franz Kafkas 1922 entstandener Roman kann als beklemmende Herrschaftsanalyse gelesen werden. Darin reist der Landvermesser K. in ein Dorf, das zum Herrschaftsgebiet eines Schlosses gehört. Die eigenartigen Bewohnerinnen und Bewohner geben ihm viele ...",
+                        "synopsis": "Franz Kafkas 1922 entstandener Roman kann als beklemmende Herrschaftsanalyse gelesen werden. Darin reist der Landvermesser K. in ein Dorf, das zum Herrschaftsgebiet eines Schlosses gehört. Die eigenartigen Bewohnerinnen und Bewohner geben ihm viele ...",
+                        "description": "Franz Kafkas 1922 entstandener Roman kann als beklemmende Herrschaftsanalyse gelesen werden. Darin reist der Landvermesser K. in ein Dorf, das zum Herrschaftsgebiet eines Schlosses gehört. Die eigenartigen Bewohnerinnen und Bewohner geben ihm viele Rätsel auf, ebenso wie die undurchdringlich erscheinende Bürokratie dieses Schlosses. Der Schauspieler Ulrich Matthes liest aus Kafkas unvollendetem Roman, den Max Brod postum veröffentlichte.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:47b86fdd6099a426/",
+                        "publishDate": "2024-03-25T00:01:00+01:00",
+                        "duration": 1679,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/f7/75/f77577bf-d5e7-4158-a3be-6b5c0f94299f/fc6c311a-4891-4f1e-a5a6-a817ed952b83_b84272a7-fbf3-4ae5-961c-8031ccc197c1.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/21/65/21657e43-4325-4e1b-876f-0bdebdf1a57b/fc6c311a-4891-4f1e-a5a6-a817ed952b83_68e9dc3f-289a-41e1-845c-dfe642e09ae5.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:7f9c91783242ce90",
+                        "title": "Kafkas Kosmos - Trailer",
+                        "summary": "Franz Kafka - gelesen von bedeutenden Stimmen! Zum 100. Todestag des weltberühmten Schriftstellers sind in der ARD Audiothek seine Romane, Erzählungen und Briefe zusammengestellt.",
+                        "synopsis": "Franz Kafka - gelesen von bedeutenden Stimmen! Zum 100. Todestag des weltberühmten Schriftstellers sind in der ARD Audiothek seine Romane, Erzählungen und Briefe zusammengestellt.",
+                        "description": "Franz Kafka - gelesen von bedeutenden Stimmen! Zum 100. Todestag des weltberühmten Schriftstellers sind in der ARD Audiothek seine Romane, Erzählungen und Briefe zusammengestellt.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:54430f486e31113a/",
+                        "publishDate": "2024-03-22T00:30:00+01:00",
+                        "duration": 67,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:3f7fd2184f01b143?w={width}&ch=55c34e85cf22c072",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:4ff990f8c1252be5?w={width}&ch=a044cf3283a59331"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/67/e3/67e3b11c-4e81-402c-ad70-813bc473d17a/77f5216e-fcce-406c-b142-9c247c832998_e5939a35-b1ec-4cc4-80fa-3d1e5b5867fe.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbbmediapmdp-a.akamaihd.net/content/c5/b9/c5b936df-7882-4dc2-8380-03b1c9a43155/77f5216e-fcce-406c-b142-9c247c832998_df1afeac-619f-42da-ba3c-5240c81b6c27.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}

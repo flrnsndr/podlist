@@ -52,6 +52,8 @@ public final class DownloadService {
     /// The one task loading each episode; events of any other task are stale.
     @ObservationIgnored private var tasks: [UUID: URLSessionTask] = [:]
     @ObservationIgnored private var flushWaiters: [UUID: CheckedContinuation<Void, Never>] = [:]
+    /// Skipped episodes (⏭) whose undo is still offered: their played download stays (A81).
+    @ObservationIgnored private var keptForUndo: Set<UUID> = []
 
     public init(
         context: ModelContext, downloader: Downloader, files: DownloadFiles = .shared, settings: UserDefaults = .standard,
@@ -143,15 +145,24 @@ public final class DownloadService {
     /// Starts what the playlists with auto-download still need (N31), "Alles" included: it
     /// loads what it has, also of playlists without auto-download (N88). Called whenever
     /// entries, played states, the auto-download switch or the choice for "Alles" change.
+    /// First, played downloads that are no longer wanted go (N32), e.g. one a keep playlist
+    /// stopped keeping or one left over when the app ended during the undo of ⏭ (A81).
     public func evaluate() {
         refreshCapacity()
+        deleteUnwantedPlayedDownloads()
         do {
-            let playlists = try context.fetch(FetchDescriptor<Playlist>())
+            let playlists = try context.fetch(Playlist.allWithEntries())
             let loading = playlists.filter(\.autoDownload).sorted { $0.displayOrder < $1.displayOrder }
-            // In each playlist's own order, so the episode it plays next loads first.
-            let ordered = loading.flatMap { $0.shownEpisodes(among: playlists) }
-            let episodes = Dictionary(ordered.map { ($0.episodeID, $0) }, uniquingKeysWith: { first, _ in first })
-            let candidates = ordered.map { AutoDownloadEntry(episode: $0.episodeID, isPlayed: $0.isPlayed, state: $0.downloadState) }
+            // In each playlist's own order, so the episode it plays next loads first. A keep
+            // playlist loads its played episodes too ("Alles" is never one, N99).
+            let ordered = loading.flatMap { playlist in
+                playlist.shownEpisodes(among: playlists).map { ($0, playlist.playedPolicy == .keep) }
+            }
+            let episodes = Dictionary(ordered.map { ($0.0.episodeID, $0.0) }, uniquingKeysWith: { first, _ in first })
+            let candidates = ordered.map { episode, loadsPlayed in
+                AutoDownloadEntry(
+                    episode: episode.episodeID, isPlayed: episode.isPlayed, state: episode.downloadState, loadsPlayed: loadsPlayed)
+            }
             let ids = DownloadRules.automaticDownloads(candidates, availableCapacity: availableCapacity, isPaused: isPaused)
             for id in ids {
                 guard let episode = episodes[id] else { continue }
@@ -167,12 +178,39 @@ public final class DownloadService {
         }
     }
 
-    /// N32, A37: a played episode that left the player loses its download.
-    func deletePlayedDownloadIfNeeded(_ episode: Episode) {
-        guard DownloadRules.shouldDeletePlayedDownload(
-            isPlayed: episode.isPlayed, state: episode.downloadState,
-            isNowPlaying: episode.isNowPlaying, deletesPlayed: deletesPlayed) else { return }
+    /// N32, A37: a played episode that left the player loses its download, unless a keep
+    /// playlist that downloads automatically still has it. Returns whether it did.
+    @discardableResult
+    func deletePlayedDownloadIfNeeded(_ episode: Episode) -> Bool {
+        let isKept = (episode.playlistEntries ?? []).contains { entry in
+            entry.playlist.map { $0.playedPolicy == .keep && $0.autoDownload } ?? false
+        }
+        guard !keptForUndo.contains(episode.uuid), DownloadRules.shouldDeletePlayedDownload(
+            isPlayed: episode.isPlayed, state: episode.downloadState, isNowPlaying: episode.isNowPlaying,
+            deletesPlayed: deletesPlayed, isInKeepPlaylistWithAutoDownload: isKept) else { return false }
         removeDownload(of: episode)
+        return true
+    }
+
+    private func deleteUnwantedPlayedDownloads() {
+        guard deletesPlayed else { return }
+        let downloaded = (try? context.fetch(Self.withDownload)) ?? []
+        let deleted = downloaded.filter { $0.isPlayed && deletePlayedDownloadIfNeeded($0) }
+        guard !deleted.isEmpty else { return }
+        save()
+        Logger.downloads.info("Deleted \(deleted.count) played downloads")
+    }
+
+    /// ⏭ can be undone (N101, A81): the episode keeps its file until `releaseKeptForUndo`.
+    func keepForUndo(_ episode: Episode) {
+        keptForUndo.insert(episode.uuid)
+    }
+
+    /// The undo is gone: a played episode that is not in the player loses its download now.
+    func releaseKeptForUndo(_ episode: Episode) {
+        guard keptForUndo.remove(episode.uuid) != nil else { return }
+        deletePlayedDownloadIfNeeded(episode)
+        save()
     }
 
     // MARK: After a launch

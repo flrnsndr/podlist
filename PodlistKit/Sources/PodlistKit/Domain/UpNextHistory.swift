@@ -1,30 +1,13 @@
 import Foundation
 
-/// An entry of Up Next: a single episode or a live block of a playlist (concept §4.4).
-public enum UpNextItem: Hashable, Sendable, Codable {
-    case episode(EpisodeID)
-    case playlist(PlaylistID)
-}
-
-/// The episode that is loaded in the player and the playlist block it came from
-/// (`nil` for a single episode).
-public struct NowPlaying: Hashable, Sendable, Codable {
-    public var episode: EpisodeID
-    public var playlist: PlaylistID?
-
-    public init(episode: EpisodeID, playlist: PlaylistID? = nil) {
-        self.episode = episode
-        self.playlist = playlist
-    }
-}
-
-/// The complete Up Next state. Playlist cursors (`resumeEpisode`) are not part of it:
-/// they belong to the playlists.
+/// The complete Up Next state (concept §4.4, ADR 0008): a flat list of episodes. The
+/// running episode is not among `items`, and no episode is in `items` twice (N105).
+/// Playlist resume points (`resumeEpisode`) are not part of it: they belong to the playlists.
 public struct UpNextState: Hashable, Sendable, Codable {
-    public var nowPlaying: NowPlaying?
-    public var items: [UpNextItem]
+    public var nowPlaying: EpisodeID?
+    public var items: [EpisodeID]
 
-    public init(nowPlaying: NowPlaying? = nil, items: [UpNextItem] = []) {
+    public init(nowPlaying: EpisodeID? = nil, items: [EpisodeID] = []) {
         self.nowPlaying = nowPlaying
         self.items = items
     }

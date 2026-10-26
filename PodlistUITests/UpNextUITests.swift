@@ -77,7 +77,7 @@ final class UpNextUITests: XCTestCase {
     }
 
     /// Scenario 4c via the ▶ of a playlist row: a long press, "Play After Current Episode";
-    /// the Queue tab shows the new playlist's block after the running episode.
+    /// the Queue tab shows the new playlist's episodes right after the running one (ADR 0008).
     @MainActor
     func testLongPressPlaysAPlaylistAfterTheCurrentEpisode() {
         let app = launch()
@@ -93,14 +93,14 @@ final class UpNextUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Playing: Lage der Nation 1"].exists, "the running playlist says so")
 
         openUpNext(in: app)
-        let blocks = app.descendants(matching: .any).matching(identifier: "upNextBlock")
-        XCTAssertTrue(blocks.matching(NSPredicate(format: "label == %@", "Playlist Entertainment")).firstMatch
-            .waitForExistence(timeout: 5), "Entertainment comes next")
-        XCTAssertTrue(app.staticTexts["Hotel Matze 1"].exists, "its episodes show")
+        let first = app.staticTexts["Hotel Matze 1"]
+        XCTAssertTrue(first.waitForExistence(timeout: 5), "Entertainment comes next")
+        XCTAssertLessThan(first.frame.minY, app.staticTexts["Lage der Nation 2"].frame.minY, "before the rest of News")
     }
 
+    /// "Add to End of Queue": the playlist's episodes follow the waiting ones as plain rows (A89).
     @MainActor
-    func testAppendingAPlaylistShowsItsBlockInUpNext() {
+    func testAppendingAPlaylistShowsItsEpisodesAtTheEndOfUpNext() {
         let app = launch(asking: true)
         playPlaylist("News", in: app)
         app.navigationBars.buttons["Playlists"].tap()
@@ -109,12 +109,9 @@ final class UpNextUITests: XCTestCase {
         assertMiniPlayer("Lage der Nation 1", in: app)
 
         openUpNext(in: app)
-        XCTAssertTrue(app.staticTexts["Lage der Nation 2"].waitForExistence(timeout: 5), "News block missing")
-        XCTAssertTrue(app.staticTexts["Hotel Matze 3"].exists, "the Entertainment block shows all its episodes")
-        let blocks = app.descendants(matching: .any).matching(identifier: "upNextBlock")
-        for name in ["News", "Entertainment"] {
-            XCTAssertTrue(blocks.matching(NSPredicate(format: "label == %@", "Playlist \(name)")).firstMatch.exists, "block \(name) missing")
-        }
+        XCTAssertTrue(app.staticTexts["Lage der Nation 2"].waitForExistence(timeout: 5), "the rest of News is missing")
+        XCTAssertTrue(app.staticTexts["Hotel Matze 3"].exists, "Entertainment shows all its episodes")
+        XCTAssertLessThan(app.staticTexts["Lage der Nation 3"].frame.minY, app.staticTexts["Hotel Matze 1"].frame.minY, "Entertainment comes last")
     }
 
     @MainActor
@@ -135,6 +132,37 @@ final class UpNextUITests: XCTestCase {
 
         tapUndo(in: app)
         XCTAssertTrue(app.staticTexts["Hotel Matze 2"].waitForExistence(timeout: 5), "undo did not restore the queue")
+    }
+
+    /// The running episode and the waiting ones share a list section: the running one swipes away (the
+    /// next one starts), and its details lead to the podcast through the podcast name.
+    @MainActor
+    func testRunningEpisodeSwipesAwayAndDetailsOpenThePodcast() {
+        let app = launch()
+        playPlaylist("News", in: app)
+        assertMiniPlayer("Lage der Nation 1", in: app)
+
+        // The player of the running episode opens its podcast the same way.
+        app.buttons["miniPlayer"].tapWhenReady()
+        app.buttons["playerPodcastLink"].tapWhenReady()
+        XCTAssertTrue(app.staticTexts["Episodes"].waitForExistence(timeout: 5), "the podcast details were not pushed from the player")
+        app.navigationBars.buttons.firstMatch.tap()
+        app.buttons["Done"].tapWhenReady()
+
+        openUpNext(in: app)
+        let running = app.descendants(matching: .any).matching(identifier: "upNextNowPlaying").firstMatch
+        XCTAssertTrue(running.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Lage der Nation 2"].exists, "the waiting episodes show with it")
+
+        running.tap()
+        app.buttons["episodePodcastLink"].tapWhenReady()
+        XCTAssertTrue(app.staticTexts["Episodes"].waitForExistence(timeout: 5), "the podcast details were not pushed")
+        app.navigationBars.buttons.firstMatch.tap()
+        app.buttons["Done"].tapWhenReady()
+
+        running.swipeLeft()
+        app.buttons["Delete"].tapWhenReady()
+        assertMiniPlayer("Lage der Nation 2", in: app)
     }
 }
 

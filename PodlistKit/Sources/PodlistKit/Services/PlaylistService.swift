@@ -105,6 +105,7 @@ public final class PlaylistService {
         guard !playlist.isEverything else { return }  // always "remove" (N99)
         playlist.playedPolicy = policy
         try context.save()
+        downloads?.evaluate()  // played downloads it kept may go (N32)
     }
 
     /// N31: on loads every unplayed episode of the playlist, now and from then on; for
@@ -134,39 +135,30 @@ public final class PlaylistService {
     }
 
     /// Chooses a playlist for "Alles" or leaves it out (N71). Its episodes stay in "Alles" if
-    /// another chosen playlist has them; the cursor of "Alles" moves past the ones that leave.
+    /// another chosen playlist has them. Up Next is not touched (A88).
     public func setExcluded(_ isExcluded: Bool, playlist: Playlist) throws {
         guard !playlist.isEverything else { return }
-        try UpNextStore(context: context).keepingEverythingsPlace {
-            playlist.isExcludedFromEverything = isExcluded
-            return try context.fetch(FetchDescriptor<Playlist>())
-        }
+        playlist.isExcludedFromEverything = isExcluded
         try context.save()
         downloads?.evaluate()  // what "Alles" loads may have changed (N88)
     }
 
     /// Chooses a podcast for "Alles" or leaves it out entirely (N71).
     public func setExcluded(_ isExcluded: Bool, podcast: Podcast) throws {
-        try UpNextStore(context: context).keepingEverythingsPlace {
-            podcast.isExcludedFromEverything = isExcluded
-            return try context.fetch(FetchDescriptor<Playlist>())
-        }
+        podcast.isExcludedFromEverything = isExcluded
         try context.save()
         downloads?.evaluate()  // N88
     }
 
-    /// Deletes the playlist with its entries and assignments; episodes stay. Its block
-    /// leaves Up Next; an episode running from it plays on as a single episode.
-    /// "Alles" cannot be deleted (A64); its cursor moves past the episodes that leave it.
+    /// Deletes the playlist with its entries and assignments; episodes stay, and so does
+    /// Up Next (A88). "Alles" cannot be deleted (A64).
     public func delete(_ playlist: Playlist) throws {
         guard !playlist.isEverything else { return }
-        let store = UpNextStore(context: context)
-        try store.keepingEverythingsPlace { try context.fetch(FetchDescriptor<Playlist>()).filter { $0 != playlist } }
-        try store.update { $0.playlistWillBeDeleted(playlist.playlistID) }
         let podcasts = (playlist.assignments ?? []).compactMap(\.podcast)
         context.delete(playlist)
         try context.save()
         try inboxAssignmentsChanged(podcasts)
+        downloads?.evaluate()  // played downloads it kept may go (N32)
     }
 
     /// Reorders the playlist list (`ordered` as displayed, SwiftUI `onMove` semantics).
@@ -231,7 +223,6 @@ public final class PlaylistService {
         let addedAt = now()
         context.insert(PlaylistEntry(playlist: playlist, episode: episode, position: position, addedAt: addedAt, origin: .manual))
         episode.inboxHandled()
-        try UpNextStore(context: context).episodesWereAdded([episode.episodeID], addedAt: addedAt)
         try context.save()
         downloads?.evaluate()
     }
@@ -251,6 +242,7 @@ public final class PlaylistService {
     public func remove(_ episode: Episode, from playlist: Playlist) throws {
         try PlaylistEntryRemoval.remove(episode, from: playlist, context: context)
         try context.save()
+        downloads?.evaluate()  // a played download the playlist kept may go (N32)
     }
 
     /// Reorders entries by hand; a sorted playlist becomes manual first (N96). The offsets
@@ -316,15 +308,5 @@ extension Playlist {
         guard sort != .manual else { return }
         for (index, entry) in sortedEntries.enumerated() { entry.position = Double(index) }
         sort = .manual
-    }
-
-    /// Moves the episode to `index` of the playlist's order (N94); a sorted playlist becomes
-    /// manual first (N96).
-    func move(_ episode: Episode, to index: Int) {
-        switchToManual()
-        let entries = sortedEntries
-        guard let from = entries.firstIndex(where: { $0.episode == episode }), from != index else { return }
-        let moved = Position.afterMove(entries.map(\.position), fromOffsets: [from], toOffset: index > from ? index + 1 : index)
-        for (offset, position) in moved { entries[offset].position = position }
     }
 }

@@ -3,16 +3,23 @@ import SwiftData
 import SwiftUI
 
 /// One playlist: its episodes in the chosen sort, playing it, sort menu, podcasts and
-/// settings (concept §4.2, §4.4, §6.6). "Alles" mirrors the other playlists: no removing, no
-/// reordering, one fixed sort, and what goes into it instead of its podcasts (§4.1, N70–N73, N97).
+/// settings (concept §4.2, §4.4, §6.6). While episodes of the playlist are in Up Next, the
+/// list has two parts (N106): "In der Warteschlange" in Up Next's order (dragging reorders
+/// Up Next, swiping takes an episode out of it) and "Danach", the draft in the playlist's sort.
+/// "Alles" mirrors the other playlists: no removing, no reordering of the draft, one fixed
+/// sort, and what goes into it instead of its podcasts (§4.1, N70–N73, N97).
 struct PlaylistDetailView: View {
     let playlist: Playlist
     /// All playlists, which "Alles" mirrors.
-    @Query private var allPlaylists: [Playlist]
+    @Query(Playlist.allWithEntries()) private var allPlaylists: [Playlist]
     @Query(filter: #Predicate<Podcast> { $0.isSubscribed && $0.isExcludedFromEverything })
     private var excludedPodcasts: [Podcast]
+    /// Only so the view updates when Up Next changes.
+    @Query(sort: \QueueItem.position) private var queueItems: [QueueItem]
     @Environment(PlaylistService.self) private var service
+    @Environment(UpNextService.self) private var upNext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.isTabSelected) private var isTabSelected
     @State private var selectedEpisode: Episode?
     @State private var isEditing = false
     /// Confirmed in the editor (N67): close the sheet, leave this view, then delete, so
@@ -20,19 +27,38 @@ struct PlaylistDetailView: View {
     @State private var isDeleting = false
     @State private var hidesPlayed = false
 
-    /// Dragging works in every playlist but "Alles"; a sorted one becomes manual (N96).
+    /// Dragging in the draft works in every playlist but "Alles"; a sorted one becomes manual (N96).
     private var canReorder: Bool { !playlist.isEverything }
 
-    private var visibleEpisodes: [Episode] {
-        let episodes = playlist.shownEpisodes(among: allPlaylists)
-        guard hidesPlayed, playlist.playedPolicy == .keep else { return episodes }
-        return episodes.filter { !$0.isPlayed }
+    private struct Parts {
+        /// Its episodes in Up Next, the running one first (empty if none is queued).
+        var live: [Episode] = []
+        /// The rest in the playlist's sort, with the filters of this screen.
+        var draft: [Episode] = []
+        var isRunning = false
+        var isEmpty: Bool { live.isEmpty && draft.isEmpty }
+    }
+
+    private var parts: Parts {
+        var parts = Parts()
+        let split = upNext.split(of: playlist, among: allPlaylists)
+        parts.live = split.live
+        let running = queueItems.first(where: \.isNowPlaying)?.episode
+        parts.isRunning = running != nil && split.live.first == running
+        let queued = Set(split.live.map(\.persistentModelID))
+        var draft = playlist.shownEpisodes(among: allPlaylists).filter { !queued.contains($0.persistentModelID) }
+        if hidesPlayed, playlist.playedPolicy == .keep { draft = draft.filter { !$0.isPlayed } }
+        parts.draft = draft
+        return parts
     }
 
     var body: some View {
-        let episodes = visibleEpisodes
+        // Every save in the app updates this view, also behind another tab; the sort over all
+        // entries ("Alles": every playlist's) and the resolver wait until the tab is in front.
+        let parts = isTabSelected ? parts : Parts()
+        let memberships = isTabSelected ? everythingMemberships : [:]
         Group {
-            if playlist.isEverything && episodes.isEmpty {
+            if playlist.isEverything && parts.isEmpty {
                 ContentUnavailableView(
                     "No Episodes", systemImage: playlist.symbolName,
                     description: Text("The episodes of all your playlists show up here."))
@@ -42,21 +68,11 @@ struct PlaylistDetailView: View {
                     description: Text("Episodes arrive from assigned podcasts or via \"Add to Playlist\"."))
             } else {
                 List {
-                    if playlist.sort == .podcast {
-                        ForEach(sections(of: episodes), id: \.podcastID) { section in
-                            Section(section.title) {
-                                ForEach(section.episodes) { row($0) }
-                                    .onMove(perform: canReorder ? { offsets, destination in
-                                        try? service.moveEntries(
-                                            of: playlist, shown: section.episodes, fromOffsets: offsets, toOffset: destination)
-                                    } : nil)
-                            }
-                        }
-                    } else {
-                        ForEach(episodes) { row($0) }
-                            .onMove(perform: canReorder ? { offsets, destination in
-                                try? service.moveEntries(of: playlist, shown: episodes, fromOffsets: offsets, toOffset: destination)
-                            } : nil)
+                    if !parts.live.isEmpty {
+                        liveSection(parts.live, in: memberships)
+                    }
+                    if !parts.draft.isEmpty {
+                        draftSections(parts.draft, in: memberships, titled: !parts.live.isEmpty)
                     }
                 }
                 .listStyle(.plain)
@@ -73,9 +89,9 @@ struct PlaylistDetailView: View {
             if isDeleting { try? service.delete(playlist) }
         }
         .toolbar {
-            if !episodes.isEmpty {
+            if !parts.isEmpty {
                 ToolbarItem(placement: .primaryAction) {
-                    PlaylistStartButton(playlist: playlist) { isRunning, isPlaying in
+                    PlaylistStartButton(playlist: playlist, isRunning: parts.isRunning) { isRunning, isPlaying in
                         if isRunning && isPlaying {
                             Label("Pause", systemImage: "pause.fill")
                         } else if isRunning {
@@ -93,22 +109,104 @@ struct PlaylistDetailView: View {
                         .toggleStyle(.button)
                 }
             }
-            if canReorder && !episodes.isEmpty {
+            if (canReorder && !parts.draft.isEmpty) || parts.live.count > (parts.isRunning ? 2 : 1) {
                 ToolbarItem(placement: .topBarTrailing) { EditButton() }
             }
             ToolbarItem(placement: .primaryAction) { optionsMenu }
         }
     }
 
-    private func row(_ episode: Episode) -> some View {
-        Button { selectedEpisode = episode } label: {
-            EpisodeRow(episode: episode, showsPodcast: true, playlist: playlist)
+    // MARK: Sections
+
+    /// "In der Warteschlange" (N106): the running episode stays put; the waiting ones are
+    /// dragged within Up Next (`UpNextService.move`), each swipes out of Up Next.
+    private func liveSection(_ live: [Episode], in memberships: [UUID: [Playlist]]) -> some View {
+        let running = queueItems.first(where: \.isNowPlaying)?.episode
+        let waiting = running != nil && live.first == running ? Array(live.dropFirst()) : live
+        return Section {
+            if waiting.count < live.count, let running = live.first {
+                row(running, in: memberships, remove: EpisodeRemoveAction(title: "Remove from Queue") {
+                    upNext.removeNowPlaying()
+                })
+                .moveDisabled(true)
+            }
+            ForEach(waiting) { episode in
+                row(episode, in: memberships, remove: EpisodeRemoveAction(title: "Remove from Queue") {
+                    upNext.remove(episode)
+                })
+            }
+            .onMove { offsets, destination in
+                guard let offset = offsets.first else { return }
+                var reordered = waiting
+                reordered.move(fromOffsets: offsets, toOffset: destination)
+                let episode = waiting[offset]
+                guard let index = reordered.firstIndex(of: episode) else { return }
+                upNext.move(episode, behind: index == 0 ? nil : reordered[index - 1])
+            }
+        } header: {
+            Text("In the Queue")
+                .accessibilityIdentifier("playlistLiveHeader")
         }
-        .buttonStyle(.plain)
+    }
+
+    /// The draft: the rest of the playlist in its sort, "Danach" when a live part is above it.
+    @ViewBuilder private func draftSections(_ draft: [Episode], in memberships: [UUID: [Playlist]], titled: Bool) -> some View {
+        if playlist.sort == .podcast {
+            if titled {
+                Section {} header: {
+                    Text("After That")
+                        .accessibilityIdentifier("playlistDraftHeader")
+                }
+            }
+            ForEach(sections(of: draft), id: \.podcastID) { section in
+                Section(section.title) {
+                    ForEach(section.episodes) { draftRow($0, in: memberships) }
+                        .onMove(perform: canReorder ? { offsets, destination in
+                            try? service.moveEntries(
+                                of: playlist, shown: section.episodes, fromOffsets: offsets, toOffset: destination)
+                        } : nil)
+                }
+            }
+        } else {
+            Section {
+                ForEach(draft) { draftRow($0, in: memberships) }
+                    .onMove(perform: canReorder ? { offsets, destination in
+                        try? service.moveEntries(of: playlist, shown: draft, fromOffsets: offsets, toOffset: destination)
+                    } : nil)
+            } header: {
+                if titled {
+                    Text("After That")
+                        .accessibilityIdentifier("playlistDraftHeader")
+                }
+            }
+        }
+    }
+
+    /// "Alles" mixes playlists: for each episode the playlists it is in, shown as pills (empty elsewhere).
+    private var everythingMemberships: [UUID: [Playlist]] {
+        guard playlist.isEverything else { return [:] }
+        var result: [UUID: [Playlist]] = [:]
+        for tag in allPlaylists.tags {
+            for entry in tag.entries ?? [] {
+                if let episode = entry.episode { result[episode.uuid, default: []].append(tag) }
+            }
+        }
+        return result
+    }
+
+    private func draftRow(_ episode: Episode, in memberships: [UUID: [Playlist]]) -> some View {
         // "Alles" never changes another playlist (N73).
-        .episodeActions(episode, remove: playlist.isEverything ? nil : EpisodeRemoveAction(title: "Remove") {
+        row(episode, in: memberships, remove: playlist.isEverything ? nil : EpisodeRemoveAction(title: "Remove") {
             try? service.remove(episode, from: playlist)
         })
+    }
+
+    private func row(_ episode: Episode, in memberships: [UUID: [Playlist]], remove: EpisodeRemoveAction?) -> some View {
+        Button { selectedEpisode = episode } label: {
+            EpisodeRow(episode: episode, showsPodcast: true, playlist: playlist, tags: memberships[episode.uuid] ?? [])
+        }
+        .buttonStyle(.plain)
+        .episodeActions(episode, remove: remove)
     }
 
     private struct EpisodeSection {

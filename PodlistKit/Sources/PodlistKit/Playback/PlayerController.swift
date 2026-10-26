@@ -207,8 +207,11 @@ public final class PlayerController {
             seekTarget = target
             seekGeneration += 1
             let generation = seekGeneration
-            player.seek(to: CMTime(seconds: target, preferredTimescale: 600)) { @Sendable [weak self] _ in
-                Task { @MainActor in self?.seekDidFinish(generation) }
+            // Exact: a seek with tolerance lands seconds off in MP3s with a variable bitrate, and
+            // a chapter jump from there aims at the same chapter start again (N26, A29).
+            player.seek(to: CMTime(seconds: target, preferredTimescale: 600), toleranceBefore: .zero, toleranceAfter: .zero) {
+                @Sendable [weak self] _ in
+                Task { @MainActor in self?.seekDidFinish(generation, target: target) }
             }
         } else if let episode {
             // Nothing loaded (restored after a restart): the next start begins here.
@@ -435,8 +438,12 @@ public final class PlayerController {
         lastSavedPosition = start
         duration = episode.duration
         pendingStart = start
-        // A downloaded episode plays from its file, everything else streams (A36).
-        let item = AVPlayerItem(url: downloads?.playableFileURL(for: episode) ?? episode.audioURL)
+        // A downloaded episode plays from its file, everything else streams (A36). A file is
+        // measured exactly (duration and seek points of MP3s with a variable bitrate); a stream
+        // would have to load all of it first.
+        let url = downloads?.playableFileURL(for: episode) ?? episode.audioURL
+        let options = url.isFileURL ? [AVURLAssetPreferPreciseDurationAndTimingKey: true] : nil
+        let item = AVPlayerItem(asset: AVURLAsset(url: url, options: options))
         item.audioTimePitchAlgorithm = .timeDomain
         observe(item)
         player.replaceCurrentItem(with: item)
@@ -477,12 +484,16 @@ public final class PlayerController {
         switch status {
         case .readyToPlay:
             if let episode, itemDuration.isFinite, itemDuration > 0 {
+                if let stated = episode.duration, abs(stated - itemDuration) >= 30 {
+                    Logger.playback.notice("Duration of \(episode.uuid, privacy: .public): \(stated, format: .fixed(precision: 0)) s stored, \(itemDuration, format: .fixed(precision: 0)) s measured")
+                }
                 duration = itemDuration
                 try? library.updateDuration(episode, to: itemDuration)
             }
             guard let start = pendingStart else { return }
             if start > 0 {
-                player.seek(to: CMTime(seconds: start, preferredTimescale: 600)) { @Sendable [weak self] _ in
+                player.seek(to: CMTime(seconds: start, preferredTimescale: 600), toleranceBefore: .zero, toleranceAfter: .zero) {
+                    @Sendable [weak self] _ in
                     Task { @MainActor in self?.finishPendingStart() }
                 }
             } else {
@@ -540,8 +551,13 @@ public final class PlayerController {
         isBuffering = status == .waitingToPlayAtSpecifiedRate
     }
 
-    private func seekDidFinish(_ generation: Int) {
-        if generation == seekGeneration { seekTarget = nil }
+    private func seekDidFinish(_ generation: Int, target: TimeInterval) {
+        guard generation == seekGeneration else { return }
+        seekTarget = nil
+        let landed = player.currentTime().seconds
+        if landed.isFinite, abs(landed - target) > 1 {
+            Logger.playback.notice("Seek to \(target, format: .fixed(precision: 1)) s landed at \(landed, format: .fixed(precision: 1)) s")
+        }
     }
 
     /// Internal for tests: the periodic time observer reported `seconds`.

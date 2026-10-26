@@ -21,9 +21,14 @@ public struct FeedLoader: Sendable {
         self.session = session
     }
 
+    /// ARD Sounds over the same session (feed URLs of ARD-backed podcasts, concept §4.13).
+    public var ard: ARDSoundsClient { ARDSoundsClient(session: session) }
+
     /// Feeds over plain `http` are loaded via `https` (App Transport Security); `feed:`,
-    /// `itpc:` and `pcast:` links become `https` too. Returns `nil` for anything that is no feed URL.
+    /// `itpc:` and `pcast:` links become `https` too. ARD Sounds links and URNs become their
+    /// canonical page (`ARDSounds.Reference.url`). Returns `nil` for anything that is no feed URL.
     public static func normalizedFeedURL(_ url: URL) -> URL? {
+        if let reference = ARDSounds.reference(from: url) { return reference.url }
         guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false),
               let scheme = components.scheme?.lowercased() else { return nil }
         switch scheme {

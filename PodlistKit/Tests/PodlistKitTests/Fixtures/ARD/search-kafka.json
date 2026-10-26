@@ -1,0 +1,171 @@
+{
+    "data": {
+        "search": {
+            "programSets": {
+                "totalCount": 10,
+                "nodes": [
+                    {
+                        "coreId": "urn:ard:show:2760782f4323167a",
+                        "title": "Kafka – Das Schloss",
+                        "synopsis": "Lesung zum 100. Todestag des Schriftstellers Franz Kafka\n\nMensch gegen Bürokratie. Den Landvermesser K. verschlägt es in eine Grafschaft und er muss sich dort mit der Schlossverwaltung auseinandersetzen. Aber der Beamtenapparat ist undurchdringlich ...",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/kafka-das-schloss/urn:ard:show:2760782f4323167a/",
+                        "feedUrl": null,
+                        "numberOfElements": 30,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2f3b9fbd0022f6cf?w={width}&ch=3825622bc87ab8e5",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:134b83b0d36910f6?w={width}&ch=49e9bb5d2825d4de"
+                        },
+                        "publicationService": {
+                            "title": "ARD",
+                            "organizationName": "ARD"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:2ca1f213691b72b6",
+                        "title": "Kafka – Der Verschollene",
+                        "synopsis": "Seinen Roman \"Der Verschollene\", hat Kafka zwischen 1911 und 1914 geschrieben.\n\nEs ist die Geschichte vom jungen Karl Roßmann, der von seinen Eltern in die USA geschickt wird, weil er mit einem Dienstmädchen ein Kind gezeugt hat. In den USA versucht ...",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/kafka-der-verschollene/urn:ard:show:2ca1f213691b72b6/",
+                        "feedUrl": null,
+                        "numberOfElements": 26,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:6248500b899ffe2c?w={width}&ch=129ab3693a324d19",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:c336ada6db6e7e89?w={width}&ch=dbcceaa5bb37564c"
+                        },
+                        "publicationService": {
+                            "title": "ARD",
+                            "organizationName": "ARD"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:7dadf951935d3f63",
+                        "title": "Kafka – Der Prozess",
+                        "synopsis": "\"Jemand musste Josef K. verleumdet haben, denn ohne dass er etwas Böses getan hätte, wurde er eines Morgens verhaftet.\" So beginnt einer der berühmtesten Romane der Literaturgeschichte: Franz Kafkas Roman \"Der Prozess\".\n\nFranz Kafka hat diesen Roman ...",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/kafka-der-prozess/urn:ard:show:7dadf951935d3f63/",
+                        "feedUrl": null,
+                        "numberOfElements": 18,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:509936a9b1d12c7b?w={width}&ch=11c47c3aede27627",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:60948d2b8f114e75?w={width}&ch=1c9f4e914492efbe"
+                        },
+                        "publicationService": {
+                            "title": "ARD",
+                            "organizationName": "ARD"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:3775fdf5095a9209",
+                        "title": "Das Schloss - Hörspiel nach Franz Kafka",
+                        "synopsis": "Franz Kafkas atemberaubende Geschichte über Bürokratie, Willkür und Fremdenhass. Der rätselhafte Neuankömmling K. betritt die kleine, kalte Welt des Grafen Westwest mit ihren eigenen und eingefahrenen Gesetzen. Den Makel eines ewig Überzähligen, des ...",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/das-schloss-hoerspiel-nach-franz-kafka/urn:ard:show:3775fdf5095a9209/",
+                        "feedUrl": "https://feeds.br.de/das-schloss-das-hoerspiel/feed.xml",
+                        "numberOfElements": 13,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:3ea281d6fac2a6cc?w={width}&ch=f2ca01df21b8ecd9",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2cc3866603ce1888?w={width}&ch=0f2027aabeadc125"
+                        },
+                        "publicationService": {
+                            "title": "Bayern 2",
+                            "organizationName": "BR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:f060c74e2eaabffd",
+                        "title": "Am Morgen vorgelesen",
+                        "synopsis": "Spannung und Fantasie zum Frühstück mit einem abwechslungsreichen Literatur-Programm. Salman Rushdie, Martin Walser, Sybille Bedford oder Franz Kafka - Neuerscheinungen und Texte der Weltliteratur, gesprochen von prominenten Schauspielern oder gelegentlic",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/am-morgen-vorgelesen/urn:ard:show:f060c74e2eaabffd/",
+                        "feedUrl": null,
+                        "numberOfElements": 5,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:b15d79ea916ff709?w={width}&ch=65d393f2639c9e00",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:a5828dd50b6f6d51?w={width}&ch=442a7aef8e00037a"
+                        },
+                        "publicationService": {
+                            "title": "NDR Kultur",
+                            "organizationName": "NDR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:1a371fb6bcc601fd",
+                        "title": "Kehlmanns Helden: Kafka vs. Hiphop",
+                        "synopsis": "Ein Podcast über Serien, Musik, Bücher und MrBeast mit Oscar und Daniel Kehlmann.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/kehlmanns-helden-kafka-vs-hiphop/urn:ard:show:1a371fb6bcc601fd/",
+                        "feedUrl": null,
+                        "numberOfElements": 6,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:470b1058359c52e6?w={width}&ch=1268ad5742bd75ad",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:c74673315d0e58bc?w={width}&ch=3815dce1dd0722fd"
+                        },
+                        "publicationService": {
+                            "title": "NDR",
+                            "organizationName": "NDR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:2c9890474ca4af1e",
+                        "title": "Der Process – Hörspiel nach Franz Kafka",
+                        "synopsis": "Einer der berühmtesten Sätze der Literaturgeschichte: \"Jemand musste Josef K. verläumdet haben, denn ohne dass er etwas Böses getan hätte, wurde er eines Morgens verhaftet.\" Vertreter einer mysteriösen Behörde eröffnen Josef K. an seinem 30. ...",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/der-process-hoerspiel-nach-franz-kafka/urn:ard:show:2c9890474ca4af1e/",
+                        "feedUrl": null,
+                        "numberOfElements": 16,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:55e689be69028d54?w={width}&ch=904630cb1d39a976",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:26bf456136128917?w={width}&ch=19b511435589d6b4"
+                        },
+                        "publicationService": {
+                            "title": "BR",
+                            "organizationName": "BR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:5e38c56cdbb15089",
+                        "title": "Fuck you very, very much! Die größten Beefs im Musikbiz",
+                        "synopsis": "In diesem Podcast geht’s um Mega-Hits, viel Geld, gekränkte Eitelkeiten und übergroße Egos. Und um menschliche Abgründe. Jennifer Weist und Markus Kavka erzählen die heftigsten Streitfälle des Musikbusiness'. Ring frei!",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/fuck-you-very-very-much-die-groessten-beefs-im-musikbiz/urn:ard:show:5e38c56cdbb15089/",
+                        "feedUrl": null,
+                        "numberOfElements": 38,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:86c9f62e92a2d656?w={width}&ch=7effa991c48884f1",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:c9f5db28d1966a61?w={width}&ch=309a25233926ebe2"
+                        },
+                        "publicationService": {
+                            "title": "ARD Kultur",
+                            "organizationName": "ARD"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:e81213a7a1cdd0c0",
+                        "title": "László Krasznahorkai: Zsömle ist weg",
+                        "synopsis": "Dass Onkel Józsi ein Nachkomme des Dschingis Khan ist, hat er lange geheim gehalten. Doch eines Tages kommen die Fans der Monarchie in sein ungarisches Dorf und wollen den rechtmäßigen König wieder auf den Thron bringen.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/laszlo-krasznahorkai-zsoemle-ist-weg/urn:ard:show:e81213a7a1cdd0c0/",
+                        "feedUrl": null,
+                        "numberOfElements": 11,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:920555bd24fa5f5e?w={width}&ch=13d3d09f6596a031",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:cf55f6e7eed59844?w={width}&ch=4fdbfd775a0eb1e9"
+                        },
+                        "publicationService": {
+                            "title": "MDR KULTUR",
+                            "organizationName": "MDR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:ca4e8c703352d62f",
+                        "title": "Die Kaulitz Story",
+                        "synopsis": "Bill und Tom Kaulitz wurden in Deutschland ebenso innig geliebt wie gehasst. „Die Kaulitz Story“ erzählt in sechs Folgen, wie aus zwei Teenagern aus der Provinz die Weltstars von Tokio Hotel in den Hollywood Hills wurden.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/die-kaulitz-story/urn:ard:show:ca4e8c703352d62f/",
+                        "feedUrl": null,
+                        "numberOfElements": 6,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:1328009cb65e9b09?w={width}&ch=dd4a59dd5ab384d9",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:a520f8ac7d485c3d?w={width}&ch=1aa8c4d324fa10b4"
+                        },
+                        "publicationService": {
+                            "title": "ARD",
+                            "organizationName": "ARD"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

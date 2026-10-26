@@ -137,3 +137,28 @@ extension XCUIElement {
         }
     }
 }
+
+extension LibraryUITests {
+    /// The layout menu: list rows open a podcast, and the choice goes back to tiles.
+    @MainActor
+    func testSwitchingLayoutAndOpeningAPodcast() {
+        let app = XCUIApplication()
+        app.launchArguments += ["-uiTesting", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launch()
+        let podcast = app.buttons["Methodisch inkorrekt"].firstMatch
+        XCTAssertTrue(podcast.waitForExistence(timeout: 5), "tiles by default")
+
+        app.buttons["libraryLayoutMenu"].tapWhenReady()
+        app.buttons["List"].tapWhenReady()
+        // A row's label also holds its tags and date.
+        let row = app.buttons.containing(NSPredicate(format: "label CONTAINS %@", "Methodisch inkorrekt")).firstMatch
+        XCTAssertTrue(row.waitForExistence(timeout: 5))
+        row.tap()
+        XCTAssertTrue(app.staticTexts["Methodisch inkorrekt 3"].waitForExistence(timeout: 5), "detail opens from a row")
+        app.navigationBars.buttons.firstMatch.tap()
+
+        app.buttons["libraryLayoutMenu"].tapWhenReady()
+        app.buttons["Large Tiles"].tapWhenReady()
+        XCTAssertTrue(podcast.waitForExistence(timeout: 5))
+    }
+}

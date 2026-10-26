@@ -150,7 +150,7 @@ public enum SchemaV6: VersionedSchema {
         /// Left out of the playlist "Alles"; an episode also in an included playlist stays
         /// (concept §4.1, N71). Hiding a playlist sets it (N72).
         public var isExcludedFromEverything: Bool = false
-        /// Wiedergabestand / cursor (concept §4.4).
+        /// Wiedergabestand (concept §4.4, N107): written when the playlist drops out of the queue.
         public var resumeEpisode: Episode?
         @Relationship(deleteRule: .cascade, inverse: \PlaylistEntry.playlist)
         public var entries: [PlaylistEntry]?
@@ -219,9 +219,9 @@ public enum SchemaV6: VersionedSchema {
         }
     }
 
-    /// Current Up Next, survives app restarts. A regular item has exactly one of `episode` /
-    /// `playlist`. The single item with `isNowPlaying` is the episode in the player and the
-    /// playlist block it came from (`playlist` optional), see `NowPlaying`.
+    /// Current Up Next, survives app restarts: one item per episode, the single item with
+    /// `isNowPlaying` is the episode in the player (ADR 0008). `playlist` is a block from
+    /// before ADR 0008, taken over on the first read (A90) and never written again.
     @Model public final class QueueItem {
         public var position: Double = 0
         public var isNowPlaying: Bool = false
@@ -284,7 +284,7 @@ public enum SchemaV6: VersionedSchema {
         public var endReasonRaw: String = ListeningEndReason.interrupted.rawValue
         public var episodeUUID: UUID = UUID()
         public var podcastUUID: UUID?
-        /// The playlist block the episode played in; `nil` = a single episode.
+        /// Until v0.6 the playlist block the episode played in; `nil` since v0.7 (ADR 0008).
         public var playlistUUID: UUID?
         public var episodeTitle: String = ""
         public var podcastTitle: String = ""

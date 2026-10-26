@@ -1,0 +1,171 @@
+{
+    "data": {
+        "search": {
+            "programSets": {
+                "totalCount": 35,
+                "nodes": [
+                    {
+                        "coreId": "urn:ard:show:d8388a516bfd5f29",
+                        "title": "Hoyzer – Verrat am Fußball",
+                        "synopsis": "Robert Hoyzer ist das Gesicht eines der größten Wettskandale des deutschen Fußballs. Für 67.000 Euro und einen Plasmafernseher manipulierte der ehemalige Schiedsrichter mehrere Spiele, auf die seine Freunde, die Brüder Ante, Milan und Philipp Sapina ...",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/hoyzer-verrat-am-fussball/urn:ard:show:d8388a516bfd5f29/",
+                        "feedUrl": null,
+                        "numberOfElements": 7,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:95c4664ecbcd06ca?w={width}&ch=663efb027ebfac3c",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:6f0550151d82a799?w={width}&ch=b6d8b85b49fa8ca7"
+                        },
+                        "publicationService": {
+                            "title": "ARD",
+                            "organizationName": "ARD"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:5975b9214866ad6c",
+                        "title": "Hyper, Hossa, Hallelujah",
+                        "synopsis": "Im Jahr 2025 ist die Stimme \"Instrument des Jahres\" und das feiern wir. SR kultur bringt saarländische Ensembles und Solokünstler*innen mit ihren Lieblingsliedern ins Radio, ins Fernsehen und ins Netz.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/hyper-hossa-hallelujah/urn:ard:show:5975b9214866ad6c/",
+                        "feedUrl": null,
+                        "numberOfElements": 42,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:ed6e0e305270a6d0?w={width}&ch=d64de05f15f3957d",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:75d5e17a892f5ce3?w={width}&ch=cf1fc15b7d131513"
+                        },
+                        "publicationService": {
+                            "title": "SR kultur",
+                            "organizationName": "SR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:04e531b6b8fefd7f",
+                        "title": "Die Odyssee erzählt von Meike Rötzer",
+                        "synopsis": "Meike Rötzer erzählt das berühmte antike Epos des griechischen Dichters Homer: Odysseus' Irrfahrten und die Rückkehr nach Ithaka. Dabei legt sie den Fokus auf die Frauenfiguren und fragt nach deren Spielräumen in der von Männern dominierten Ordnung.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/die-odyssee-erzaehlt-von-meike-roetzer/urn:ard:show:04e531b6b8fefd7f/",
+                        "feedUrl": null,
+                        "numberOfElements": 9,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:0764806ea2948b66?w={width}&ch=d3495a5eb59cc20f",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:509e762b65d34412?w={width}&ch=363c08189c3ff9e6"
+                        },
+                        "publicationService": {
+                            "title": "ARD",
+                            "organizationName": "ARD"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:c0adc1a800130110",
+                        "title": "Mensch Nachbar - der Podcast",
+                        "synopsis": "Was ist los bei den Nachbarn? Worüber wird in Polen und Tschechien, den Nachbarländern gerade geschimpft, gelacht oder gestritten? Darüber sprechen die Moderatoren mit drei Journalisten aus drei Ländern.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/mensch-nachbar-der-podcast/urn:ard:show:c0adc1a800130110/",
+                        "feedUrl": "https://www.mdr.de/api/v1/rss/podcasts/mmg/mensch-nachbar-audios-100",
+                        "numberOfElements": 103,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:e98e949c793416a4?w={width}&ch=a95492b3b6c9caa3",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:0d72b8e0c8c74216?w={width}&ch=c0a3db1a1f47824d"
+                        },
+                        "publicationService": {
+                            "title": "MDR SACHSEN",
+                            "organizationName": "MDR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:e97ea48a3fa37b41",
+                        "title": "Plattdeutsch",
+                        "synopsis": "Gespräche und Features zu einem zentralen Thema - in allen Plattdeutsch-Dialekten Niedersachsens vom ostfälischen Platt bis zum Ostfriesenplatt von der Küste.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/plattdeutsch/urn:ard:show:e97ea48a3fa37b41/",
+                        "feedUrl": "https://www.ndr.de/ndr1niedersachsen/podcast3042.xml",
+                        "numberOfElements": 85,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:6f42de1e7eb35d36?w={width}&ch=3eb8f04bc95a5fb7",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:afe2ca6c4d2e8232?w={width}&ch=91295fa6cd987cee"
+                        },
+                        "publicationService": {
+                            "title": "NDR 1 Niedersachsen",
+                            "organizationName": "NDR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:d6b35750a40244e1",
+                        "title": "Sprechen wir über Mord!?",
+                        "synopsis": "Der SWR Kultur True Crime Podcast",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/sprechen-wir-ueber-mord/urn:ard:show:d6b35750a40244e1/",
+                        "feedUrl": "crid://swr.de/25224908",
+                        "numberOfElements": 184,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:112a10b9704616f7?w={width}&ch=bd680b44e00f3bf2",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:9a5e9bc4d44d559a?w={width}&ch=9a4755ba149f3d41"
+                        },
+                        "publicationService": {
+                            "title": "SWR Kultur",
+                            "organizationName": "SWR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:0e9c79730ac33275",
+                        "title": "Der Wandel ist weiblich",
+                        "synopsis": "Frauen sind seit jeher der Hebel für gesellschaftlichen Wandel, besonders in armen, gewalttätigen oder unfreien Ländern. Was können wir von ihnen lernen? Wir hören den Frauen zu.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/der-wandel-ist-weiblich/urn:ard:show:0e9c79730ac33275/",
+                        "feedUrl": "https://www.ndr.de/nachrichten/info/podcasts/podcast5580.xml",
+                        "numberOfElements": 10,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:925fbfd8f1be4735?w={width}&ch=556f48b574484684",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:4a1765eda070f5eb?w={width}&ch=fdb7fddef2346847"
+                        },
+                        "publicationService": {
+                            "title": "NDR Info",
+                            "organizationName": "NDR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:c8c1b5d5514ef6cc",
+                        "title": "WDR 4 Bücher",
+                        "synopsis": "Lesenswerte Schmöker",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/wdr-4-buecher/urn:ard:show:c8c1b5d5514ef6cc/",
+                        "feedUrl": "crid://wdr.de/WDR-4-Bücher",
+                        "numberOfElements": 53,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:b20ab292d2dbd02a?w={width}&ch=b44a2ba222c0416d",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:7ec0057fca64959e?w={width}&ch=50c2bb672a632195"
+                        },
+                        "publicationService": {
+                            "title": "WDR 4",
+                            "organizationName": "WDR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:8153e22c42ca8c5d",
+                        "title": "Dein Thema. Deine Meinung.",
+                        "synopsis": "„Dein Thema, deine Meinung“ ist das neue Mitmach-Format von MDR Aktuell. MDRfragt-Mitglieder wählen das Diskussionsthema. Während der Sendung können Hörerinnen und Hörer ihre Meinungen, Erfahrungen und Fragen einbringen.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/dein-thema-deine-meinung/urn:ard:show:8153e22c42ca8c5d/",
+                        "feedUrl": null,
+                        "numberOfElements": 6,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:69bdfc1faaeb414c?w={width}&ch=1068143dd1401bf3",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:e20e4a16924af971?w={width}&ch=c00b12615496b2d6"
+                        },
+                        "publicationService": {
+                            "title": "MDR AKTUELL",
+                            "organizationName": "MDR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:0e2472c37893bc0e",
+                        "title": "Ferngespräche",
+                        "synopsis": "Einmal im Monat bittet radioeins-Moderator Holger Klein Kolleginnen und Kollegen aus aller Welt zum Gespräch. Wofür im täglichen Nachrichtengeschäft oft keine Zeit ist, wird hier ausführlich besprochen:\n\nWas lief in den vergangenen Jahren in ...",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/ferngespraeche/urn:ard:show:0e2472c37893bc0e/",
+                        "feedUrl": "https://www.radioeins.de/archiv/podcast/ferngespraeche.xml/feed=podcast.xml",
+                        "numberOfElements": 2,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:0d6921f5550c595e?w={width}&ch=938a0b468c5fc9ec",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:bf1af0d5d3ba7f89?w={width}&ch=fb35e05ba5082bec"
+                        },
+                        "publicationService": {
+                            "title": "radioeins",
+                            "organizationName": "RBB"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

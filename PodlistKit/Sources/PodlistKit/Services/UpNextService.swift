@@ -3,21 +3,50 @@ import Observation
 import SwiftData
 import os
 
-/// Up Next (concept §4.4, ADR 0004): every queue action builds a `QueueResolver` from the
-/// stored state, runs one operation, writes state, cursors and history back and tells the
-/// `PlayerController` what to play. The player reports back when an episode ends.
+/// Up Next (concept §4.4, ADR 0008): every queue action builds a `QueueResolver` from the
+/// stored state, runs one operation, writes state, resume points (N107) and history back
+/// and tells the `PlayerController` what to play. The player reports back when an episode
+/// ends. The queue never changes a playlist (N104).
 @MainActor @Observable
 public final class UpNextService {
-    /// The latest replacement or clearing, for the "Rückgängig" banner (concept §4.4).
+    /// The latest replacement, clearing or ⏭, for the "Rückgängig" banner (concept §4.4, N101).
     public struct UndoableChange: Hashable, Identifiable {
-        /// The state before the change; restoring it undoes the change.
+        public enum Kind: Hashable {
+            /// Up Next was replaced by this playlist.
+            case replaced(PlaylistID)
+            case cleared
+            /// ⏭ skipped this episode as heard.
+            case skipped(EpisodeID)
+        }
+
+        public let id = UUID()
+        public let kind: Kind
+        /// Up Next before the change; restoring it undoes a replacement or a clearing.
         public let snapshot: UpNextSnapshotValue
-        /// The playlist that replaced Up Next; `nil` when it was cleared.
-        public let playlist: PlaylistID?
-        public var id: Date { snapshot.createdAt }
+        /// The playlist that replaced Up Next; `nil` otherwise.
+        public var playlist: PlaylistID? {
+            if case .replaced(let id) = kind { id } else { nil }
+        }
     }
 
-    public private(set) var undoableChange: UndoableChange?
+    public private(set) var undoableChange: UndoableChange? {
+        didSet {
+            // Only the latest change can be undone: the download a skip kept may go now (A81).
+            guard let skipped = skipUndo, skipped.change != undoableChange?.id else { return }
+            skipUndo = nil
+            if let episode = try? store.episode(skipped.episode) { library.releaseDownloadKeptForUndo(episode) }
+        }
+    }
+
+    /// What undoing the latest ⏭ needs besides the queue state (A81).
+    private struct SkipUndo {
+        let change: UUID
+        let episode: EpisodeID
+        let before: LibraryService.ListeningState
+        let wasPlaying: Bool
+    }
+
+    @ObservationIgnored private var skipUndo: SkipUndo?
 
     private let context: ModelContext
     private let library: LibraryService
@@ -50,36 +79,84 @@ public final class UpNextService {
         QueueResolver.startAction(preference: preference, upNextIsEmpty: isEmpty())
     }
 
-    /// The playlist's block is running (its episode is in the player).
+    /// The running episode is one of the playlist's (N107: "Läuft").
     public func isRunning(_ playlist: Playlist) -> Bool {
-        (try? store.state().nowPlaying?.playlist) == playlist.playlistID
+        guard let resolver = try? store.resolver(), let current = resolver.state.nowPlaying else { return false }
+        return resolver.playlists[playlist.playlistID]?.episodes.contains(current) ?? false
     }
 
-    /// The episodes a block will play, as the Up Next list shows them.
-    public func upcomingEpisodes(of playlist: Playlist) -> [Episode] {
+    /// The playlist view's two parts (N106): its episodes in Up Next, in Up Next's order,
+    /// and the rest in the playlist's sort. `playlists`: all playlists, fetched with
+    /// `Playlist.allWithEntries` by the view.
+    public func split(of playlist: Playlist, among playlists: [Playlist]) -> (live: [Episode], draft: [Episode]) {
         do {
-            let ids = try store.resolver().upcomingEpisodes(of: playlist.playlistID)
-            let content = playlist.content(among: try context.fetch(FetchDescriptor<Playlist>()))
-            return ids.compactMap(content.episode)
+            let resolver = try store.resolver(among: playlists)
+            let episodes = store.episodesInPlaylists(playlists)
+            let parts = resolver.split(of: playlist.playlistID)
+            return (parts.live.compactMap { episodes[$0] }, parts.draft.compactMap { episodes[$0] })
         } catch {
-            Logger.upNext.error("Reading a block failed: \(String(describing: error), privacy: .public)")
-            return []
+            Logger.upNext.error("Reading the playlist's parts failed: \(String(describing: error), privacy: .public)")
+            return ([], [])
         }
     }
 
-    /// `upcomingEpisodes(of:)` for many playlists with one resolver (the Playlists tab).
-    public func upcomingEpisodes(of playlists: [Playlist]) -> [PlaylistID: [Episode]] {
+    /// What the Playlists tab shows of the queue, from one resolver.
+    public struct PlaylistsOverview {
+        /// The episode each playlist continues with (N107): its frontmost one in Up Next,
+        /// else its stored resume point, else its first episode; `nil` for an empty playlist.
+        public var next: [PlaylistID: Episode] = [:]
+        /// The playlists whose `next` is the running episode ("Läuft").
+        public var running: Set<PlaylistID> = []
+        /// The playlists whose `next` is waiting in Up Next ("Als Nächstes").
+        public var queued: Set<PlaylistID> = []
+        /// The playlists whose `next` is their stored resume point ("Weiter bei", N107).
+        public var resumed: Set<PlaylistID> = []
+        /// How many episodes "Alles" shows: its unplayed ones (N70).
+        public var everythingCount = 0
+
+        public init() {}
+    }
+
+    /// `playlists`: all playlists, as the tab lists them (fetched with `Playlist.allWithEntries`),
+    /// so nothing is fetched again here.
+    public func playlistsOverview(of playlists: [Playlist]) -> PlaylistsOverview {
         do {
-            let resolver = try store.resolver()
-            let all = try context.fetch(FetchDescriptor<Playlist>())
-            return Dictionary(playlists.map { playlist in
-                let content = playlist.content(among: all)
-                return (playlist.playlistID, resolver.upcomingEpisodes(of: playlist.playlistID).compactMap(content.episode))
-            }, uniquingKeysWith: { first, _ in first })
+            let resolver = try store.resolver(among: playlists)
+            let episodes = store.episodesInPlaylists(playlists)
+            var overview = PlaylistsOverview()
+            for playlist in playlists {
+                let id = playlist.playlistID
+                if let queued = resolver.nextQueuedEpisode(of: id) {
+                    overview.next[id] = episodes[queued]
+                    if queued == resolver.state.nowPlaying { overview.running.insert(id) } else { overview.queued.insert(id) }
+                } else if let resume = resolver.playlists[id]?.resumeEpisode {
+                    overview.next[id] = episodes[resume]
+                    overview.resumed.insert(id)
+                } else if let next = resolver.takeover(of: id).first {
+                    overview.next[id] = episodes[next]
+                }
+            }
+            if let everything = playlists.everything, let queued = resolver.playlists[everything.playlistID] {
+                overview.everythingCount = queued.episodes.count { !resolver.playedEpisodes.contains($0) }
+            }
+            return overview
         } catch {
-            Logger.upNext.error("Reading the blocks failed: \(String(describing: error), privacy: .public)")
-            return [:]
+            Logger.upNext.error("Reading the playlists failed: \(String(describing: error), privacy: .public)")
+            return PlaylistsOverview()
         }
+    }
+
+    /// Where a waiting episode stands in Up Next, for moving it back (inbox undo, N105).
+    public struct Place {
+        /// The episode before it; `nil` = it is the front.
+        public let predecessor: Episode?
+    }
+
+    /// The place of a waiting episode; `nil` when it is not waiting (running or not queued).
+    public func place(of episode: Episode) -> Place? {
+        guard let items = try? store.state().items, let index = items.firstIndex(of: episode.episodeID) else { return nil }
+        guard index > 0 else { return Place(predecessor: nil) }
+        return Place(predecessor: try? store.episode(items[index - 1]))
     }
 
     public func episode(_ id: EpisodeID) -> Episode? { try? store.episode(id) }
@@ -94,7 +171,7 @@ public final class UpNextService {
         let recorded = perform(recordsHistory: true) { resolver, history, now in
             resolver.playNow(playlist: id, startingAt: episode?.episodeID, history: &history, now: now)
         }
-        undoableChange = recorded.map { UndoableChange(snapshot: $0, playlist: id) }
+        undoableChange = recorded.map { UndoableChange(kind: .replaced(id), snapshot: $0) }
     }
 
     /// "Am Ende anhängen" (scenario 4a).
@@ -112,39 +189,27 @@ public final class UpNextService {
 
     // MARK: Episodes
 
-    /// "▶ Abspielen" (scenario 10); with `playlist` the ▶ of a row in that playlist, which
-    /// jumps inside it if it is running (scenario 12). The loaded episode just resumes.
-    /// Otherwise the episode's playlists follow the queue (N94).
+    /// "▶ Abspielen" (scenarios 10, 12): the episode plays now, the interrupted one comes back
+    /// in front; a waiting episode moves to the front (N105). The loaded episode just resumes.
     /// `time`: a chapter or a timestamp in the show notes was tapped (A30).
-    public func play(_ episode: Episode, in playlist: Playlist? = nil, at time: TimeInterval? = nil) {
+    public func play(_ episode: Episode, at time: TimeInterval? = nil) {
         if episode == player.episode {
             player.resume()
         } else {
             let id = episode.episodeID
-            let playlistID = playlist?.playlistID
-            perform { resolver, _, _ in
-                let command = resolver.play(id, inPlaylist: playlistID)
-                if resolver.state.nowPlaying?.playlist == nil { Self.playlistsFollow(episode, &resolver) }
-                return command
-            }
+            perform { resolver, _, _ in resolver.play(id) }
         }
         if let time, player.episode == episode { player.seek(to: time) }
     }
 
-    /// "Als Nächstes" (scenario 2). The episode's playlists follow the queue (N94); if its
-    /// running block plays it next anyway, it does not go into Up Next (N79, A79).
+    /// "Als Nächstes" (scenario 2, 2a): the episode moves right behind the running one (N105).
     public func playNext(_ episode: Episode) {
         let id = episode.episodeID
         episode.inboxHandled()
-        perform { resolver, _, _ in
-            guard resolver.state.nowPlaying?.episode != id else { return nil }
-            let command = resolver.playNext(id)
-            Self.playlistsFollow(episode, &resolver)
-            return command
-        }
+        perform { resolver, _, _ in resolver.playNext(id) }
     }
 
-    /// "Am Ende" (scenario 3).
+    /// "Am Ende" (scenario 3, 3a): the episode moves to the end (N105, A91).
     public func playLast(_ episode: Episode) {
         let id = episode.episodeID
         episode.inboxHandled()
@@ -161,10 +226,11 @@ public final class UpNextService {
 
     // MARK: Editing Up Next
 
-    /// Swiped away: a single episode or a block (the playlist keeps its cursor).
-    public func remove(_ item: QueueItem) {
-        guard let value = Self.value(of: item) else { return }
-        perform { resolver, _, _ in resolver.remove(value); return nil }
+    /// Swiped away in Up Next, or "Aus der Warteschlange" in a playlist view (scenario 17):
+    /// the waiting episode leaves Up Next and stays in its playlists at its draft place.
+    public func remove(_ episode: Episode) {
+        let id = episode.episodeID
+        perform { resolver, _, _ in resolver.remove(id); return nil }
     }
 
     /// The running episode swiped away: the next item takes its place (playing or paused,
@@ -174,20 +240,18 @@ public final class UpNextService {
         perform { resolver, _, _ in resolver.removeNowPlaying(isPlaying: isPlaying) }
     }
 
-    /// Reorders the waiting items (offsets as in the stored order, SwiftUI `onMove`). The
-    /// playlists of dragged single episodes follow (N94); a dragged block changes none.
+    /// Reorders the waiting episodes (offsets as in the stored order, SwiftUI `onMove`).
+    /// Changes no playlist (N104).
     public func moveItems(fromOffsets offsets: IndexSet, toOffset destination: Int) {
-        perform { resolver, _, _ in
-            let moved = offsets.compactMap { index -> EpisodeID? in
-                guard resolver.state.items.indices.contains(index), case .episode(let id) = resolver.state.items[index] else { return nil }
-                return id
-            }
-            resolver.moveItems(fromOffsets: offsets, toOffset: destination)
-            for id in moved {
-                if let episode = try? store.episode(id) { Self.playlistsFollow(episode, &resolver) }
-            }
-            return nil
-        }
+        perform { resolver, _, _ in resolver.moveItems(fromOffsets: offsets, toOffset: destination); return nil }
+    }
+
+    /// Dragged in the live part of a playlist view (N106): the waiting episode goes right
+    /// behind `predecessor` (the running episode or `nil`: to the front).
+    public func move(_ episode: Episode, behind predecessor: Episode?) {
+        let id = episode.episodeID
+        let predecessorID = predecessor?.episodeID
+        perform { resolver, _, _ in resolver.move(id, behind: predecessorID); return nil }
     }
 
     /// "Warteschlange leeren" (scenario 7): the running episode plays on; can be undone.
@@ -196,7 +260,7 @@ public final class UpNextService {
             resolver.clear(history: &history, now: now)
             return nil
         }
-        undoableChange = recorded.map { UndoableChange(snapshot: $0, playlist: nil) }
+        undoableChange = recorded.map { UndoableChange(kind: .cleared, snapshot: $0) }
     }
 
     /// "Rückgängig" or a tap in "Vorherige Warteschlangen" (scenario 5). Restoring is
@@ -208,36 +272,91 @@ public final class UpNextService {
         }
     }
 
-    /// The banner went away; the change stays in the history.
+    /// "Rückgängig" in the banner or by shaking: undoes the change if it is still the latest.
+    public func undo(_ change: UndoableChange) {
+        guard change.id == undoableChange?.id else { return }
+        switch change.kind {
+        case .replaced, .cleared: restore(change.snapshot)
+        case .skipped: undoSkip(change)
+        }
+    }
+
+    /// The banner went away; a replacement or clearing stays in the history.
     public func dismissUndo() {
         undoableChange = nil
     }
 
     // MARK: Player
 
-    /// ⏭ (scenario 9).
+    /// The episode ⏭ would play; `nil` disables ⏭ (N101).
+    public func episodeAfterSkip() -> Episode? {
+        do {
+            return try store.resolver().episodeAfterSkip().flatMap { try store.episode($0) }
+        } catch {
+            Logger.upNext.error("Reading the next episode failed: \(String(describing: error), privacy: .public)")
+            return nil
+        }
+    }
+
+    /// ⏭ (scenario 9, N101): the running episode counts as heard, like at its end: the
+    /// successor is decided first, then the episode is marked played (position 0) and the
+    /// played policy applies once it left the player. It does not come back; "Rückgängig"
+    /// takes all of it back (A81). Without a next episode nothing happens.
     public func skip() {
-        perform { resolver, _, _ in resolver.skip() }
+        player.saveProgress()
+        guard let resolver = try? store.resolver(), let current = resolver.state.nowPlaying,
+              resolver.episodeAfterSkip() != nil, let episode = try? store.episode(current) else { return }
+        let before = library.listeningState(of: episode)
+        let snapshot = UpNextSnapshotValue(createdAt: now(), reason: .restored, state: resolver.state)
+        let wasPlaying = player.wantsToPlay
+        library.keepDownloadForUndo(episode)
+        perform(endsEpisode: true, beforePlaying: { try self.library.episodeDidEnd(episode) }) { resolver, _, _ in
+            resolver.skip(isPlaying: wasPlaying)
+        }
+        let change = UndoableChange(kind: .skipped(current), snapshot: snapshot)
+        undoableChange = change
+        skipUndo = SkipUndo(change: change.id, episode: current, before: before, wasPlaying: wasPlaying)
+    }
+
+    /// Undo of ⏭ (A81): the episode gets back its played status, position and entries, and
+    /// Up Next is restored with the episode in the player at its position, playing or paused
+    /// as before. Setting Up Next back is recorded in the history, like every restore.
+    private func undoSkip(_ change: UndoableChange) {
+        guard let undo = skipUndo, undo.change == change.id else { return }
+        defer { undoableChange = nil }  // last: the download is released once the episode is back
+        do {
+            guard let episode = try store.episode(undo.episode) else { return }
+            player.saveProgress()
+            try library.restore(undo.before, of: episode)
+            perform(recordsHistory: true, startsAt: undo.before.position) { resolver, history, now in
+                let command = resolver.restore(change.snapshot, history: &history, now: now)
+                guard !undo.wasPlaying, case .play(let id) = command else { return command }
+                return .cue(id)
+            }
+        } catch {
+            Logger.upNext.error("Undoing ⏭ failed: \(String(describing: error), privacy: .public)")
+        }
     }
 
     /// After a launch: the episode that was running is back in the player, paused.
     public func restoreSession() {
         do {
+            // The first read of a store from before ADR 0008 takes its blocks over (A90): saved here.
             let state = try store.state()
-            guard let current = state.nowPlaying, let episode = try store.episode(current.episode) else { return }
+            if context.hasChanges { try context.save() }
+            guard let current = state.nowPlaying, let episode = try store.episode(current) else { return }
             player.cue(episode, at: library.startPosition(of: episode))
         } catch {
             Logger.upNext.error("Restoring Up Next failed: \(String(describing: error), privacy: .public)")
         }
     }
 
-    /// The player reached the end of `episode` ("Folge E endet"): the successor is decided
-    /// while the episode is still in its playlists, then it is marked played, the played
-    /// policy removes it and the successor plays; with `playsOn: false` (sleep timer, N27)
-    /// it is only cued.
+    /// The player reached the end of `episode` ("Folge E endet"): the next episode plays, the
+    /// ended one is marked played and the played policy removes it from its playlists; with
+    /// `playsOn: false` (sleep timer, N27) the next one is only cued.
     func episodeDidEnd(_ episode: Episode, playsOn: Bool = true) {
-        perform(beforePlaying: { try self.library.episodeDidEnd(episode) }) { resolver, _, _ in
-            guard resolver.state.nowPlaying?.episode == episode.episodeID else { return .stop }
+        perform(endsEpisode: true, beforePlaying: { try self.library.episodeDidEnd(episode) }) { resolver, _, _ in
+            guard resolver.state.nowPlaying == episode.episodeID else { return .stop }
             let command = resolver.episodeEnded()
             if !playsOn, case .play(let next) = command { return .cue(next) }
             return command
@@ -249,11 +368,16 @@ public final class UpNextService {
     /// Runs one resolver operation and carries out its result. Order matters: the player's
     /// progress is saved first, the new state is written before the player gets its command,
     /// and the played policy reaches an episode only after it left the player. Returns the
-    /// snapshot the operation recorded in the history, if any.
+    /// snapshot the operation recorded in the history, if any. `startsAt`: the episode of the
+    /// command starts there instead of at its start position (undo of ⏭). `endsEpisode`: the
+    /// running episode ends or is skipped, so a playlist it was the last of keeps no resume
+    /// point (N107).
     @discardableResult
     private func perform(
         recordsHistory: Bool = false,
         restartsLoadedEpisode: Bool = true,
+        startsAt position: TimeInterval? = nil,
+        endsEpisode: Bool = false,
         beforePlaying: () throws -> Void = {},
         _ operation: (inout QueueResolver, inout UpNextHistory, Date) -> PlaybackCommand?
     ) -> UpNextSnapshotValue? {
@@ -262,17 +386,19 @@ public final class UpNextService {
             var resolver = try store.resolver()
             var history = recordsHistory ? try store.history() : UpNextHistory()
             let previous = resolver.state.nowPlaying
+            let queuedBefore = store.queuedEpisodes(resolver)
             let latest = history.snapshots.first
             let command = operation(&resolver, &history, now())
-            try store.write(resolver)
+            try store.write(resolver, before: queuedBefore, endsEpisode: endsEpisode)
             if recordsHistory { try store.write(history) }
             try context.save()
             try beforePlaying()
             if let command {
-                try execute(command, nowPlaying: resolver.state.nowPlaying, restartsLoadedEpisode: restartsLoadedEpisode)
+                try execute(
+                    command, nowPlaying: resolver.state.nowPlaying, restartsLoadedEpisode: restartsLoadedEpisode, startsAt: position)
             }
-            if let previous, previous.episode != resolver.state.nowPlaying?.episode,
-               let episode = try store.episode(previous.episode), episode.isPlayed {
+            if let previous, previous != resolver.state.nowPlaying,
+               let episode = try store.episode(previous), episode.isPlayed {
                 try library.applyPlayedPolicy(to: episode)
             }
             return history.snapshots.first == latest ? nil : history.snapshots.first
@@ -284,7 +410,9 @@ public final class UpNextService {
 
     /// `restartsLoadedEpisode: false` (restoring): the episode that is already in the player
     /// stays as it is, playing or paused.
-    private func execute(_ command: PlaybackCommand, nowPlaying: NowPlaying?, restartsLoadedEpisode: Bool) throws {
+    private func execute(
+        _ command: PlaybackCommand, nowPlaying: EpisodeID?, restartsLoadedEpisode: Bool, startsAt position: TimeInterval?
+    ) throws {
         switch command {
         case .play(let id), .cue(let id):
             guard let episode = try store.episode(id) else {
@@ -295,7 +423,9 @@ public final class UpNextService {
             if case .play = command {
                 episode.inboxHandled()  // starting is enough (N46)
             }
-            if case .cue = command {
+            if let position {
+                if case .cue = command { player.cue(episode, at: position) } else { player.play(episode, at: position) }
+            } else if case .cue = command {
                 player.cue(episode, at: library.startPosition(of: episode))
             } else {
                 player.play(episode, at: try library.playbackWillStart(episode))
@@ -303,24 +433,6 @@ public final class UpNextService {
         case .stop:
             if nowPlaying == nil { player.stop() } else { player.pause() }
         }
-    }
-
-    /// N94: the episode got its place in Up Next; it moves next to its neighbours there in
-    /// each of its playlists ("Alles" has no order of its own). The only place where Up Next
-    /// changes a playlist, and only its order; a sorted one becomes manual (N96).
-    private static func playlistsFollow(_ episode: Episode, _ resolver: inout QueueResolver) {
-        let playlists = (episode.playlistEntries ?? []).compactMap(\.playlist).tags
-        let orders = resolver.episodeWasPlaced(episode.episodeID, in: playlists.map(\.playlistID))
-        for playlist in playlists {
-            guard let order = orders[playlist.playlistID], let index = order.firstIndex(of: episode.episodeID) else { continue }
-            playlist.move(episode, to: index)
-        }
-    }
-
-    private static func value(of item: QueueItem) -> UpNextItem? {
-        if let episode = item.episode { return .episode(episode.episodeID) }
-        if let playlist = item.playlist { return .playlist(playlist.playlistID) }
-        return nil
     }
 }
 

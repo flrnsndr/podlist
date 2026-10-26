@@ -1,0 +1,218 @@
+{
+    "data": {
+        "programSet": {
+            "coreId": "urn:ard:show:2de1ca294641f598",
+            "title": "Loriot 100 – mehr Lametta mit Ariana Baborie",
+            "synopsis": "Zu seinem 100. Geburtstag hört sich Ariana Baborie durch Loriots beste Sketche – mit prominenten Gästinnen und Gästen. Funktioniert sein Humor auch heute noch?",
+            "sharingUrl": "https://www.ardsounds.de/sendung/loriot-100-mehr-lametta-mit-ariana-baborie/urn:ard:show:2de1ca294641f598/",
+            "numberOfElements": 8,
+            "lastItemAdded": null,
+            "lastItemModified": "2025-10-26T12:38:29.549281+01:00",
+            "feedUrl": null,
+            "image": {
+                "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:0cb589306fcecb7f?w={width}&ch=3d8d07bfd0130d24",
+                "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:731815bda091cf8e?w={width}&ch=d6560ddc99b463a5"
+            },
+            "publicationService": {
+                "title": "ARD",
+                "organizationName": "ARD"
+            },
+            "items": {
+                "nodes": [
+                    {
+                        "coreId": "urn:ard:publication:ac985508934e1068",
+                        "title": " Oliver Kalkofe: \"Weihnachten bei Hoppenstedts versuche ich jedes Jahr zu gucken\"",
+                        "summary": "Das große Finale: Geburtstagsparty und Weihnachtsfeier in einem! Oliver Kalkofe erklärt Ariana die Faszination der Hoppenstedts und sprüht vor Liebe für Loriot.\r\n",
+                        "synopsis": "Das große Finale: Geburtstagsparty und Weihnachtsfeier in einem! Oliver Kalkofe erklärt Ariana die Faszination der Hoppenstedts und sprüht vor Liebe für Loriot.\r\n",
+                        "description": "Es wird weihnachtlich! Passend dazu gibt es ein echtes Wunder: Oliver Kalkofe blickt auf die Mattscheibe und hat nichts auszusetzen, sondern ist plötzlich ganz selig und lammfromm. Das liegt aber an Loriot. Denn Olli ist ein echter \"Loriot-Fanboy\", wie er Ariana gesteht. Er sammelt sogar Loriot-Figuren, die es bis zu \"Bares für Rares\" geschafft haben. Seit Jugendtagen begleitet ihn das Thema Probewohnen und Probeliegen. Über die schönsten Pannen im TV und die heutige \"Scheißegaligkeit\" kommen die beiden in besinnliche Stimmung und Olli berichtet von seinen Weihnachtsritualen und welche Parallelen es zu Familie Hoppenstedt gibt. Zum Finale klären die beiden die alles entscheidende Frage: War früher wirklich mehr Lametta?\r\n",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:1ba5b1490f6d5151/",
+                        "publishDate": "2023-12-09T00:00:00+01:00",
+                        "duration": 2432,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:528a6a068f47d651?w={width}&ch=74fd7306cae8369f",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:d804c5f11bd38692?w={width}&ch=8a2da4c24bf0a5c8"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/129/129123/129123_00514844_audio_stereo.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/129/129123/129123_00514845_audio_mono.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:1313407904642c85",
+                        "title": "Shakuntala Banerjee: Was Loriot uns über Olaf Scholz verrät",
+                        "summary": "Mit seiner irren Bundestagsrede hat Loriot gezeigt: Politik kann lustig sein! Ariana und ihre Gästin, ZDF-Journalistin Shakuntala Banerjee, beweisen es erneut. \r\n",
+                        "synopsis": "Mit seiner irren Bundestagsrede hat Loriot gezeigt: Politik kann lustig sein! Ariana und ihre Gästin, ZDF-Journalistin Shakuntala Banerjee, beweisen es erneut. \r\n",
+                        "description": "Es passiert Unglaubliches auf unserer Geburtstags-Podcast-Party für Loriot. Es wird nämlich NICHT über Politik geredet oder gestritten. Sondern über Politik gelacht! Dass das auch möglich ist, zeigen uns Ariana und ihre großartige Gästin, die Politik-Journalistin Shakuntala Banerjee. Während Shakuntala im ZDF-Hauptstadtstudio immer neutral bleibt, will ihr das bei Loriot einfach nicht gelingen: Sie war schon immer Fan! Bis heute versucht sie deshalb, alle von Loriots Humor zu überzeugen und hat dafür sogar mal eine Testanordnung in Belgien durchgeführt. Was sie mit Loriots Lottogewinner Erwin Lindemann gemein hat und ob Politiker auch Schauspieler sein müssen, verrät sie heute Ariana. Warum das eindeutige Fazit lautet, dass es nicht falsch sein kann, sich in diesen Zeiten mit Loriot zu beschäftigen, erfahrt ihr ausgewogen und objektiv in dieser Episode.\r\n",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:d07e3a2c1f3f8f77/",
+                        "publishDate": "2023-12-02T00:00:00+01:00",
+                        "duration": 1827,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:76d1c62e308e33f3?w={width}&ch=26f3ced0bac5c7c0",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:5eadf9a3ac621961?w={width}&ch=90864b1f9cea0e9a"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/130/130081/130081_00518057_audio_stereo.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/130/130081/130081_00518056_audio_mono.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:ea0134fcbdf4f3c7",
+                        "title": "Nelson Müller: \"Das Ei hat großes Konfliktpotenzial!\"",
+                        "summary": "Frühstücks-Ei, Nudel und Kosakenzipfel: Mit TV-Sternekoch Nelson Müller lässt sich Ariana die schmackhaftesten Loriot-Sketche auf der Zunge zergehen.",
+                        "synopsis": "Frühstücks-Ei, Nudel und Kosakenzipfel: Mit TV-Sternekoch Nelson Müller lässt sich Ariana die schmackhaftesten Loriot-Sketche auf der Zunge zergehen.",
+                        "description": "Keine Party ohne Essen! Zum Glück hat Loriot immer ordentlich aufgetischt: Vom Frühstücks-Ei, über die Nudel bis zum Kosakenzipfel – ein humoristisches 3-Gänge-Menü! Aber schmeckt das heute alles noch oder ist etwas davon ungenießbar geworden? Das beurteilt Ariana mit TV-Sternekoch Nelson Müller. Zunächst schwätzen die beiden aber schwäbische Mundart, bevor es an die eingemachten Sketche, vom sprechenden Hund Bello bis zu Herrn Müller-Lüdenscheidt, geht. Dabei erfahren wir auch, was Loriot für Nelsons Familie von \"Pretty Woman\" unterschieden hat. Aber auch die großen Fragen unserer Zeit werden beantwortet: Wie lange braucht ein richtiges Frühstücks-Ei? Und: Wie teilt man einen Kosakenzipfel? Um es mit Loriot zu sagen: \"Ganz heiße Eisen!\" Warum nicht nur die Ente, sondern auch der Wein draußen bleiben muss, erfahrt ihr am Ende dieser sehr leckeren Episode.\r\n\r\nFoto Nelson Müller: Nina Stiller\r\n",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:de00265a173be6c0/",
+                        "publishDate": "2023-11-25T00:00:00+01:00",
+                        "duration": 1781,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:ef5037507b6fee97?w={width}&ch=8b3cfb3a21aca1e3",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:65de98a7effbbe54?w={width}&ch=ed96bcf3c833792e"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/129/129822/129822_00517175_audio_stereo.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/129/129822/129822_00517176_audio_mono.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:58254656ebdc248b",
+                        "title": "Annette Frier: \"Loriot ist der Weg aus der Krise!\"",
+                        "summary": "Liebe, Sex – und Loriot! Mit Schauspielerin Annette Frier nimmt Ariana heute Loriots Hang zu lustig-lüsternen Doppeldeutigkeiten auseinander.",
+                        "synopsis": "Liebe, Sex – und Loriot! Mit Schauspielerin Annette Frier nimmt Ariana heute Loriots Hang zu lustig-lüsternen Doppeldeutigkeiten auseinander.",
+                        "description": "Es geht zur Sache bei Loriots Geburtstagsparty! Denn es geht um Liebe, Leidenschaft und Sex, den ersten Kuss und eindeutige Doppeldeutigkeiten. Dafür hat sich Ariana die Schauspielerin und Komikerin Annette Frier eingeladen. Eindeutig die bestmögliche Gästin: Annettes erster Satz im Leben war \"Das Bild hängt schief\"! Den Sketch \"Die zwei Cousinen\" kann sie sogar auswendig – und nimmt uns spontan mit nach North Cothelstone Hall. Es ist nicht die einzige Reise in dieser Episode, denn auch eine Nudel hat Wandertag. Als Annette verrät, warum sie heulend vor Lachen eingeschlafen ist, platzt plötzlich ein völlig unerwarteter Besuch herein. Ein Real Life Loriot Moment! Passenderweise erfahren wir heute, wie Loriot uns einen Ausweg aus jeder Krise zeigt, zum Beispiel aus einer Riesensauerei in der Küche. Und schließlich geht's auch noch um Anarchie und Revolution! Viva Loriot!\r\n\r\nFoto Annette Frier: Mathias Bothor",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:672acb64b3c37454/",
+                        "publishDate": "2023-11-18T00:00:00+01:00",
+                        "duration": 1492,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:aa897b2ca0de3e56?w={width}&ch=107f45e1de9373e3",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:2007d4db344a6e95?w={width}&ch=299e2c4d72415208"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/129/129121/129121_00514840_audio_stereo.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/129/129121/129121_00514841_audio_mono.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:bb3d0a21fac77283",
+                        "title": "Ralph Ruthe: \"Loriot ist gehobener Quatsch!\"",
+                        "summary": "Mit Cartoonist Ralph Ruthe geht Ariana in dieser Folge Loriots Zeichenkünsten nach – und seinen Tieren: dem Mops und den gefräßigen Steinläusen.",
+                        "synopsis": "Mit Cartoonist Ralph Ruthe geht Ariana in dieser Folge Loriots Zeichenkünsten nach – und seinen Tieren: dem Mops und den gefräßigen Steinläusen.",
+                        "description": "Es wird tierisch! Ariana hat Ralph Ruthe zu Loriots Geburtstagsparty eingeladen und gemeinsam mit Deutschlands erfolgreichstem Cartoonisten schaut sie sich die Steinlaus genauer an. Natürlich geht es auch um Loriots Lieblingshund: den Mops und seine bewegte Vergangenheit als Elchmops. Mit Phantasie-Tieren kennen sich auch Ariana und Ralph aus und verraten, was sie sich ausgedacht haben. Außerdem freut sich Ralph über versteckte Anspielungen bei Loriot - und ist ihm darüber hinaus auch sehr dankbar. Denn Loriot hat etwas in ihm geöffnet. Aber stimmt es, dass er deshalb gleich ein Foto von Loriot auf dem Nachttisch stehen hat? Nachdem Ariana überlegt, wie sie den Mops-Sketch auf TikTok bringt, möchte sie von Ralph noch wissen, ob Loriot nicht eigentlich der German Banksy war.\r\n\r\n(Foto Ralph Ruthe: Tanja Wesel)\r\n",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:02a089573ebc36e4/",
+                        "publishDate": "2023-11-11T00:00:00+01:00",
+                        "duration": 1910,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:7ad7fa4c0a99bd97?w={width}&ch=e98d9391fe1bc875",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:0eab86e519e72d93?w={width}&ch=20074dd43b5dc93f"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/129/129122/129122_00514842_audio_stereo.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/129/129122/129122_00514843_audio_mono.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:7e1574eab74b4ad6",
+                        "title": "Maria Clara Groppler: \"Loriot ist ein cooler Brie!\"",
+                        "summary": "Wie kommt Loriot bei Generation Z an? Maria Clara Groppler, Comedienne, 24, ist nicht mit Loriot-Sketchen aufgewachsen. Sie fällt ein überraschendes Urteil.",
+                        "synopsis": "Wie kommt Loriot bei Generation Z an? Maria Clara Groppler, Comedienne, 24, ist nicht mit Loriot-Sketchen aufgewachsen. Sie fällt ein überraschendes Urteil.",
+                        "description": "Auf Loriots Geburtstagsfeier beginnt der harte Party-Teil! Ariana hat sich dafür Stand-Up-Comedienne Maria Clara Groppler eingeladen. Die 24-jährige war zwar als Kind auf dem Vicco-von-Bülow-Gymnasium, ist ansonsten aber nicht mit Loriot-Sketchen aufgewachsen. Zum 100. Geburtstag von Loriot schließt sie nun diese Bildungslücke und fällt dann mit Ariana zusammen ein sehr überraschendes Urteil. Außerdem geht es um Deutsche im Urlaub – und es gibt Tipps für die perfekte englische Aussprache. Maria beichtet ihre kriminelle Energie und legt ein umfassendes Geständnis ab. Was Loriot aber mit einem französischen Weichkäse zu tun hat und warum Bosse ein Lied über eine Wanne ohne Wasser singen sollten, erfahrt ihr in dieser Folge. Ganz am Ende gibt es sogar noch einen Special-Überraschungsauftritt!\r\n\r\n(Foto Maria Clara Groppler: Alexander Partic)",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:e92c3eacd524d554/",
+                        "publishDate": "2023-11-04T00:04:00+01:00",
+                        "duration": 1469,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:3cc786014cd5cf6f?w={width}&ch=9b2469a1838bf5ce",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:b64929f6d8419fac?w={width}&ch=69ba0ce52a14d9bf"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/128/128766/128766_00513683_audio_stereo.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/128/128766/128766_00513684_audio_mono.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:249f177bbbf4c47e",
+                        "title": "Stefan Lukschy, würde Loriot gendern?",
+                        "summary": "Was war Loriots Geheimnis? Stefan Lukschy muss es wissen. Loriots Freund und Wegbegleiter kennt nicht nur seinen Humor, sondern auch den Menschen dahinter.",
+                        "synopsis": "Was war Loriots Geheimnis? Stefan Lukschy muss es wissen. Loriots Freund und Wegbegleiter kennt nicht nur seinen Humor, sondern auch den Menschen dahinter.",
+                        "description": "Ariana Baborie will es wissen! Wer war der Mann, der Deutschland bis heute zum Lachen bringt und dessen Sketche noch immer überall zitiert werden? Was ist das Geheimnis hinter Loriot? Der heutige Gast MUSS es wissen: Stefan Lukschy. Er war mit Loriot nicht nur eng befreundet – die beiden waren sogar ein bisschen verwandt. Ariana und Stefan klären, wie Loriot privat so war – und wie er vermutlich seinen 100. Geburtstag gefeiert hätte. Bevor die beiden sich über die Vorzüge eines Jodeldiploms austauschen, wirds nochmal brisant: Ariana möchte wissen, ob Loriot wohl heute gendern würde.",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:7c30923571dace5a/",
+                        "publishDate": "2023-11-04T00:02:00+01:00",
+                        "duration": 2288,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:30c2c916535aedf6?w={width}&ch=638a0c3793f6fd40",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:ba4c66e1c7cebd35?w={width}&ch=ba1e43d256949a03"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/128/128764/128764_00513680_audio_stereo.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/128/128764/128764_00513679_audio_mono.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    },
+                    {
+                        "coreId": "urn:ard:publication:2ec91e1ea2da7acd",
+                        "title": "Christoph Maria Herbst: \"Loriot war ein Universalgenie!\"",
+                        "summary": "Stromberg-Darsteller Christoph Maria Herbst ist Loriot-Ultra. Er verrät, was er an Loriot bewundert. Und performt plötzlich seinen Lieblingssketch!",
+                        "synopsis": "Stromberg-Darsteller Christoph Maria Herbst ist Loriot-Ultra. Er verrät, was er an Loriot bewundert. Und performt plötzlich seinen Lieblingssketch!",
+                        "description": "Comedienne Ariana Baborie hat Loriot einiges zu verdanken: Der berühmte Nudel-Sketch war ihr persönlicher Comedy-Durchbruch – als Kind am heimischen Küchentisch! Jetzt schmeißt sie für Loriots 100. Geburtstag eine Party. Als erster Gast kommt Loriots größter Bewunderer: Christoph Maria Herbst. Für den Stromberg-Darsteller ist Loriot der Godfather des deutschen Humors. Er verrät Ariana, was Stromberg mit Loriot zu tun hat. Die beiden sprechen außerdem über die Rolle von Evelyn Hamann. Und plötzlich performt Christoph live seinen Lieblingssketch von Loriot – was für ein Geschenk zum 100. Geburtstag! \r\n \r\nFoto Christoph Maria Herbst: Christian Hartmann",
+                        "sharingUrl": "https://www.ardsounds.de/episode/urn:ard:episode:f277ee3a9e431988/",
+                        "publishDate": "2023-11-04T00:00:00+01:00",
+                        "duration": 2418,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:a04309fbd20615e9?w={width}&ch=e92834ac70a71477",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:256a7f3015f7eb8d?w={width}&ch=cb402b69cf7dbb13"
+                        },
+                        "audios": [
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/128/128765/128765_00513682_audio_stereo.mp3",
+                                "mimeType": "audio/mp3"
+                            },
+                            {
+                                "url": "https://rbprogressivedl-a.akamaihd.net/clips/128/128765/128765_00513681_audio_mono.mp3",
+                                "mimeType": "audio/mp3"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}

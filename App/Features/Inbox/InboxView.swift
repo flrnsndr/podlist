@@ -7,7 +7,7 @@ import SwiftUI
 /// below, reduced, until the app goes to the background (A67). Episodes of hidden playlists'
 /// podcasts only show under their chip (N65).
 struct InboxView: View {
-    @Query(InboxService.candidates(now: .now)) private var candidates: [Episode]
+    @Query(InboxService.candidates(now: .now)) private var episodes: [Episode]
     @Query(sort: \Playlist.displayOrder) private var allPlaylists: [Playlist]
     /// Tags only: "Alles" is no tag (concept §4.1).
     private var playlists: [Playlist] { allPlaylists.tags }
@@ -20,8 +20,11 @@ struct InboxView: View {
     @State private var addingToPlaylist: Episode?
 
     var body: some View {
-        let shown = InboxService.shown(candidates, filter: filter, now: .now)
-        let recentlyDone = inbox.recentlyDone(candidates, filter: filter, now: .now)
+        // Once per update: the rules' values of all candidates, then the lists from them.
+        let now = Date.now
+        let candidates = InboxService.Candidates(episodes)
+        let shown = candidates.shown(filter: filter, now: now)
+        let recentlyDone = inbox.recentlyDone(candidates, filter: filter, now: now)
         NavigationStack {
             // Always a list, so pull to refresh also works on an empty inbox.
             List {
@@ -71,7 +74,7 @@ struct InboxView: View {
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button("Add All") { try? inbox.addAll(shown) }
-                        .disabled(InboxRules.episodesToAddAll(shown.compactMap(\.inboxValue)).isEmpty)
+                        .disabled(!candidates.canAddAll(filter: filter, now: now))
                         .accessibilityIdentifier("inboxAddAll")
                 }
             }

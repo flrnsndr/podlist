@@ -3,22 +3,6 @@ import PodlistKit
 import SwiftData
 import SwiftUI
 
-/// The storage screen from the library toolbar, with its own navigation.
-struct StorageSheet: View {
-    @Environment(\.dismiss) private var dismiss
-
-    var body: some View {
-        NavigationStack {
-            StorageView()
-                .toolbar {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button("Done") { dismiss() }
-                    }
-                }
-        }
-    }
-}
-
 /// Speicher (concept §4.7, N100): one block with the used space split into unplayed, played
 /// and free, the warnings and "Gespielte löschen"; running downloads with pause; the downloads
 /// by podcast as a table (N91). Deleting single episodes happens in a podcast's downloads.

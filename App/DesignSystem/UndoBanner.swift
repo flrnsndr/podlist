@@ -3,7 +3,8 @@ import SwiftUI
 
 extension View {
     /// "Warteschlange durch *Sport* ersetzt · Rückgängig" for a few seconds after Up Next was
-    /// replaced or cleared (concept §4.4), and the same for the actions of the inbox (N50).
+    /// replaced or cleared (concept §4.4) or ⏭ skipped an episode (N101), and the same for the
+    /// actions of the inbox (N50) and the "+" actions of the episode details (N103).
     /// One change at a time: a new one replaces the former. With `registersUndo` the change
     /// also goes to the system's undo (shake, three-finger gesture); one place per window does that.
     func undoBanner(registersUndo: Bool = false) -> some View {
@@ -20,7 +21,7 @@ private enum UndoableChange: Equatable {
 
     var id: String {
         switch self {
-        case .upNext(let change): "upNext-\(change.id.timeIntervalSinceReferenceDate)"
+        case .upNext(let change): "upNext-\(change.id)"
         case .inbox(let action): "inbox-\(action.id)"
         }
     }
@@ -70,11 +71,10 @@ private struct UndoBannerModifier: ViewModifier {
                 guard let change else { return }
                 switch change {
                 case .upNext(let change):
-                    let snapshot = change.snapshot
                     undoManager.registerUndo(withTarget: upNext) { service in
-                        MainActor.assumeIsolated { service.restore(snapshot) }
+                        MainActor.assumeIsolated { service.undo(change) }
                     }
-                    undoManager.setActionName(String(localized: change.playlist == nil ? "Clear Queue" : "Replace Queue"))
+                    undoManager.setActionName(Self.actionName(for: change))
                 case .inbox(let action):
                     undoManager.registerUndo(withTarget: inbox) { service in
                         MainActor.assumeIsolated {
@@ -91,6 +91,14 @@ private struct UndoBannerModifier: ViewModifier {
         upNext.dismissUndo()
         inbox.dismissUndo()
     }
+
+    private static func actionName(for change: UpNextService.UndoableChange) -> String {
+        switch change.kind {
+        case .replaced: String(localized: "Replace Queue")
+        case .cleared: String(localized: "Clear Queue")
+        case .skipped: String(localized: "Skip Episode")
+        }
+    }
 }
 
 private struct UndoBanner: View {
@@ -105,7 +113,7 @@ private struct UndoBanner: View {
             undoManager?.removeAllActions(withTarget: upNext)
             undoManager?.removeAllActions(withTarget: inbox)
             switch change {
-            case .upNext(let change): upNext.restore(change.snapshot)
+            case .upNext(let change): upNext.undo(change)
             case .inbox: try? inbox.undo()
             }
         }
@@ -113,11 +121,19 @@ private struct UndoBanner: View {
 
     private var symbolName: String {
         switch change {
-        case .upNext(let change): change.playlist == nil ? "trash" : "arrow.triangle.2.circlepath"
+        case .upNext(let change):
+            switch change.kind {
+            case .replaced: "arrow.triangle.2.circlepath"
+            case .cleared: "trash"
+            case .skipped: "forward.end.alt"
+            }
         case .inbox(let action):
             switch action.kind {
             case .added, .addedAll: "text.badge.plus"
             case .playNext: "text.line.first.and.arrowtriangle.forward"
+            case .addedAndQueued(_, let next, let queued):
+                next ? "text.line.first.and.arrowtriangle.forward"
+                    : queued ? "text.line.last.and.arrowtriangle.forward" : "text.badge.plus"
             case .discarded, .discardedAll: "tray.and.arrow.up"
             }
         }
@@ -126,9 +142,15 @@ private struct UndoBanner: View {
     private var message: String {
         switch change {
         case .upNext(let change):
-            guard let id = change.playlist else { return String(localized: "Queue cleared") }
-            let name = upNext.playlist(id)?.displayName ?? ""
-            return String(localized: "Queue replaced by \(name)")
+            switch change.kind {
+            case .replaced(let id):
+                let name = upNext.playlist(id)?.displayName ?? ""
+                return String(localized: "Queue replaced by \(name)")
+            case .cleared:
+                return String(localized: "Queue cleared")
+            case .skipped:
+                return String(localized: "Skipped and marked as played")
+            }
         case .inbox(let action):
             return Self.message(for: action, upNext: upNext)
         }
@@ -144,6 +166,16 @@ private struct UndoBanner: View {
             return String(localized: "New episodes added to their playlists")
         case .playNext:
             return String(localized: "Plays next")
+        case .addedAndQueued(let playlists, let next, let queued):
+            let names = playlists.compactMap { upNext.playlist($0)?.displayName }
+            let list = names.formatted(.list(type: .and))
+            switch (names.isEmpty, next, queued) {
+            case (true, true, _): return String(localized: "Plays next")
+            case (true, false, _): return String(localized: "At the end of the queue")
+            case (false, true, _): return String(localized: "Added to \(list), plays next")
+            case (false, false, true): return String(localized: "Added to \(list), at the end of the queue")
+            case (false, false, false): return String(localized: "Added to \(list)")
+            }
         case .discarded:
             return String(localized: "Removed from the inbox")
         case .discardedAll(let count):

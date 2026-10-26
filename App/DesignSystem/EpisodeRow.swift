@@ -53,7 +53,7 @@ struct EpisodeRow: View {
                 AddToPodcastPlaylistsButton(episode: episode)
             }
             if showsPlayButton {
-                PlayButton(episode: episode, playlist: playlist)
+                PlayButton(episode: episode)
             }
         }
         .opacity(episode.isPlayed ? 0.6 : 1)
@@ -117,11 +117,10 @@ struct EpisodeStatusLine: View {
     }
 }
 
-/// ▶ / ❚❚ for one episode: "▶ Abspielen" (scenario 10), in the running playlist a jump
-/// inside it (scenario 12).
+/// ▶ / ❚❚ for one episode: "▶ Abspielen" (scenario 10); a queued episode moves to the front
+/// (N105), the interrupted one comes back behind it (scenario 12).
 struct PlayButton: View {
     let episode: Episode
-    var playlist: Playlist?
     @Environment(PlayerController.self) private var player
     @Environment(UpNextService.self) private var upNext
 
@@ -129,7 +128,7 @@ struct PlayButton: View {
 
     var body: some View {
         Button {
-            isPlayingThis ? player.pause() : upNext.play(episode, in: playlist)
+            isPlayingThis ? player.pause() : upNext.play(episode)
         } label: {
             Image(systemName: isPlayingThis ? "pause.circle.fill" : "play.circle.fill")
                 .font(.title)

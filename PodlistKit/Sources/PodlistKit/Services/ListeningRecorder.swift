@@ -15,6 +15,9 @@ public final class ListeningRecorder {
     private struct Snapshot {
         var episodeUUID: UUID
         var podcastUUID: UUID?
+        /// Until v0.6 the playlist block the episode played in; a flat queue (ADR 0008) has no
+        /// block, so sessions since then store none and the statistics attribute them by the
+        /// podcast's playlists (`ListeningStats+Context.attribution`).
         var playlistUUID: UUID?
         var episodeTitle: String
         var podcastTitle: String
@@ -73,17 +76,9 @@ public final class ListeningRecorder {
 
     private func makeSnapshot(of episode: Episode) -> Snapshot {
         Snapshot(
-            episodeUUID: episode.uuid, podcastUUID: episode.podcast?.uuid, playlistUUID: playlist(of: episode),
+            episodeUUID: episode.uuid, podcastUUID: episode.podcast?.uuid, playlistUUID: nil,
             episodeTitle: episode.title, podcastTitle: episode.podcast?.title ?? "",
             publishedAt: episode.publishedAt, duration: episode.duration)
-    }
-
-    /// The playlist block the episode plays in (Up Next's now playing item).
-    private func playlist(of episode: Episode) -> UUID? {
-        let descriptor = FetchDescriptor<QueueItem>(predicate: #Predicate { $0.isNowPlaying })
-        let item = try? context.fetch(descriptor).first
-        guard item?.episode == episode else { return nil }
-        return item?.playlist?.uuid
     }
 
     private func write(_ reason: ListeningEndReason) {

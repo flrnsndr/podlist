@@ -1,7 +1,8 @@
 import PodlistKit
 import SwiftUI
 
-/// Sleep timer in the player (A27): minutes, end of chapter, end of episode (N27).
+/// Sleep timer in the player (A27): minutes, end of chapter, end of episode (N27). Off, only
+/// its icon; running, the icon and what is left.
 struct SleepTimerMenu: View {
     @Environment(PlayerController.self) private var player
 
@@ -34,6 +35,7 @@ struct SleepTimerMenu: View {
                 .labelStyle(.titleAndIcon)
             } else {
                 Label("Sleep Timer", systemImage: "moon.zzz")
+                    .labelStyle(.iconOnly)
             }
         }
         .accessibilityIdentifier("sleepTimerButton")

@@ -36,6 +36,10 @@ public enum FeedFailureReason: Hashable, Sendable {
             self = .notAFeed
         case FeedParserError.malformed:
             self = .malformedFeed
+        case ARDSoundsError.notFound:
+            self = .notFound
+        case ARDSoundsError.malformed:
+            self = .notAFeed
         case FeedRefreshError.invalidURL:
             self = .invalidURL
         case let error as URLError:

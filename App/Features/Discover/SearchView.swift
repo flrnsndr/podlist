@@ -1,7 +1,8 @@
 import PodlistKit
 import SwiftUI
 
-/// Suche: the iTunes directory; a pasted feed URL opens its preview directly.
+/// Suche: the iTunes directory and ARD Sounds in one list (concept §4.13); a pasted feed URL
+/// or ARD Sounds link opens its preview directly.
 struct SearchView: View {
     @State private var model = SearchModel()
     @Environment(\.podcastDirectory) private var directory
@@ -55,10 +56,10 @@ final class SearchModel {
     private(set) var results: [PodcastSearchResult] = []
     private(set) var status = Status.idle
 
-    /// The query, if it is a feed URL.
+    /// The query, if it is a feed URL or an ARD Sounds link or URN.
     var feedURL: URL? {
         let text = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard text.contains("://") || text.hasPrefix("feed:") else { return nil }
+        guard text.contains("://") || text.hasPrefix("feed:") || ARDSounds.reference(from: text) != nil else { return nil }
         return URL(string: text).flatMap(FeedLoader.normalizedFeedURL)
     }
 

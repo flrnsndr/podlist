@@ -180,14 +180,15 @@ struct PlaylistServiceTests {
         #expect(list.entries?.count == 1)
     }
 
-    @Test func removingByHandMovesTheCursorOn() throws {
+    /// A stored resume point whose episode left the playlist reads as empty (N107).
+    @Test func removingByHandLeavesTheResumePointBehind() throws {
         let (_, episodes) = insertPodcast(episodes: 3)
         let list = try service.createPlaylist(name: "L", colorKey: "blue", symbolName: "star")
         for episode in episodes { try service.add(episode, to: list) }
         list.resumeEpisode = episodes[1]
         try service.remove(episodes[1], from: list)
         #expect(list.sortedEntries.compactMap(\.episode) == [episodes[0], episodes[2]])
-        #expect(list.resumeEpisode == episodes[2], "concept §4.4: the playlist keeps its place")
+        #expect(list.queuePlaylist(among: [list]).resumeEpisode == nil)
         #expect(try context.fetchCount(FetchDescriptor<Episode>()) == 3)
     }
 
@@ -247,7 +248,6 @@ struct PlaylistServiceTests {
 
         try library.markPlayed(episodes[0])
         #expect(remove.sortedEntries.compactMap(\.episode) == [episodes[1]])
-        #expect(remove.resumeEpisode == episodes[1], "the cursor moves on before the removal")
         #expect(keep.sortedEntries.compactMap(\.episode) == episodes)
     }
 

@@ -1,0 +1,171 @@
+{
+    "data": {
+        "search": {
+            "programSets": {
+                "totalCount": 37,
+                "nodes": [
+                    {
+                        "coreId": "urn:ard:show:75f9f79b2d858366",
+                        "title": "Krimi Hörspiel",
+                        "synopsis": "Die ganze Welt des Krimis in einem Podcast: Von Agatha Christie bis Donna Leon und Kommissar Sörensen. Spannende Originalhörspiele, internationale Bestseller, literarische Thriller, Komödien und Klassiker aus den Archiven. Jeden Montag ein neuer Krimi.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/krimi-hoerspiel/urn:ard:show:75f9f79b2d858366/",
+                        "feedUrl": "https://www.deutschlandfunkkultur.de/podcast-krimi-hoerspiel.4326.de.podcast.xml",
+                        "numberOfElements": 93,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:5134123842b7f034?w={width}&ch=ec4c119e95851991",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:bb5abd0839682d15?w={width}&ch=4f50c742fe24c61d"
+                        },
+                        "publicationService": {
+                            "title": "Deutschlandfunk Kultur",
+                            "organizationName": "Deutschlandradio"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:8cd8d6a55c95ff23",
+                        "title": "Knallhart - ARD Thriller-Hörspiele",
+                        "synopsis": "Düstere Psychothriller, abgründige Mindfucks und bizarre Bluttaten: Der Krimi-Podcast mit Triggerwarnung, für hartgesottene Binge Listener. Hard-boiled auch mal ohne Happyend - und garantiert nichts für schwache Nerven!",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/knallhart-ard-thriller-hoerspiele/urn:ard:show:8cd8d6a55c95ff23/",
+                        "feedUrl": "crid://wdr.de/mdb/359/krimi",
+                        "numberOfElements": 111,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:801489fc8bd61f4d?w={width}&ch=f62f2d1d21cda4c6",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:4f5d21f1255d1189?w={width}&ch=7837fde5afaa2c8c"
+                        },
+                        "publicationService": {
+                            "title": "ARD",
+                            "organizationName": "ARD"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:8103e24c954e0404",
+                        "title": "Professor van Dusen",
+                        "synopsis": "Sie sind ein unschlagbares Team: Der berühmte Wissenschaftler und Amateurkriminologe van Dusen und sein Begleiter Hutchinson Hatch. In unserer Hörspielreihe ermitteln sie in 79 Fällen auf der ganzen Welt.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/professor-van-dusen/urn:ard:show:8103e24c954e0404/",
+                        "feedUrl": "https://www.hoerspielundfeature.de/krimihoerspiele-professor-van-dusen-deutschlandfunk-kultur-100.xml",
+                        "numberOfElements": 76,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:b60efe9c9de59a9e?w={width}&ch=b365e31df2eeb835",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:ec8f9dda0e398e6c?w={width}&ch=82dee47ef5655d5f"
+                        },
+                        "publicationService": {
+                            "title": "Deutschlandfunk",
+                            "organizationName": "Deutschlandradio"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:e01e22ff9344b2a4",
+                        "title": "Kein Mucks! – Der Krimi-Podcast mit Bastian Pastewka",
+                        "synopsis": "Bastian Pastewka, der Kenner der anspruchsvollen Krimi-Unterhaltung, präsentiert spannende Kriminalhörspiele aus den Archiven der ARD.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/kein-mucks-der-krimi-podcast-mit-bastian-pastewka/urn:ard:show:e01e22ff9344b2a4/",
+                        "feedUrl": "https://www.radiobremen.de/podcast/kein-mucks/",
+                        "numberOfElements": 132,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:ac118b9d97f877c3?w={width}&ch=bad929f2407c4b25",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:269f246a036c2700?w={width}&ch=1ef68895e8f3c3c1"
+                        },
+                        "publicationService": {
+                            "title": "ARD",
+                            "organizationName": "ARD"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:b1e64d8fa156b4f2",
+                        "title": "In 5 Tagen Mord – Die Krimi-Challenge mit KI",
+                        "synopsis": "Comedian Janina Rook und BR-Netzexperte Christian Schiffer stellen sich einer fast unlösbaren Challenge: Innerhalb von 5 Tagen sollen sie ein Krimi-Hörspiel im Stile alter Radio-Krimis aus den 50er- und 60er-Jahren schreiben. Der Haken: Die beiden ...",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/in-5-tagen-mord-die-krimi-challenge-mit-ki/urn:ard:show:b1e64d8fa156b4f2/",
+                        "feedUrl": null,
+                        "numberOfElements": 7,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:464b939067ed4725?w={width}&ch=321c69381c8d2056",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:e7c2e77d2622d2be?w={width}&ch=4c12093ec2743a85"
+                        },
+                        "publicationService": {
+                            "title": "BR",
+                            "organizationName": "BR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:c9781a94e1e80c14",
+                        "title": "1LIVE Caiman Club",
+                        "synopsis": "Skrupellos - Polit-Thriller über Berliner Lobbyisten",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/1live-caiman-club/urn:ard:show:c9781a94e1e80c14/",
+                        "feedUrl": "crid://wdr.de/1live-caiman-club",
+                        "numberOfElements": 25,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:8c3886a6922c24fd?w={width}&ch=0678aff0cb7f54a7",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:b807d127cda194e8?w={width}&ch=169c06c2b1cc2a8b"
+                        },
+                        "publicationService": {
+                            "title": "1LIVE",
+                            "organizationName": "WDR"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:b739e5e19ba7f23c",
+                        "title": "Grimms Märchen & Verbrechen",
+                        "synopsis": "Hausmärchen meets True Crime! Kassel, 1807: Die Brüder Grimm leben in einer unruhigen Zeit und arbeiten an ihrer Sammlung grausiger Märchen als sie unversehens zu Kriminal-Ermittlern werden. Beruhen die Märchen in Wirklichkeit auf wahren Verbrechen?",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/grimms-maerchen-und-verbrechen/urn:ard:show:b739e5e19ba7f23c/",
+                        "feedUrl": null,
+                        "numberOfElements": 54,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:667d2ae76952a4f1?w={width}&ch=f393fbd06c3076c9",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:507a4b7f4b4514dd?w={width}&ch=ef8f28f9a9913287"
+                        },
+                        "publicationService": {
+                            "title": "ARD",
+                            "organizationName": "ARD"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:315352a230d4aa06",
+                        "title": "Die Glitzer-Gang! - Actionreiche Hörspielreihe für Kinder ab 9 Jahren und die ganze Familie",
+                        "synopsis": "In Glitzercity wird es nie langweilig! Richie, Sohn der superreichen \"Kings\", sein treuer Roboter-Butler \"Robo\" und Amira, ein Mädchen mit top technischem Verständnis – das ist die \"Glitzer-Gang\". Gemeinsam lösen sie in Glitzercity knifflige Fälle.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/die-glitzer-gang-actionreiche-hoerspielreihe-fuer-kinder-ab-9-jahren-und-die-ganze-familie/urn:ard:show:315352a230d4aa06/",
+                        "feedUrl": null,
+                        "numberOfElements": 10,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:de29c6fc68ca9209?w={width}&ch=ce856847d4224fa8",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:e82ea7644add2225?w={width}&ch=6497dda14e915ffd"
+                        },
+                        "publicationService": {
+                            "title": "ARD",
+                            "organizationName": "ARD"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:5012a809f8b1971e",
+                        "title": "Kult! – Klassiker der Weltliteratur als Hörbücher",
+                        "synopsis": "Hier findet ihr Lesungen der Weltliteratur, vorgetragen von herausragenden Interpreten. Wir bringen Evergreens und literarische Wiederentdeckungen zum Klingen – vom antiken Abenteuer bis zur frühen Science-Fiktion.",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/kult-klassiker-der-weltliteratur-als-hoerbuecher/urn:ard:show:5012a809f8b1971e/",
+                        "feedUrl": "crid://mdr.de/sendereihen/kultur-lesungen",
+                        "numberOfElements": 270,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:0ff74b777302c0c6?w={width}&ch=3526fe36cd5ba215",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:1fa060b8aaac036b?w={width}&ch=480b19b820ea2211"
+                        },
+                        "publicationService": {
+                            "title": "ARD",
+                            "organizationName": "ARD"
+                        }
+                    },
+                    {
+                        "coreId": "urn:ard:show:ef3205b54d97da0e",
+                        "title": "Jagd auf Fantomas | ARD Hörspiel-Serie",
+                        "synopsis": "Ganz Frankreich steht Kopf im Hörspiel - Adventskalender mit den Comedy All Stars Annette Frier, Christoph Maria Herbst, Bastian Pastewka und Kai Magnus Sting.\r\n",
+                        "sharingUrl": "https://www.ardsounds.de/sendung/jagd-auf-fantomas-oder-ard-hoerspiel-serie/urn:ard:show:ef3205b54d97da0e/",
+                        "feedUrl": null,
+                        "numberOfElements": 25,
+                        "image": {
+                            "url": "https://api.ardmediathek.de/image-service/images/urn:ard:image:fba3e9fafa7fc4d8?w={width}&ch=3236039be5e2a970",
+                            "url1X1": "https://api.ardmediathek.de/image-service/images/urn:ard:image:cda48862d86874f4?w={width}&ch=7709d55bf6634ca5"
+                        },
+                        "publicationService": {
+                            "title": "ARD",
+                            "organizationName": "ARD"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

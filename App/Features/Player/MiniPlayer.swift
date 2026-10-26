@@ -7,6 +7,7 @@ import SwiftUI
 struct MiniPlayer: View {
     let openPlayer: () -> Void
     @Environment(PlayerController.self) private var player
+    @Environment(\.tabViewBottomAccessoryPlacement) private var placement
 
     var body: some View {
         if let episode = player.episode {
@@ -36,6 +37,14 @@ struct MiniPlayer: View {
                 .accessibilityHint(Text("Opens the player"))
                 .accessibilityIdentifier("miniPlayer")
 
+                // Collapsed into the tab bar there is room for play and skip forward only.
+                if placement != .inline {
+                    Button { player.skipBackward() } label: {
+                        Image(systemName: "gobackward.\(Int(player.skipBackwardInterval))")
+                            .symbolEffect(.bounce, value: player.buttonPulses.skipBackward)
+                    }
+                    .accessibilityLabel(Text("Skip Back"))
+                }
                 PlayPauseButton()
                 Button { player.skipForward() } label: {
                     Image(systemName: "goforward.\(Int(player.skipForwardInterval))")

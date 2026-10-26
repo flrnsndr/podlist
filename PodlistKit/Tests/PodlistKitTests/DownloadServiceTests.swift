@@ -159,14 +159,28 @@ struct DownloadServiceTests {
     /// N31: turning auto-download on loads every unplayed episode already in the playlist.
     @Test func autoDownloadLoadsEveryUnplayedEpisode() async throws {
         let playlist = try makePlaylist(autoDownload: false)
-        let (a, b, played) = (try makeEpisode("a"), try makeEpisode("b"), try makeEpisode("c"))
-        for episode in [a, b, played] { try playlists.add(episode, to: playlist) }
-        try playlists.setPlayedPolicy(.keep, of: playlist)
-        try library.markPlayed(played)
+        let (a, b) = (try makeEpisode("a"), try makeEpisode("b"))
+        for episode in [a, b] { try playlists.add(episode, to: playlist) }
 
         try playlists.setAutoDownload(true, of: playlist)
         try await waitUntil { a.downloadState == .downloaded && b.downloadState == .downloaded }
-        #expect(played.downloadState == .none, "played episodes are not loaded, also in keep playlists")
+    }
+
+    /// A keep playlist with auto-download loads its played episodes too, and keeps them
+    /// (Florian, after N101); a played episode somewhere else is not loaded.
+    @Test func aKeepPlaylistWithAutoDownloadLoadsPlayedEpisodes() async throws {
+        let keep = try makePlaylist(autoDownload: false)
+        try playlists.setPlayedPolicy(.keep, of: keep)
+        let (played, elsewhere) = (try makeEpisode("a"), try makeEpisode("b"))
+        try playlists.add(played, to: keep)
+        try library.markPlayed(played)
+        try library.markPlayed(elsewhere)
+
+        try playlists.setAutoDownload(true, of: keep)
+        try await waitUntil { played.downloadState == .downloaded }
+        #expect(elsewhere.downloadState == .none)
+        downloads.evaluate()
+        #expect(played.downloadState == .downloaded, "a check does not delete it again")
     }
 
     @Test func anEpisodeAddedToAnAutoDownloadPlaylistIsLoaded() async throws {
@@ -287,6 +301,45 @@ struct DownloadServiceTests {
         #expect((playlist.entries ?? []).contains { $0.episode == episode }, "the entry stays")
     }
 
+    /// A keep playlist that downloads automatically keeps a played episode's file, as long as
+    /// the episode is in it and the playlist stays like that (Florian, after N101).
+    @Test func aKeepPlaylistWithAutoDownloadKeepsAPlayedDownload() async throws {
+        var pairs: [(Playlist, Episode)] = []
+        for guid in ["a", "b", "c", "d"] {
+            let keep = try makePlaylist(autoDownload: true)
+            try playlists.setPlayedPolicy(.keep, of: keep)
+            let episode = try makeEpisode(guid)
+            try playlists.add(episode, to: keep)
+            pairs.append((keep, episode))
+        }
+        let episodes = pairs.map(\.1)
+        try await waitUntil { episodes.allSatisfy { $0.downloadState == .downloaded } }
+        for episode in episodes { try library.markPlayed(episode) }
+        #expect(episodes.allSatisfy { $0.downloadState == .downloaded })
+
+        try playlists.remove(pairs[0].1, from: pairs[0].0)
+        #expect(pairs[0].1.downloadState == .none, "no longer in the playlist")
+        try playlists.setPlayedPolicy(.remove, of: pairs[1].0)
+        #expect(pairs[1].1.downloadState == .none, "no longer a keep playlist")
+        try playlists.setAutoDownload(false, of: pairs[2].0)
+        #expect(pairs[2].1.downloadState == .none, "no longer downloads automatically")
+        try playlists.delete(pairs[3].0)
+        #expect(pairs[3].1.downloadState == .none, "the playlist is gone")
+    }
+
+    /// A played download that is left over (the app ended while ⏭ could still be undone, A81)
+    /// goes at the next check, e.g. after the launch.
+    @Test func aLeftOverPlayedDownloadGoesAfterTheLaunch() async throws {
+        let episode = try makeEpisode("a")
+        downloads.download(episode)
+        try await waitUntil { episode.downloadState == .downloaded }
+        episode.playedAt = .distantPast  // played without the rule running
+        try context.save()
+
+        await downloads.restoreAfterLaunch()
+        #expect(episode.downloadState == .none)
+    }
+
     @Test func thePlayingEpisodeKeepsItsDownloadUntilItLeavesThePlayer() async throws {
         let player = PlayerController(library: library, downloads: downloads, settings: settings)
         let upNext = UpNextService(context: context, library: library, player: player)
@@ -302,6 +355,36 @@ struct DownloadServiceTests {
 
         upNext.play(try makeEpisode("b"))
         #expect(episode.downloadState == .none)
+    }
+
+    /// N101, A81: the download of a skipped episode stays while ⏭ can be undone.
+    @Test func aSkippedEpisodeKeepsItsDownloadUntilTheUndoIsGone() async throws {
+        let player = PlayerController(library: library, downloads: downloads, settings: settings)
+        let upNext = UpNextService(context: context, library: library, player: player)
+        let playlist = try makePlaylist(autoDownload: false)
+        let (a, b, c) = (try makeEpisode("a"), try makeEpisode("b"), try makeEpisode("c"))
+        for episode in [a, b, c] { try playlists.add(episode, to: playlist) }
+        downloads.download(a)
+        downloads.download(b)
+        try await waitUntil { a.downloadState == .downloaded && b.downloadState == .downloaded }
+        upNext.playNow(playlist)
+
+        upNext.skip()
+        #expect(a.isPlayed)
+        #expect(a.downloadState == .downloaded, "undo may still bring it back")
+        upNext.undo(try #require(upNext.undoableChange))
+        #expect(player.episode == a)
+        #expect(a.downloadState == .downloaded)
+        #expect(downloads.playableFileURL(for: a) != nil)
+
+        upNext.skip()
+        upNext.dismissUndo()
+        #expect(a.downloadState == .none, "the undo is gone: the played download goes (N32)")
+
+        upNext.skip()
+        #expect(b.downloadState == .downloaded)
+        upNext.playNow(playlist)  // a replacement ends the undo of ⏭
+        #expect(b.downloadState == .none)
     }
 
     /// A37: an episode that ends loses its download once the player let go of it.

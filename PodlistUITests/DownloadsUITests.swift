@@ -1,6 +1,6 @@
 import XCTest
 
-/// Slice 5 flows (concept §4.7): download an episode, find it in the storage screen under its
+/// Slice 5 flows (concept §4.7): download an episode from its row's context menu, find it in the storage screen under its
 /// podcast and delete it there (A55: the library's filter "Geladen" is gone). Files come from the
 /// offline network.
 final class DownloadsUITests: XCTestCase {
@@ -20,23 +20,23 @@ final class DownloadsUITests: XCTestCase {
     func testDownloadingAnEpisodeAndDeletingItInStorage() {
         let app = launch()
         app.buttons["Methodisch inkorrekt"].firstMatch.tapWhenReady()
-        app.staticTexts["Methodisch inkorrekt 3"].tapWhenReady()
-
-        let download = app.buttons["downloadButton"]
-        XCTAssertEqual(download.waitForLabel("Download"), true)
-        download.tap()
-        XCTAssertEqual(download.waitForLabel("Delete Download", timeout: 10), true, "the download finished")
-        app.buttons["Done"].tap()
+        // The download lives in the row's context menu (N103: not in the episode details).
+        let episode = app.staticTexts["Methodisch inkorrekt 3"]
+        XCTAssertTrue(episode.waitForExistence(timeout: 5))
+        episode.press(forDuration: 1)
+        app.buttons["Download"].tapWhenReady()
+        XCTAssertTrue(app.buttons["Download"].waitForNonExistence(timeout: 5), "the context menu closed")
         app.navigationBars.buttons.firstMatch.tap()
 
-        app.buttons["storageButton"].tapWhenReady()
+        app.buttons["settingsButton"].tapWhenReady()
+        app.buttons["Storage"].tapWhenReady()
         XCTAssertTrue(app.navigationBars["Storage"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["Downloads"].exists)
         app.buttons["sortPodcastStorage"].tap()
         app.buttons["Name"].tapWhenReady()
 
         let podcast = app.buttons.containing(NSPredicate(format: "label CONTAINS %@", "Methodisch inkorrekt")).firstMatch
-        XCTAssertTrue(podcast.waitForExistence(timeout: 5), "listed under Downloads")
+        XCTAssertTrue(podcast.waitForExistence(timeout: 10), "the download finished and is listed under Downloads")
         podcast.tap()
         let row = app.cells.containing(NSPredicate(format: "label CONTAINS %@", "Methodisch inkorrekt 3")).firstMatch
         XCTAssertTrue(row.waitForExistence(timeout: 5), "listed in the podcast's downloads")
@@ -48,14 +48,5 @@ final class DownloadsUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["No Downloads"].waitForExistence(timeout: 5))
         app.navigationBars.buttons.firstMatch.tap()
         XCTAssertTrue(app.staticTexts["No downloaded episodes."].waitForExistence(timeout: 5))
-    }
-}
-
-extension XCUIElement {
-    /// Waits until the element's label is `label`.
-    func waitForLabel(_ label: String, timeout: TimeInterval = 5) -> Bool {
-        let predicate = NSPredicate(format: "label == %@", label)
-        let expectation = XCTNSPredicateExpectation(predicate: predicate, object: self)
-        return XCTWaiter.wait(for: [expectation], timeout: timeout) == .completed
     }
 }

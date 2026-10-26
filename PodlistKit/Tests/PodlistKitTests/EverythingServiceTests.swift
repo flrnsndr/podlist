@@ -145,7 +145,7 @@ struct EverythingServiceTests {
         #expect(everything.playedPolicy == .remove)
     }
 
-    // MARK: Up Next
+    // MARK: Up Next (taken over like any playlist, A87)
 
     @Test func playingEverythingPlaysThePlaylistsAndTheirPlayedPolicyApplies() throws {
         let everything = try makeEverything()
@@ -159,10 +159,9 @@ struct EverythingServiceTests {
 
         upNext.playNow(everything)
         #expect(player.episode == e[0])
-        #expect(upNext.upcomingEpisodes(of: everything) == [e[1], e[2]])
+        #expect(try queued() == [e[1], e[2]])
         player.currentItemDidEnd()
         #expect(player.episode == e[1])
-        #expect(everything.resumeEpisode == e[1])
         #expect((e[0].playlistEntries ?? []).isEmpty, "the played policy of A and B removed it")
         #expect(a.resumeEpisode == nil && b.resumeEpisode == nil, "Up Next never touches the other playlists")
         player.currentItemDidEnd()
@@ -171,9 +170,9 @@ struct EverythingServiceTests {
         #expect(try shown(everything) == [])
     }
 
-    /// Removed by hand from its last playlist, the episode leaves Alles: its cursor moves on
-    /// first, the running episode plays to its end (N13).
-    @Test func removingTheRunningEpisodeFromItsLastPlaylistMovesEverythingOn() throws {
+    /// Removed by hand from its last playlist, the episode leaves Alles but stays in the
+    /// queue (A88): the taken-over queue is the user's.
+    @Test func removingTheRunningEpisodeFromItsLastPlaylistLeavesTheQueueAlone() throws {
         let everything = try makeEverything()
         let a = try playlists.createPlaylist(name: "A", colorKey: "green", symbolName: "star")
         let b = try playlists.createPlaylist(name: "B", colorKey: "red", symbolName: "star")
@@ -184,44 +183,32 @@ struct EverythingServiceTests {
 
         upNext.playNow(everything)
         try playlists.remove(e[0], from: a)
-        #expect(everything.resumeEpisode == e[0], "still in B, so still in Alles")
         try playlists.remove(e[0], from: b)
-        #expect(everything.resumeEpisode == e[1])
+        #expect(try shown(everything) == ["P1"])
         #expect(player.episode == e[0])
         player.currentItemDidEnd()
         #expect(player.episode == e[1])
     }
 
-    /// Leaving out a podcast moves the cursor past all of its episodes (N71).
-    @Test func leavingOutThePodcastAtTheCursorMovesPastItsEpisodes() throws {
-        let everything = try makeEverything()
-        let a = try playlists.createPlaylist(name: "A", colorKey: "green", symbolName: "star")
-        let (p, e) = insertPodcast("P", episodes: 2)
-        let (_, q) = insertPodcast("Q", episodes: 1)
-        for episode in [q[0], e[1], e[0]] { try playlists.add(episode, to: a) }
-        upNext.playNow(everything)
-        upNext.playNow(a)
-        #expect(everything.resumeEpisode == e[0])
-
-        try playlists.setExcluded(true, podcast: p)
-        #expect(everything.resumeEpisode == q[0])
-    }
-
-    /// Deleting a playlist takes its episodes out of Alles unless another playlist has them.
-    @Test func deletingAPlaylistMovesTheCursorOfEverything() throws {
+    /// Replaced while queued, Alles remembers its frontmost episode (N107); one that left
+    /// Alles meanwhile does not count, Alles starts at the top.
+    @Test func everythingRemembersWhereItWasUnlessTheEpisodeLeft() throws {
         let everything = try makeEverything()
         let a = try playlists.createPlaylist(name: "A", colorKey: "green", symbolName: "star")
         let b = try playlists.createPlaylist(name: "B", colorKey: "red", symbolName: "star")
-        let (_, e) = insertPodcast("P", episodes: 3)
-        try playlists.add(e[2], to: b)
-        try playlists.add(e[1], to: a)
-        try playlists.add(e[0], to: a)
+        let (p, e) = insertPodcast("P", episodes: 2)
+        let (_, q) = insertPodcast("Q", episodes: 1)
+        let (_, r) = insertPodcast("R", episodes: 1)
+        try playlists.setExcluded(true, playlist: b)  // B is not part of Alles
+        try playlists.add(r[0], to: b)
+        for episode in [q[0], e[1], e[0]] { try playlists.add(episode, to: a) }  // Alles: P0, P1, Q0
         upNext.playNow(everything)
         upNext.playNow(b)
         #expect(everything.resumeEpisode == e[0])
 
-        try playlists.delete(a)
-        #expect(everything.resumeEpisode == e[2])
+        try playlists.setExcluded(true, podcast: p)
+        upNext.playNow(everything)
+        #expect(player.episode == q[0])
     }
 
     /// "Als Nächstes" on an episode further down in the running Alles: it plays after the
@@ -240,9 +227,9 @@ struct EverythingServiceTests {
         #expect(player.episode == e[1])
     }
 
-    // MARK: New episodes come first (N98, A78, A80)
+    // MARK: New episodes wait in the draft (A86, A87)
 
-    @Test func anEpisodeAddedWhileEverythingPlaysComesNext() throws {
+    @Test func anEpisodeAddedWhileEverythingPlaysWaitsInTheDraft() throws {
         let everything = try makeEverything()
         let a = try playlists.createPlaylist(name: "A", colorKey: "green", symbolName: "star")
         let (_, e) = insertPodcast("P", episodes: 3)
@@ -253,29 +240,19 @@ struct EverythingServiceTests {
 
         try playlists.add(e[2], to: a)
         #expect(player.episode == e[0], "the running episode plays on")
-        #expect(everything.resumeEpisode == e[2])
-        #expect(upNext.upcomingEpisodes(of: everything) == [e[2], e[1]])
+        #expect(try queued() == [e[1]], "the queue is not told (A86)")
+        #expect(try shown(everything) == ["P2", "P0", "P1"], "newest added first in Alles (N97)")
+        let parts = upNext.split(of: everything, among: try context.fetch(Playlist.allWithEntries()))
+        #expect(parts.live == [e[0], e[1]])
+        #expect(parts.draft == [e[2]])
         player.currentItemDidEnd()
-        #expect(player.episode == e[2])
         player.currentItemDidEnd()
-        #expect(player.episode == e[1])
-    }
-
-    /// A78: Alles does not run; it starts at the new episode next time.
-    @Test func anEpisodeAddedWhileEverythingRestsBecomesItsResumePoint() throws {
-        let everything = try makeEverything()
-        let a = try playlists.createPlaylist(name: "A", colorKey: "green", symbolName: "star")
-        let b = try playlists.createPlaylist(name: "B", colorKey: "red", symbolName: "star")
-        let (_, e) = insertPodcast("P", episodes: 3)
-        try playlists.add(e[1], to: a)
-        try playlists.add(e[0], to: a)
+        #expect(player.episode == nil)
         upNext.playNow(everything)
-        upNext.playNow(a)
-        try playlists.add(e[2], to: b)
-        #expect(everything.resumeEpisode == e[2])
+        #expect(player.episode == e[2], "next time Alles starts at the newest episode")
     }
 
-    /// A80 only counts what moves to the top: a playlist left out of Alles moves nothing.
+    /// A playlist left out of Alles does not change it.
     @Test func anEpisodeAddedToAPlaylistLeftOutChangesNothing() throws {
         let everything = try makeEverything()
         let a = try playlists.createPlaylist(name: "A", colorKey: "green", symbolName: "star")
@@ -283,24 +260,8 @@ struct EverythingServiceTests {
         try playlists.setHidden(true, of: hidden)
         let (_, e) = insertPodcast("P", episodes: 3)
         for episode in e { try playlists.add(episode, to: a) }  // Alles: P2, P1, P0
-        #expect(everything.resumeEpisode == e[2])
         try playlists.add(e[0], to: hidden)
-        #expect(everything.resumeEpisode == e[2])
-    }
-
-    /// A80: an episode already in Alles that lands in another playlist moves to the top and
-    /// comes next.
-    @Test func anEpisodeAddedToAnotherPlaylistComesNext() throws {
-        let everything = try makeEverything()
-        let a = try playlists.createPlaylist(name: "A", colorKey: "green", symbolName: "star")
-        let b = try playlists.createPlaylist(name: "B", colorKey: "red", symbolName: "star")
-        let (_, e) = insertPodcast("P", episodes: 3)
-        for episode in e { try playlists.add(episode, to: a) }  // Alles: P2, P1, P0
-        upNext.playNow(everything)
-        try playlists.add(e[0], to: b)
-        #expect(try shown(everything) == ["P0", "P2", "P1"])
-        player.currentItemDidEnd()
-        #expect(player.episode == e[0])
+        #expect(try shown(everything) == ["P2", "P1", "P0"])
     }
 
     // MARK: Statistics
@@ -319,6 +280,12 @@ struct EverythingServiceTests {
     }
 
     // MARK: Helpers
+
+    /// The waiting episodes in Up Next, in order.
+    private func queued() throws -> [Episode] {
+        let store = UpNextStore(context: context)
+        return try store.state().items.compactMap { try store.episode($0) }
+    }
 
     private func makeEverything() throws -> Playlist {
         try playlists.ensureEverything()

@@ -1,6 +1,7 @@
 import Foundation
 import SwiftData
 import Testing
+import os
 @testable import PodlistKit
 
 /// New-episode notifications end to end: subscribing, refreshing, the category with or
@@ -184,6 +185,27 @@ struct NotificationSchedulerTests {
         #expect(attempted.count == FeedRefresher.maxConcurrentLoads)
     }
 
+    /// "Refresh all" saves once for all feeds without new episodes, not once per feed: every
+    /// save wakes the main context and every `@Query` on screen.
+    @Test func refreshAllSavesUnchangedFeedsTogether() async throws {
+        let count = FeedRefresher.maxConcurrentLoads + 2
+        let urls = (0..<count).map { URL(string: "https://p\($0).example.com/feed.xml")! }
+        for url in urls {
+            serve(url, feed([("g1", "One", "09 Oct 2026")]))
+            try await library.subscribe(to: url)
+        }
+        // Half answer "not modified", half the same feed again: no new episodes either way.
+        for url in urls.prefix(count / 2) { routes.set(url, .init(status: 304)) }
+        let refresher = refresher()
+        let saves = SaveCounter(of: container, excluding: context)
+        let later = Self.now.addingTimeInterval(3600)
+
+        let summary = try await refresher.refreshAll(now: later)
+        #expect(summary.refreshed == count)
+        #expect(saves.count == 1, "saves: \(saves.count)")
+        #expect(try context.fetch(FetchDescriptor<Podcast>()).allSatisfy { $0.lastRefreshedAt == later })
+    }
+
     /// A44: a dead feed must not stay first in every run.
     @Test func failedFeedsCountAsAttempted() async throws {
         let podcast = try await subscribe()
@@ -292,6 +314,30 @@ struct NotificationSchedulerTests {
     private func subscribe() async throws -> Podcast {
         serve(feedURL, feed([("g1", "One", "09 Oct 2026")]))
         return try #require(try await library.subscribe(to: feedURL))
+    }
+
+    /// Counts `ModelContext.didSave` of one context while it lives (other tests save in parallel).
+    private final class SaveCounter: @unchecked Sendable {
+        private let state = OSAllocatedUnfairLock(initialState: 0)
+        /// Only read in `deinit`.
+        private let token: any NSObjectProtocol
+
+        /// Counts the saves of every context of `container` except `main` (the refresher writes
+        /// in a fresh context each time).
+        init(of container: ModelContainer, excluding main: ModelContext) {
+            let state = self.state
+            let observed = ObjectIdentifier(container)
+            let excluded = ObjectIdentifier(main)
+            token = NotificationCenter.default.addObserver(forName: ModelContext.didSave, object: nil, queue: nil) { notification in
+                guard let saved = notification.object as? ModelContext, ObjectIdentifier(saved) != excluded,
+                      ObjectIdentifier(saved.container) == observed else { return }
+                state.withLock { $0 += 1 }
+            }
+        }
+
+        deinit { NotificationCenter.default.removeObserver(token) }
+
+        var count: Int { state.withLock { $0 } }
     }
 
     private func refresher() -> FeedRefresher {

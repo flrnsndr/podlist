@@ -34,12 +34,39 @@ private enum RefreshOutcome: Sendable {
     case timerStopped
 }
 
-/// Loads feeds and writes podcasts and episodes in its own background context
-/// (concept §6.3, §6.5). Only UUIDs and value types leave the actor.
+/// Loads feeds and writes podcasts and episodes in background contexts (concept §6.3, §6.5).
+/// Only UUIDs and value types leave the actor.
+///
+/// Every write reads its podcast and episodes in a fresh context right before it changes
+/// them, after any network load, and saves without waiting in between. The main context
+/// changes the same models all the time (listening position, played status, downloads,
+/// settings); saving a model this actor read earlier writes those older values back.
 public actor FeedRefresher: ModelActor {
     public nonisolated let modelContainer: ModelContainer
     public nonisolated let modelExecutor: any ModelExecutor
     private let loader: FeedLoader
+    /// "Refresh all" holds back the saves of feeds without new episodes (validators,
+    /// `lastRefreshedAt`, changed show notes) and writes them together at the end: every save
+    /// wakes the main context and with it every `@Query` on screen, so one save per feed made
+    /// the app stutter during a refresh. A feed with new episodes saves at once, so they can be
+    /// notified before the run is over (A44). The held-back feeds are kept as values, not as
+    /// changed models, and written again in a fresh context at the end (see the type comment).
+    private var deferred: [UUID: DeferredRefresh] = [:]
+
+    /// A feed of "refresh all" whose save waits for the end of the run.
+    private struct DeferredRefresh {
+        let now: Date
+        /// nil: not modified, or the refresh failed (only `lastRefreshedAt` changes).
+        let loaded: LoadedFeed?
+    }
+
+    /// A feed as loaded and parsed, with what the server said about it.
+    private struct LoadedFeed {
+        let feed: ParsedFeed
+        let etag: String?
+        let lastModified: String?
+        let movedTo: URL?
+    }
 
     /// Parallel feed requests for "refresh all" and the OPML import.
     public static let maxConcurrentLoads = 6
@@ -52,43 +79,40 @@ public actor FeedRefresher: ModelActor {
 
     /// Loads and parses a feed without storing anything (podcast preview before subscribing).
     public func preview(_ url: URL) async throws -> ParsedFeed {
-        guard let url = FeedLoader.normalizedFeedURL(url) else { throw FeedRefreshError.invalidURL }
-        guard case .loaded(let data, _, _, _) = try await loader.load(url) else {
-            throw FeedRefreshError.unexpectedNotModified
-        }
-        return try FeedParser.parse(data)
+        guard let url = try await feedURL(url) else { throw FeedRefreshError.invalidURL }
+        guard let loaded = try await load(url) else { throw FeedRefreshError.unexpectedNotModified }
+        return loaded.feed
     }
 
     /// Subscribes to a feed and returns the podcast's `uuid`. A podcast that was
     /// unsubscribed comes back with its episodes and listening state (concept §4.9).
     /// `arrival`: `.subscribe` puts the newest episode into the inbox, `.opmlImport` none (A49).
     public func subscribe(_ url: URL, now: Date, arrival: InboxArrival = .subscribe) async throws -> UUID {
-        guard let url = FeedLoader.normalizedFeedURL(url) else { throw FeedRefreshError.invalidURL }
-        if let existing = try podcast(feedURL: url) {
-            return try await resubscribe(existing, now: now, arrival: arrival)
+        guard let url = try await feedURL(url) else { throw FeedRefreshError.invalidURL }
+        if let existing = try podcast(feedURL: url, in: ModelContext(modelContainer)) {
+            return try await resubscribe(existing.uuid, now: now, arrival: arrival)
         }
-        guard case .loaded(let data, let etag, let lastModified, let movedTo) = try await loader.load(url) else {
-            throw FeedRefreshError.unexpectedNotModified
-        }
-        let feed = try FeedParser.parse(data)
-        let feedURL = feed.newFeedURL.flatMap(FeedLoader.normalizedFeedURL) ?? movedTo ?? url
+        guard let loaded = try await load(url) else { throw FeedRefreshError.unexpectedNotModified }
+        let feed = loaded.feed
+        let feedURL = feed.newFeedURL.flatMap(FeedLoader.normalizedFeedURL) ?? loaded.movedTo ?? url
+        let context = ModelContext(modelContainer)
         // A parallel call (e.g. the OPML import) may have inserted it while we were loading.
-        if let existing = try podcast(feedURL: url) ?? podcast(feedURL: feedURL) {
-            return try await resubscribe(existing, now: now, arrival: arrival)
+        if let existing = try podcast(feedURL: url, in: context) ?? podcast(feedURL: feedURL, in: context) {
+            return try await resubscribe(existing.uuid, now: now, arrival: arrival)
         }
 
         let podcast = Podcast(feedURL: feedURL, title: feed.title, subscribedAt: now)
         podcast.notificationsEnabled = true  // N35
-        modelContext.insert(podcast)
+        context.insert(podcast)
         apply(feed, to: podcast)
         if feedURL == url {
-            podcast.etag = etag
-            podcast.lastModified = lastModified
+            podcast.etag = loaded.etag
+            podcast.lastModified = loaded.lastModified
         }
         podcast.lastRefreshedAt = now
-        let inserted = merge(feed.episodes, into: podcast, now: now)
+        let inserted = merge(feed.episodes, into: podcast, now: now, in: context)
         takeIntoInbox(inserted, arrival: arrival, now: now)
-        try modelContext.save()
+        try context.save()
         Logger.feeds.info("Subscribed to \(feedURL.absoluteString, privacy: .public): \(feed.episodes.count) episodes")
         return podcast.uuid
     }
@@ -96,33 +120,50 @@ public actor FeedRefresher: ModelActor {
     /// Refreshes one subscribed podcast and returns the `uuid`s of its new episodes.
     @discardableResult
     public func refresh(_ podcastID: UUID, now: Date) async throws -> [UUID] {
-        try await refresh(podcastID, now: now, arrival: .refresh)
+        try await refresh(podcastID, now: now, arrival: .refresh, deferringSaves: false)
     }
 
-    /// `arrival`: a plain refresh, or the first refresh after subscribing again.
+    /// `arrival`: a plain refresh, or the first refresh after subscribing again. With
+    /// `deferringSaves` a feed without new episodes is not saved yet (see `deferred`).
     @discardableResult
-    private func refresh(_ podcastID: UUID, now: Date, arrival: InboxArrival) async throws -> [UUID] {
-        guard let podcast = try podcast(uuid: podcastID), podcast.isSubscribed else { return [] }
-        let url = podcast.feedURL
-        let result = try await loader.load(url, etag: podcast.etag, lastModified: podcast.lastModified)
-        guard case .loaded(let data, let etag, let lastModified, let movedTo) = result else {
-            podcast.lastRefreshedAt = now
-            try modelContext.save()
+    private func refresh(_ podcastID: UUID, now: Date, arrival: InboxArrival, deferringSaves: Bool) async throws -> [UUID] {
+        guard let podcast = try podcast(uuid: podcastID, in: ModelContext(modelContainer)), podcast.isSubscribed else { return [] }
+        let loaded = try await load(podcast.feedURL, etag: podcast.etag, lastModified: podcast.lastModified)
+        // The load took a while: read the podcast and its episodes again, as stored now.
+        let context = ModelContext(modelContainer)
+        guard let current = try self.podcast(uuid: podcastID, in: context), current.isSubscribed else { return [] }
+        let inserted = try write(loaded, to: current, now: now, arrival: arrival, in: context)
+        if deferringSaves && inserted.isEmpty {
+            // Dropped unsaved; written again at the end of the run.
+            deferred[podcastID] = DeferredRefresh(now: now, loaded: loaded)
             return []
         }
-        let feed = try FeedParser.parse(data)
+        try context.save()
+        return inserted.map(\.uuid)
+    }
+
+    /// Writes a refresh into `podcast` (read in `context`, not saved here) and returns the new
+    /// episodes. `loaded`: nil when the feed was not modified.
+    private func write(
+        _ loaded: LoadedFeed?, to podcast: Podcast, now: Date, arrival: InboxArrival, in context: ModelContext
+    ) throws -> [Episode] {
+        podcast.lastRefreshedAt = now
+        guard let loaded else { return [] }
+        let feed = loaded.feed
+        let url = podcast.feedURL
         apply(feed, to: podcast)
-        if let moved = feed.newFeedURL.flatMap(FeedLoader.normalizedFeedURL) ?? movedTo, moved != url {
+        if let moved = feed.newFeedURL.flatMap(FeedLoader.normalizedFeedURL) ?? loaded.movedTo, moved != url {
             Logger.feeds.notice("Feed moved: \(url.absoluteString, privacy: .public) → \(moved.absoluteString, privacy: .public)")
             podcast.feedURL = moved
             podcast.etag = nil
             podcast.lastModified = nil
         } else {
-            podcast.etag = etag
-            podcast.lastModified = lastModified
+            podcast.etag = loaded.etag
+            podcast.lastModified = loaded.lastModified
         }
-        podcast.lastRefreshedAt = now
-        let inserted = merge(feed.episodes, into: podcast, now: now, storedChapterSources: try storedChapterSources(of: podcastID))
+        let podcastID = podcast.uuid
+        let inserted = merge(
+            feed.episodes, into: podcast, now: now, in: context, storedChapterSources: try storedChapterSources(of: podcastID))
         if arrival == .refresh {
             takeIntoInbox(inserted, arrival: arrival, now: now)
         } else {
@@ -133,9 +174,8 @@ public actor FeedRefresher: ModelActor {
             takeIntoInbox(inserted + kept, arrival: arrival, now: now, inPlaylists: try episodesInPlaylists(of: podcastID))
         }
         // After the inbox, so that episodes sorted completely by auto-add arrive done (N75).
-        autoAdd(inserted, of: podcast, now: now)
-        try modelContext.save()
-        return inserted.map(\.uuid)
+        autoAdd(inserted, of: podcast, now: now, in: context)
+        return inserted
     }
 
     /// Refreshes every subscribed podcast in `RefreshSchedule` order, so a run cut short
@@ -146,7 +186,7 @@ public actor FeedRefresher: ModelActor {
         now: Date, budget: Duration? = nil, onNewEpisodes: @escaping @Sendable ([UUID]) async -> Void = { _ in }
     ) async throws -> RefreshSummary {
         let descriptor = FetchDescriptor<Podcast>(predicate: #Predicate { $0.isSubscribed })
-        let ids = RefreshSchedule.order(try modelContext.fetch(descriptor).map { podcast in
+        let ids = RefreshSchedule.order(try ModelContext(modelContainer).fetch(descriptor).map { podcast in
             RefreshCandidate(
                 podcast: PodcastID(podcast.uuid), lastRefreshedAt: podcast.lastRefreshedAt,
                 isWatched: podcast.notificationsEnabled || !(podcast.assignments ?? []).isEmpty)
@@ -161,7 +201,7 @@ public actor FeedRefresher: ModelActor {
                 running += 1
                 group.addTask {
                     do {
-                        return .refreshed(try await self.refresh(id, now: now))
+                        return .refreshed(try await self.refresh(id, now: now, arrival: .refresh, deferringSaves: true))
                     } catch {
                         // Attempted all the same: a dead or hanging feed must not stay first (A44).
                         await self.markAttempted(id, now: now)
@@ -207,34 +247,73 @@ public actor FeedRefresher: ModelActor {
                 if running == 0 { group.cancelAll() }
             }
             summary.skipped = ids.count - summary.refreshed - summary.failures
+            saveDeferredChanges()
             return summary
         }
     }
 
     private func markAttempted(_ podcastID: UUID, now: Date) {
-        guard let podcast = try? podcast(uuid: podcastID) else { return }
-        podcast.lastRefreshedAt = now
+        deferred[podcastID] = DeferredRefresh(now: now, loaded: nil)
+    }
+
+    /// Writes the held-back feeds of "refresh all" in one save, read fresh.
+    private func saveDeferredChanges() {
+        guard !deferred.isEmpty else { return }
+        let context = ModelContext(modelContainer)
         do {
-            try modelContext.save()
+            for (podcastID, refresh) in deferred {
+                guard let podcast = try podcast(uuid: podcastID, in: context), podcast.isSubscribed else { continue }
+                _ = try write(refresh.loaded, to: podcast, now: refresh.now, arrival: .refresh, in: context)
+            }
+            try context.save()
         } catch {
-            Logger.feeds.error("Saving the refresh attempt failed: \(String(describing: error), privacy: .public)")
+            Logger.feeds.error("Saving the refresh failed: \(String(describing: error), privacy: .public)")
+        }
+        deferred = [:]
+    }
+
+    // MARK: Loading
+
+    /// The URL a podcast is stored with: normalized, and for an ARD Sounds episode link the
+    /// page of its show (concept §4.13).
+    private func feedURL(_ url: URL) async throws -> URL? {
+        guard let url = FeedLoader.normalizedFeedURL(url) else { return nil }
+        guard let reference = ARDSounds.reference(from: url), case .episode = reference else { return url }
+        return ARDSounds.showURL(try await loader.ard.showURN(for: reference))
+    }
+
+    /// Loads and parses a feed; `nil` if it was not modified. An ARD-backed podcast (its feed
+    /// URL is an ARD Sounds show page) is asked for its state first, which stands in for the
+    /// conditional request; `lastModified` holds that state.
+    private func load(_ url: URL, etag: String? = nil, lastModified: String? = nil) async throws -> LoadedFeed? {
+        if case .show(let urn) = ARDSounds.reference(from: url) {
+            if let lastModified, try await loader.ard.state(of: urn) == lastModified { return nil }
+            let show = try await loader.ard.show(urn)
+            return LoadedFeed(feed: show.feed, etag: nil, lastModified: show.validator, movedTo: nil)
+        }
+        switch try await loader.load(url, etag: etag, lastModified: lastModified) {
+        case .notModified:
+            return nil
+        case .loaded(let data, let etag, let lastModified, let movedTo):
+            return LoadedFeed(feed: try FeedParser.parse(data), etag: etag, lastModified: lastModified, movedTo: movedTo)
         }
     }
 
     // MARK: Writing
 
-    private func resubscribe(_ podcast: Podcast, now: Date, arrival: InboxArrival) async throws -> UUID {
-        if !podcast.isSubscribed {
+    private func resubscribe(_ podcastID: UUID, now: Date, arrival: InboxArrival) async throws -> UUID {
+        let context = ModelContext(modelContainer)
+        if let podcast = try podcast(uuid: podcastID, in: context), !podcast.isSubscribed {
             podcast.isSubscribed = true
             podcast.subscribedAt = now
             podcast.notificationsEnabled = true  // N35
             // Unsubscribing deleted unreferenced episodes; load the full feed again.
             podcast.etag = nil
             podcast.lastModified = nil
-            try modelContext.save()
-            try await refresh(podcast.uuid, now: now, arrival: arrival)
+            try context.save()
+            try await refresh(podcastID, now: now, arrival: arrival, deferringSaves: false)
         }
-        return podcast.uuid
+        return podcastID
     }
 
     private func apply(_ feed: ParsedFeed, to podcast: Podcast) {
@@ -262,7 +341,7 @@ public actor FeedRefresher: ModelActor {
     }
 
     /// New episodes go into the playlists the podcast is assigned to (concept §4.1).
-    private func autoAdd(_ episodes: [Episode], of podcast: Podcast, now: Date) {
+    private func autoAdd(_ episodes: [Episode], of podcast: Podcast, now: Date, in context: ModelContext) {
         guard !episodes.isEmpty else { return }
         let infos = episodes.map(\.info)
         for assignment in podcast.assignments ?? [] {
@@ -271,7 +350,7 @@ public actor FeedRefresher: ModelActor {
                 forNewEpisodes: infos,
                 assignments: [PlaylistAssignmentInfo(playlistID: playlist.playlistID, rule: assignment.autoAdd)],
                 existingEntries: [playlist.playlistID: (playlist.entries ?? []).compactMap(\.info)], now: now)
-            PlaylistService.insert(insertions, into: playlist, episodes: episodes, context: modelContext)
+            PlaylistService.insert(insertions, into: playlist, episodes: episodes, context: context)
         }
         episodes.forEach { $0.inboxAutoAdded() }
     }
@@ -279,7 +358,8 @@ public actor FeedRefresher: ModelActor {
     /// Inserts new episodes and updates known ones; returns the new episodes.
     /// `storedChapterSources`: the chapter source of each known episode as stored right now.
     private func merge(
-        _ items: [ParsedEpisode], into podcast: Podcast, now: Date, storedChapterSources: [UUID: ChapterSource] = [:]
+        _ items: [ParsedEpisode], into podcast: Podcast, now: Date, in context: ModelContext,
+        storedChapterSources: [UUID: ChapterSource] = [:]
     ) -> [Episode] {
         let episodes = podcast.episodes ?? []
         let byID = Dictionary(episodes.map { (EpisodeID($0.uuid), $0) }, uniquingKeysWith: { first, _ in first })
@@ -295,7 +375,7 @@ public actor FeedRefresher: ModelActor {
                 let episode = Episode(
                     guid: FeedMerge.storedGUID(for: item), title: item.title,
                     publishedAt: item.publishedAt ?? now, audioURL: item.audioURL)
-                modelContext.insert(episode)
+                context.insert(episode)
                 episode.podcast = podcast
                 apply(item, to: episode, storedChapterSource: nil)
                 inserted.append(episode)
@@ -349,14 +429,14 @@ public actor FeedRefresher: ModelActor {
         return Set(episodes.filter { !($0.playlistEntries ?? []).isEmpty }.map(\.uuid))
     }
 
-    private func podcast(uuid: UUID) throws -> Podcast? {
+    private func podcast(uuid: UUID, in context: ModelContext) throws -> Podcast? {
         var descriptor = FetchDescriptor<Podcast>(predicate: #Predicate { $0.uuid == uuid })
         descriptor.fetchLimit = 1
-        return try modelContext.fetch(descriptor).first
+        return try context.fetch(descriptor).first
     }
 
-    private func podcast(feedURL: URL) throws -> Podcast? {
-        try modelContext.fetch(FetchDescriptor<Podcast>()).first { $0.feedURL == feedURL }
+    private func podcast(feedURL: URL, in context: ModelContext) throws -> Podcast? {
+        try context.fetch(FetchDescriptor<Podcast>()).first { $0.feedURL == feedURL }
     }
 }
 

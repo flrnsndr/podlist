@@ -7,8 +7,10 @@ import Testing
 struct DownloadRulesTests {
     private static let gigabyte: Int64 = 1_000_000_000
 
-    private func entry(_ id: EpisodeID, played: Bool = false, state: DownloadState = .none) -> AutoDownloadEntry {
-        AutoDownloadEntry(episode: id, isPlayed: played, state: state)
+    private func entry(
+        _ id: EpisodeID, played: Bool = false, state: DownloadState = .none, loadsPlayed: Bool = false
+    ) -> AutoDownloadEntry {
+        AutoDownloadEntry(episode: id, isPlayed: played, state: state, loadsPlayed: loadsPlayed)
     }
 
     // MARK: Automatic downloads
@@ -21,6 +23,14 @@ struct DownloadRulesTests {
         ]
         let ids = DownloadRules.automaticDownloads(entries, availableCapacity: 5 * Self.gigabyte, isPaused: false)
         #expect(ids == [a, e])
+    }
+
+    /// A keep playlist loads its played episodes too (Florian, after N101).
+    @Test func aKeepPlaylistLoadsPlayedEpisodesToo() {
+        let (a, b) = (EpisodeID(), EpisodeID())
+        let entries = [entry(a, played: true, loadsPlayed: true), entry(b, played: true)]
+        let ids = DownloadRules.automaticDownloads(entries, availableCapacity: 5 * Self.gigabyte, isPaused: false)
+        #expect(ids == [a])
     }
 
     /// A38: what failed is not retried automatically.
@@ -63,11 +73,13 @@ struct DownloadRulesTests {
         let state: DownloadState
         let isNowPlaying: Bool
         let deletesPlayed: Bool
+        var isInKeepPlaylistWithAutoDownload = false
         let expected: Bool
         var testDescription: String { name }
     }
 
-    /// N32, A37: also in keep playlists (the playlist is not an input at all).
+    /// N32, A37: also in keep playlists, unless one that still has the episode downloads
+    /// automatically (Florian, after N101).
     @Test(arguments: [
         DeleteCase(name: "played and loaded", isPlayed: true, state: .downloaded, isNowPlaying: false, deletesPlayed: true, expected: true),
         DeleteCase(name: "unplayed", isPlayed: false, state: .downloaded, isNowPlaying: false, deletesPlayed: true, expected: false),
@@ -77,10 +89,14 @@ struct DownloadRulesTests {
         DeleteCase(name: "waiting download is cancelled", isPlayed: true, state: .queued, isNowPlaying: false, deletesPlayed: true, expected: true),
         DeleteCase(name: "nothing loaded", isPlayed: true, state: .none, isNowPlaying: false, deletesPlayed: true, expected: false),
         DeleteCase(name: "failed is cleared", isPlayed: true, state: .failed, isNowPlaying: false, deletesPlayed: true, expected: true),
+        DeleteCase(
+            name: "still in a keep playlist with auto-download", isPlayed: true, state: .downloaded, isNowPlaying: false,
+            deletesPlayed: true, isInKeepPlaylistWithAutoDownload: true, expected: false),
     ])
     func playedDownloadIsDeleted(_ c: DeleteCase) {
         let result = DownloadRules.shouldDeletePlayedDownload(
-            isPlayed: c.isPlayed, state: c.state, isNowPlaying: c.isNowPlaying, deletesPlayed: c.deletesPlayed)
+            isPlayed: c.isPlayed, state: c.state, isNowPlaying: c.isNowPlaying, deletesPlayed: c.deletesPlayed,
+            isInKeepPlaylistWithAutoDownload: c.isInKeepPlaylistWithAutoDownload)
         #expect(result == c.expected)
     }
 

@@ -1,6 +1,134 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "Added to %@, at the end of the queue": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hinzugefügt zu %@, am Ende der Warteschlange"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Added to %@, at the end of the queue"
+          }
+        }
+      }
+    },
+    "Added to %@, plays next": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hinzugefügt zu %@, kommt als Nächstes"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Added to %@, plays next"
+          }
+        }
+      }
+    },
+    "At the end of the queue": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Am Ende der Warteschlange"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At the end of the queue"
+          }
+        }
+      }
+    },
+    "In Playlists": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Playlists"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In Playlists"
+          }
+        }
+      }
+    },
+    "Large Tiles": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Große Kacheln"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Large Tiles"
+          }
+        }
+      }
+    },
+    "List": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Liste"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "List"
+          }
+        }
+      }
+    },
+    "Small Tiles": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kleine Kacheln"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Small Tiles"
+          }
+        }
+      }
+    },
+    "View": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Darstellung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View"
+          }
+        }
+      }
+    },
     "%@ belongs to you and your podcasts. %@ of your listening is on weekends.": {
       "localizations": {
         "de": {
@@ -1729,6 +1857,22 @@
         }
       }
     },
+    "Chapter %lld of %lld · %@ left": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapitel %1$lld von %2$lld · noch %3$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chapter %1$lld of %2$lld · %3$@ left"
+          }
+        }
+      }
+    },
     "Chapter: %@": {
       "localizations": {
         "de": {
@@ -1773,6 +1917,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Check your connection and try again."
+          }
+        }
+      }
+    },
+    "Choose Playlists…": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Playlists auswählen …"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Playlists…"
           }
         }
       }
@@ -4341,6 +4501,38 @@
         }
       }
     },
+    "Next Episode: %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nächste Folge: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next Episode: %@"
+          }
+        }
+      }
+    },
+    "Next Episode: %@ – %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nächste Folge: %1$@ – %2$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next Episode: %1$@ – %2$@"
+          }
+        }
+      }
+    },
     "Next Period": {
       "localizations": {
         "de": {
@@ -6053,6 +6245,54 @@
         }
       }
     },
+    "In the Queue": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In der Warteschlange"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In the Queue"
+          }
+        }
+      }
+    },
+    "After That": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Danach"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "After That"
+          }
+        }
+      }
+    },
+    "Remove from Queue": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aus der Warteschlange"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove from Queue"
+          }
+        }
+      }
+    },
     "Remove": {
       "localizations": {
         "de": {
@@ -6485,6 +6725,38 @@
         }
       }
     },
+    "Shows the chapters": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeigt die Kapitel"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shows the chapters"
+          }
+        }
+      }
+    },
+    "Shows the episode notes": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeigt die Folgenbeschreibung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shows the episode notes"
+          }
+        }
+      }
+    },
     "Shows the full description": {
       "localizations": {
         "de": {
@@ -6565,6 +6837,22 @@
         }
       }
     },
+    "Skip Episode": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folge überspringen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip Episode"
+          }
+        }
+      }
+    },
     "Skip Forward": {
       "localizations": {
         "de": {
@@ -6641,6 +6929,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Skipped"
+          }
+        }
+      }
+    },
+    "Skipped and marked as played": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Übersprungen und als gespielt markiert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skipped and marked as played"
           }
         }
       }
@@ -7329,6 +7633,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Title, Podcast, Description"
+          }
+        }
+      }
+    },
+    "To Playlists": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zu Playlists"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "To Playlists"
           }
         }
       }

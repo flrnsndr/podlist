@@ -39,6 +39,27 @@ final class PlayerUITests: XCTestCase {
         app.buttons["sleepTimerEndOfEpisode"].tapWhenReady()
         XCTAssertTrue(app.buttons["sleepTimerButton"].waitFor(NSPredicate(format: "label == %@", "Sleep Timer: End of Episode")))
     }
+
+    /// N101: ⏭ names the next episode, skips to it and offers "Rückgängig" in the player sheet,
+    /// which brings the skipped episode back.
+    @MainActor
+    func testNextEpisodeSkipsAndCanBeUndone() {
+        let app = launch()
+        openPlayerWithNews(in: app)
+        XCTAssertTrue(app.staticTexts["Lage der Nation 1"].waitForExistence(timeout: 5))
+
+        let next = app.buttons["nextEpisodeButton"]
+        XCTAssertTrue(next.waitFor(NSPredicate(format: "label BEGINSWITH %@", "Next Episode: ")))
+        let label = next.label
+        let nextTitle = String(label.split(separator: " – ").last ?? "")
+        XCTAssertFalse(nextTitle.isEmpty, label)
+        next.tap()
+        XCTAssertTrue(app.staticTexts[nextTitle].waitForExistence(timeout: 5), "the next episode plays")
+
+        app.buttons["undoBannerButton"].firstMatch.tapWhenReady()
+        XCTAssertTrue(app.staticTexts["Lage der Nation 1"].waitForExistence(timeout: 5), "the skipped episode is back")
+        XCTAssertTrue(next.waitFor(NSPredicate(format: "label == %@", label)))
+    }
 }
 
 /// Chapters (concept §4.6, A30, A31). Sample data: "Lage der Nation 1" has Podlove chapters
@@ -65,15 +86,35 @@ final class ChapterUITests: XCTestCase {
         app.tabBars.buttons["Library"].tap()
         app.buttons["miniPlayer"].tapWhenReady()
 
-        let title = app.staticTexts["currentChapterTitle"]
+        // The chapter row below the bar: ‹ is off at the start of the first chapter.
+        let title = app.buttons["currentChapterTitle"]
+        let previous = app.buttons["previousChapterButton"]
+        let next = app.buttons["nextChapterButton"]
         XCTAssertTrue(title.waitFor(NSPredicate(format: "label == %@", "Chapter: Intro")))
-        app.buttons["nextChapterButton"].tap()
+        XCTAssertFalse(previous.isEnabled)
+        next.tap()
+        XCTAssertTrue(title.waitFor(NSPredicate(format: "label == %@", "Chapter: Thema eins")))
+        XCTAssertTrue(previous.isEnabled)
+
+        // Dragging sideways along the bar scrubs; the last chapter has no ›.
+        let bar = app.descendants(matching: .any)["progressBar"]
+        let start = bar.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
+        start.press(forDuration: 0.05, thenDragTo: bar.coordinate(withNormalizedOffset: CGVector(dx: 0.95, dy: 0.5)))
+        XCTAssertTrue(title.waitFor(NSPredicate(format: "label == %@", "Chapter: Thema zwei")))
+        XCTAssertFalse(next.isEnabled)
+        previous.tap()
+        previous.tap()
         XCTAssertTrue(title.waitFor(NSPredicate(format: "label == %@", "Chapter: Thema eins")))
 
-        app.buttons["chaptersButton"].tapWhenReady()
+        // The title opens the chapters, as the toolbar button does.
+        title.tap()
         app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "Thema zwei")).firstMatch.tapWhenReady()
         app.navigationBars.buttons.element(boundBy: 0).tap()
         XCTAssertTrue(title.waitFor(NSPredicate(format: "label == %@", "Chapter: Thema zwei")))
+        app.buttons["chaptersButton"].tapWhenReady()
+        app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "Intro")).firstMatch.tapWhenReady()
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+        XCTAssertTrue(title.waitFor(NSPredicate(format: "label == %@", "Chapter: Intro")))
     }
 
     @MainActor
@@ -88,8 +129,9 @@ final class ChapterUITests: XCTestCase {
         XCTAssertTrue(app.buttons["miniPlayer"].waitFor(NSPredicate(format: "value == %@", "Wahlrecht")))
     }
 
-    /// N80: below the player, its show notes. The sheet snaps between the two: a drag short of
-    /// 30 % of the way springs back, a longer one snaps; a timestamp in the notes jumps there.
+    /// N80: below the player, its show notes; their start peeks above the toolbar. The sheet snaps
+    /// between the two: a drag short of 30 % of the way springs back, a longer one snaps; a tap on
+    /// the peek scrolls there; a timestamp in the notes jumps there.
     @MainActor
     func testShowNotesBelowThePlayerSnap() {
         let app = launch()
@@ -108,7 +150,7 @@ final class ChapterUITests: XCTestCase {
 
         drag(app, by: 80)
         XCTAssertEqual(restingTop(of: notes), belowPlayer, accuracy: 2, "a short drag springs back to the player")
-        drag(app, by: 200)
+        drag(app, by: 160)
         XCTAssertEqual(restingTop(of: notes), belowPlayer, accuracy: 2, "the player is sticky: a medium drag springs back too")
         drag(app, by: 320)
         XCTAssertEqual(restingTop(of: notes) - barBottom, 16, accuracy: 24, "the notes snap right below the bar")
@@ -117,10 +159,10 @@ final class ChapterUITests: XCTestCase {
         drag(app, by: -320)
         XCTAssertEqual(restingTop(of: notes), belowPlayer, accuracy: 2, "the player snaps back")
 
-        app.buttons["showNotesHint"].tap()
-        XCTAssertEqual(restingTop(of: notes) - barBottom, 16, accuracy: 24, "the hint scrolls to the notes")
+        app.buttons["showNotesPeek"].tap()
+        XCTAssertEqual(restingTop(of: notes) - barBottom, 16, accuracy: 24, "a tap on the peeking notes scrolls there")
         app.links["41:05"].tapWhenReady()
-        XCTAssertTrue(app.staticTexts["currentChapterTitle"].waitFor(NSPredicate(format: "label == %@", "Chapter: Klimageld")))
+        XCTAssertTrue(app.buttons["currentChapterTitle"].waitFor(NSPredicate(format: "label == %@", "Chapter: Klimageld")))
     }
 
     /// Drags the player sheet slowly by `distance` points (up: towards the notes) and holds
