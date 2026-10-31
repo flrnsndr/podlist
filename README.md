@@ -70,13 +70,13 @@ So you assign them to several, and one tap puts each new episode into all of the
 
 <table>
   <tr>
-    <td align="center" width="33%"><img src="docs/readme/screenshots/playlists.png" alt="The Playlists tab: Everything and the topic playlists, each with a play button and “Playing”, “Continue” or “Next”"><br><sub><b>Playlists</b><br>Every playlist knows its place: “Playing”, “Continue” or “Next”. Tap ▶ to start one, touch and hold for Play After Current Episode or Play Last.</sub></td>
-    <td align="center" width="33%"><img src="docs/readme/screenshots/inbox.png" alt="Inbox with playlist filters, new episodes with buttons like “Add to Politics and Business” and “Dismiss Rest”"><br><sub><b>Inbox</b><br>Filter by playlist. One tap puts an episode into every playlist of its podcast; Dismiss Rest clears what is left.</sub></td>
-    <td align="center" width="33%"><img src="docs/readme/screenshots/queue.png" alt="Queue: the playing episode, a single episode and the episodes of the started Sports playlist"><br><sub><b>Queue</b><br>The playing episode, single episodes and a started playlist. Drag to reorder.</sub></td>
+    <td align="center" valign="top" width="33%"><img src="docs/readme/screenshots/playlists.png" width="240" alt="The Playlists tab: Everything and the topic playlists, each with a play button and “Playing”, “Continue” or “Next”"><br><sub><b>Playlists</b><br>Every playlist knows its place: “Playing”, “Continue” or “Next”. Tap ▶ to start one, touch and hold for Play After Current Episode or Play Last.</sub></td>
+    <td align="center" valign="top" width="33%"><img src="docs/readme/screenshots/inbox.png" width="240" alt="Inbox with playlist filters, new episodes with buttons like “Add to Politics and Business” and “Dismiss Rest”"><br><sub><b>Inbox</b><br>Filter by playlist. One tap puts an episode into every playlist of its podcast; Dismiss Rest clears what is left.</sub></td>
+    <td align="center" valign="top" width="33%"><img src="docs/readme/screenshots/queue.png" width="240" alt="Queue: the playing episode, a single episode and the episodes of the started Sports playlist"><br><sub><b>Queue</b><br>The playing episode, single episodes and a started playlist. Drag to reorder.</sub></td>
   </tr>
   <tr>
-    <td align="center" width="33%"><img src="docs/readme/screenshots/sort.png" alt="A playlist's menu: sort manually, by release date, date added, title, duration or podcast"><br><sub><b>Sorting</b><br>Per playlist by date, duration, title, podcast or by hand.</sub></td>
-    <td align="center" width="33%"><img src="docs/readme/screenshots/stats.png" alt="Listening stats: top podcasts, time per playlist, the longest session"><br><sub><b>Listening stats</b><br>Month and year, computed on your iPhone (sample data).</sub></td>
+    <td align="center" valign="top" width="33%"><img src="docs/readme/screenshots/sort.png" width="240" alt="A playlist's menu: sort manually, by release date, date added, title, duration or podcast"><br><sub><b>Sorting</b><br>Per playlist by date, duration, title, podcast or by hand.</sub></td>
+    <td align="center" valign="top" width="33%"><img src="docs/readme/screenshots/stats.png" width="240" alt="Listening stats: top podcasts, time per playlist, the longest session"><br><sub><b>Listening stats</b><br>Month and year, computed on your iPhone (sample data).</sub></td>
     <td></td>
   </tr>
 </table>
